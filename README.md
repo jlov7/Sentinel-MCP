@@ -1,108 +1,269 @@
-# Sentinel MCP (Personal R&D build)
+# Sentinel MCP 🛡️
 
-Sentinel MCP is my personal R&D passion project exploring how to govern Model-Context Protocol (MCP) servers and agent skills with policies, budgets, and verifiable provenance.
+> **Governance for the Age of AI Agents**
 
-> **Status:** Early research spike – not a commercial product. Expect sharp edges while the control plane, adapters, and policy graph take shape.
+[![CI](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml)
 
-## Quickstart (WIP)
+Sentinel MCP is a **control plane for AI agents** that brings enterprise-grade governance, security, and auditability to Model-Context Protocol (MCP) servers and agent skills. Think of it as the "air traffic control" for your AI tool ecosystem—ensuring every tool invocation is authorized, monitored, and auditable.
+
+## 🌟 Why This Matters Now
+
+**The AI agent revolution is here.** Organizations are deploying AI agents that can autonomously use tools, access APIs, and make decisions. But there's a critical gap: **who's in control?**
+
+### The Problem We're Solving
+
+In 2024, AI agents are proliferating across enterprises:
+- **ChatGPT Actions** and **Claude Tools** enable agents to call APIs automatically
+- **OpenAI's AgentKit** and **LangGraph** orchestrate complex multi-tool workflows  
+- **MCP servers** expose capabilities that agents can discover and use dynamically
+
+**But what happens when:**
+- 🤖 An agent tries to use a tool it shouldn't have access to?
+- 💰 Tool usage exceeds budgets, causing unexpected costs?
+- 🚨 A security incident requires immediately disabling a tool?
+- 📋 Compliance auditors need proof of what actions were taken?
+
+**Traditional security models don't work for AI agents.** Agents aren't human users—they make decisions autonomously, scale instantly, and can't be "trained" like employees. You need **runtime governance** that sits between the agent and the tool.
+
+### What Sentinel MCP Provides
+
+Sentinel MCP solves this by implementing a **policy-driven control plane** that:
+
+✅ **Inventories & Authorizes** – Every tool must register and pass policy checks before use  
+✅ **Enforces Budgets** – Prevents runaway costs with quota management  
+✅ **Kill Switch Capability** – Disable tools instantly in emergencies  
+✅ **Provenance Tracking** – Cryptographic proof of every action for compliance  
+✅ **Multi-Framework Support** – Works with AgentKit, LangGraph, Claude Skills, and custom adapters
+
+## 🎯 Who Is This For?
+
+**For Technical Teams:**
+- Platform engineers building AI agent infrastructure
+- Security teams needing governance for autonomous systems
+- DevOps engineers managing agent deployments
+
+**For Business Leaders:**
+- CTOs/CIOs evaluating AI agent security
+- Risk officers concerned about compliance and auditability
+- Product leaders shipping AI-powered features
+
+**For Researchers:**
+- AI safety researchers exploring governance patterns
+- Organizations prototyping agent systems
+- Anyone exploring policy-as-code for AI agents
+
+## 🚀 Quick Start
 
 ```bash
-git clone <repo-url>
-cd sentinel-mcp
-cp .env.example .env   # set POSTGRES_PASSWORD before continuing
-make install           # sets up .venv and installs editable packages
+# Clone the repository
+git clone https://github.com/jlov7/Sentinel-MCP.git
+cd Sentinel-MCP
+
+# Set up environment
+cp .env.example .env
+# Edit .env and set POSTGRES_PASSWORD
+
+# Install dependencies
+make install
 source .venv/bin/activate
-pytest                 # run unit tests (policy client, provenance, adapters)
+
+# Run tests
+pytest
 cd apps/admin-console && npm install && npm run lint && npm run test
-cd ..
-./scripts/dev_up.sh    # compose up, migrations, seed (requires Docker)
-./scripts/dev_down.sh  # teardown when finished
-make chaos CHAOS_CYCLES=3  # optional kill/restore drill (override CHAOS_* vars)
-make api-test            # API smoke tests (requires running stack)
-make coverage            # backend coverage report
+
+# Start the stack
+./scripts/dev_up.sh
+
+# Access the admin console
+cd apps/admin-console
+NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
 ```
 
-## What you get (planned)
+Visit `http://localhost:3000` to see the admin console, or explore the API at `http://localhost:8000/docs`.
 
-- MCP/Skills registry with health checks.
-- Policy engine (OPA + graph context) for allow/deny, quotas, scoped secrets.
-- Kill-switch API to revoke credentials and halt adapters.
-- Restore API to re-enable tools after drills (`POST /kill/restore`).
-- Provenance signer (C2PA-style manifests) with verification widget.
-- Agent adapters for OpenAI AgentKit, LangGraph, and Claude Skills.
-- Admin console stub (Next.js) for inventory, kill-switch, and policy probes.
-- Chaos/eval harness for drills and rate-limit bursts.
+## 📖 Documentation
 
-## Architecture sketch
+**New to Sentinel MCP?** Start with the [Executive Brief](docs/governance/executive.md) for the business case, or jump into [Architecture](docs/technical/architecture.md) for technical details.
+
+**Full documentation:**
+- 📘 [Overview](docs/index.md) – Complete documentation index
+- 🏛️ [Executive Brief](docs/governance/executive.md) – Business value and adoption
+- 🏗️ [Architecture](docs/technical/architecture.md) – System design and components
+- 🔧 [Setup Guide](docs/technical/setup.md) – Installation and deployment
+- 📋 [Policy Playbook](docs/governance/policy-playbook.md) – Writing and managing policies
+- 🔒 [Security Guide](docs/operations/security.md) – Threat model and hardening
+- 🛠️ [Runbooks](docs/operations/runbooks.md) – Operational procedures
+
+## 🏗️ Architecture at a Glance
 
 ```
-              ┌───────────────────────────────┐
-              │  Sentinel MCP Control Plane   │
-              │  - Registry (MCP/Skills)      │
-              │  - Policy Graph (RBAC+ABAC)   │
-Agents ──────▶│  - Rate/Quota Gov + Budgets   │◀── Admin Console
-              │  - Kill-Switch Orchestrator   │
-              │  - Provenance Signer (C2PA)   │
-              │  - Audit Log (OTel + C2PA)    │
-              └──────────┬───────────┬────────┘
-                         │           │
-                  ┌──────▼─────┐ ┌───▼────────┐
-                  │ MCP Client │ │ Skills Svc │
-                  │ Gatekeeper │ │ (SDK Hooks)│
-                  └──────┬─────┘ └────┬───────┘
-                         │            │
-              ┌──────────▼────────┐  ┌▼───────────┐
-              │ MCP Servers/Tools │  │ Code Exec   │
-              └──────────┬────────┘  └────┬────────┘
-                         │                │
-                  ┌──────▼─────┐   ┌─────▼──────┐
-                  │ KMS/Vault │   │ Observability│
-                  └───────────┘   └──────────────┘
+┌─────────────────────────────────────────────────────┐
+│           AI Agents (AgentKit, LangGraph, etc.)      │
+└────────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+         ┌───────────────────────────┐
+         │   Sentinel MCP Control     │
+         │         Plane              │
+         │                            │
+         │  • Registry & Inventory    │
+         │  • Policy Engine (OPA)     │◀── Admin Console
+         │  • Kill Switch             │
+         │  • Provenance Signer       │
+         │  • Audit Logging           │
+         └───────────┬────────────────┘
+                     │
+         ┌───────────▼───────────┐
+         │   Tool/API Layer      │
+         │  (MCP Servers, APIs)  │
+         └───────────────────────┘
 ```
 
-## Roadmap snapshot
+**How it works:**
+1. **Agent requests tool** → Adapter intercepts
+2. **Policy check** → Control plane evaluates permissions
+3. **Allow/Deny** → Based on identity, quota, purpose
+4. **Provenance signing** → Cryptographic proof created
+5. **Audit logging** → Everything recorded
 
-- [x] FastAPI control plane skeleton with /register, /policy/check, /kill, /provenance endpoints.
-- [x] Postgres models + Alembic migrations.
-- [x] OPA wrapper + starter policies.
-- [x] Provenance signer/verifier (Sigstore-backed prototype).
-- [x] Adapters for AgentKit, LangGraph, and Claude Skills (R&D shims).
-- [x] Admin console (Next.js) inventory table, kill-switch, policy probe.
-- [x] Chaos drills, evaluation harness, OTel traces.
-- [x] CI hardening (lint, tests, dependabot, SCA).
+## 🎨 Key Features
 
-## Dev stack
+### 📋 Registry & Inventory
+- Central catalog of all MCP servers and skills
+- Health monitoring and status tracking
+- Ownership and scope management
 
-- `docker-compose.dev.yml` (requires Docker) spins up Postgres 16, Redis 7, OPA, and the FastAPI control plane.
-- `scripts/dev_up.sh` / `scripts/dev_down.sh` wrap common lifecycle commands.
-- `scripts/chaos_kill.sh` runs repeatable kill/restore drills against a tool.
-- `scripts/seed.py` registers sample tools, runs representative policy checks, and emits provenance manifests.
-- OPA loads policies from `opa/` (mirrors `config/sample-policies.rego`) and data from `opa/data.json`; adjust to match your tenants/tools.
-- Admin console runs with `NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev` inside `apps/admin-console`.
-  - Supports kill-switches for active tools and one-click re-enables via the new restore endpoint.
-- Compose expects `POSTGRES_PASSWORD` in `.env`; populate it with a strong secret before launching.
+### ⚖️ Policy Engine
+- **OPA-based** policy evaluation (Rego language)
+- **RBAC + ABAC** support (role-based and attribute-based access control)
+- **Quota enforcement** – prevent budget overruns
+- **Purpose validation** – ensure tools used for intended purpose
 
-## Documentation
+### 🚨 Kill Switch
+- Instant tool disabling for security incidents
+- Credential revocation via adapter hooks
+- One-click restore when safe
+- Audit trail of all kill/restore operations
 
-- Full documentation lives under `/docs` and can be served locally with `mkdocs serve`.
-- Readable sections include:
-  - Executive brief and policy playbook (for non-technical stakeholders).
-  - Architecture, setup/deployment, and testing guides (for engineers).
-  - Runbooks and security guidance (for operations/AppSec).
-  - Glossary and FAQ.
+### 🔐 Provenance & Compliance
+- **C2PA-style manifests** for every action
+- Cryptographic signatures
+- Verification endpoints and UI widget
+- Compliance-ready audit trails
 
-## Tips
+### 🔌 Multi-Framework Adapters
+- **OpenAI AgentKit** adapter
+- **LangGraph** middleware
+- **Claude Skills** hook
+- Easy to extend for custom frameworks
 
-- See the *Setup & Deployment* guide in `/docs/technical/setup.md`.
-- Use `./scripts/dev_up.sh` to start the local stack (includes migrations + seeding) and `./scripts/dev_down.sh` to tear down.
-- Admin console manifest viewer lets you paste manifest IDs (e.g., from `make seed`) and verify provenance.
-- Build docs with `make docs-build` or serve locally via `make docs-serve`.
+## 📊 Current Status
 
+**Status:** 🧪 **R&D Prototype** – Active development
 
-## Contributing
+**What's Working:**
+- ✅ Control plane API (FastAPI) with core endpoints
+- ✅ Policy engine integration with OPA
+- ✅ Provenance signer/verifier
+- ✅ Agent adapters (AgentKit, LangGraph, Claude Skills)
+- ✅ Admin console (Next.js)
+- ✅ Test suite (unit, API, E2E)
+- ✅ CI/CD workflows
+- ✅ Docker Compose development environment
 
-Contributions welcome to this learning project! See `CONTRIBUTING.md` for setup and coding standards.
+**Roadmap:**
+- 🔄 Production hardening (auth, TLS, secrets management)
+- 🔄 Advanced policy features (hierarchical budgets, time-based rules)
+- 🔄 Enhanced observability (OTel exports, SIEM integration)
+- 🔄 Sigstore integration for provenance
+- 🔄 Terraform modules for cloud deployment
 
-## License
+## 🛠️ Development Stack
 
-Apache License 2.0 unless stated otherwise (see `LICENSE`).
+- **Backend:** Python 3.11+, FastAPI, SQLAlchemy, Alembic
+- **Database:** PostgreSQL 16
+- **Cache:** Redis 7
+- **Policy Engine:** Open Policy Agent (OPA)
+- **Frontend:** Next.js, React, TypeScript
+- **Testing:** Pytest, Vitest
+- **Docs:** MkDocs with Material theme
+
+## 🔧 Development Commands
+
+```bash
+# Install dependencies
+make install
+
+# Run tests
+pytest                           # Backend tests
+cd apps/admin-console && npm test  # Frontend tests
+
+# Start development stack
+./scripts/dev_up.sh              # Start services
+./scripts/dev_down.sh            # Stop services
+
+# Run chaos drills
+make chaos CHAOS_CYCLES=3        # Kill/restore drills
+
+# Build documentation
+make docs-build                  # Build docs
+make docs-serve                  # Serve locally
+
+# Generate coverage report
+make coverage
+```
+
+## 🌍 Real-World Use Cases
+
+**Financial Services:**
+- Prevent AI agents from accessing sensitive trading APIs without approval
+- Enforce daily spending limits on paid API calls
+- Generate compliance reports proving only authorized actions occurred
+
+**Healthcare:**
+- Restrict patient data access to authorized AI tools only
+- Immediately disable tools if HIPAA violations detected
+- Maintain audit trails for regulatory compliance
+
+**Enterprise SaaS:**
+- Prevent agents from using expensive APIs during off-hours
+- Quickly disable compromised tools during security incidents
+- Track tool usage for cost allocation across teams
+
+**AI Research:**
+- Safely test experimental agents with strict policy boundaries
+- Monitor tool usage patterns for research insights
+- Ensure reproducibility with provenance tracking
+
+## 🤝 Contributing
+
+Contributions welcome! This is a learning project exploring governance patterns for AI agents. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Areas we'd love help with:**
+- Additional agent framework adapters
+- Policy templates for common scenarios
+- Enhanced observability and monitoring
+- Documentation improvements
+- Test coverage expansion
+
+## 📝 License
+
+Apache License 2.0 – See [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+Built with:
+- [FastAPI](https://fastapi.tiangolo.com/) – Modern Python web framework
+- [Open Policy Agent](https://www.openpolicyagent.org/) – Policy engine
+- [Next.js](https://nextjs.org/) – React framework
+- And many other open-source projects
+
+## 📬 Questions?
+
+- 📖 Check the [FAQ](docs/appendix/faq.md)
+- 📚 Read the [full documentation](docs/index.md)
+- 🐛 Open an [issue](https://github.com/jlov7/Sentinel-MCP/issues)
+
+---
+
+**Built with ❤️ to make AI agents safer, more controllable, and more trustworthy.**
