@@ -419,4 +419,4 @@ The time taken to process a request.
 
 ---
 
-**Need more terms?** Check the [full documentation](index.md) or open an issue on GitHub.
+**Need more terms?** Check the [full documentation](../index.md) or open an issue on GitHub.

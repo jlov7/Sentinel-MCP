@@ -131,27 +131,43 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#architecture-deep-dive" class="nav-link">Architecture Deep Dive</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#high-level-flow" class="nav-link">High-level flow</a>
+            <li class="nav-item" data-bs-level="2"><a href="#the-big-picture" class="nav-link">The Big Picture</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#components" class="nav-link">Components</a>
+            <li class="nav-item" data-bs-level="2"><a href="#high-level-flow" class="nav-link">High-Level Flow</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#telemetry" class="nav-link">Telemetry</a>
+            <li class="nav-item" data-bs-level="2"><a href="#component-architecture" class="nav-link">Component Architecture</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#data-model-snapshot" class="nav-link">Data model snapshot</a>
+            <li class="nav-item" data-bs-level="2"><a href="#data-flow-tool-invocation-sequence" class="nav-link">Data Flow: Tool Invocation Sequence</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#sequence-tool-invocation" class="nav-link">Sequence: tool invocation</a>
+            <li class="nav-item" data-bs-level="2"><a href="#observability-telemetry" class="nav-link">Observability &amp; Telemetry</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#deployment-modes" class="nav-link">Deployment modes</a>
+            <li class="nav-item" data-bs-level="2"><a href="#deployment-architectures" class="nav-link">Deployment Architectures</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#scalability-considerations" class="nav-link">Scalability Considerations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#security-architecture" class="nav-link">Security Architecture</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#performance-characteristics" class="nav-link">Performance Characteristics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#future-architecture-evolution" class="nav-link">Future Architecture Evolution</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -163,97 +179,386 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="architecture-deep-dive">Architecture Deep Dive</h1>
-<h2 id="high-level-flow">High-level flow</h2>
-<ol>
-<li><strong>Agents &amp; adapters</strong> (AgentKit, LangGraph, Claude Skills) register with Sentinel MCP, sending tool metadata and health.</li>
-<li><strong>Control plane</strong> (FastAPI) persists tenants, tools, and policy logs in Postgres, caches rate data in Redis, and proxies policy requests to OPA.</li>
-<li><strong>Policy engine</strong> (OPA) evaluates Rego policies using tenant/tool context, quota counters, and purpose metadata, returning allow/deny along with reasoning.</li>
-<li><strong>Kill-switch orchestration</strong> updates tool state, revokes credentials via adapter hooks, and emits structured logs with OpenTelemetry spans.</li>
-<li><strong>Provenance signer</strong> emits a signed manifest (Sigstore-compatible stub today) for every approved action and exposes verification endpoints + UI widget.</li>
-</ol>
-<h2 id="components">Components</h2>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Technology</th>
-<th>Responsibility</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Control plane API</td>
-<td>FastAPI, SQLAlchemy</td>
-<td>Tool registry, policy evaluation proxy, kill/restore orchestration, provenance endpoints</td>
-</tr>
-<tr>
-<td>Database</td>
-<td>Postgres</td>
-<td>Tenants, tools, policy audit logs</td>
-</tr>
-<tr>
-<td>Cache / queues</td>
-<td>Redis</td>
-<td>Future rate limiting queues, kill broadcasts</td>
-</tr>
-<tr>
-<td>Policy engine</td>
-<td>OPA sidecar</td>
-<td>Evaluates Rego policies (allow/deny, quota enforcement, scoped secrets)</td>
-</tr>
-<tr>
-<td>Provenance services</td>
-<td>Custom module</td>
-<td>Hash/sign manifests, provide verification</td>
-</tr>
-<tr>
-<td>Admin console</td>
-<td>Next.js + React</td>
-<td>Inventory UI, kill switch controls, policy probes, manifest viewer</td>
-</tr>
-<tr>
-<td>Tests</td>
-<td>Pytest, Vitest</td>
-<td>Unit, integration, UI smoke tests</td>
-</tr>
-</tbody>
-</table>
-<h2 id="telemetry">Telemetry</h2>
-<ul>
-<li>Structured logs provided via Structlog (<code>kill_switch.disabled/restored</code>).</li>
-<li>OpenTelemetry spans wrap kill/restore handlers with tenant/tool metadata; extendable to policy/provenance routes.</li>
-<li>Future work: export OTLP traces to an APM (Tempo, Honeycomb) and ship logs to a SIEM.</li>
-</ul>
-<h2 id="data-model-snapshot">Data model snapshot</h2>
-<ul>
-<li><strong>Tenant</strong>: <code>id</code>, <code>slug</code>, <code>display_name</code>, <code>created_at</code>.</li>
-<li><strong>Tool</strong>: <code>id</code>, <code>tenant_id</code>, <code>name</code>, <code>url</code>, <code>owner</code>, <code>scopes</code>, <code>extra_metadata</code>, <code>is_active</code>, timestamps.</li>
-<li><strong>PolicyLog</strong>: <code>id</code>, <code>tenant_id</code>, <code>tool_id</code>, <code>decision</code>, <code>reason</code>, <code>event_metadata</code>, timestamps.</li>
-</ul>
-<h2 id="sequence-tool-invocation">Sequence: tool invocation</h2>
-<pre><code class="language-mermaid">dialogue
-  participant Agent
-  participant Adapter
-  participant ControlPlane
-  participant OPA
-  participant Provenance
-
-  Agent-&gt;&gt;Adapter: Invoke tool
-  Adapter-&gt;&gt;ControlPlane: POST /policy/check
-  ControlPlane-&gt;&gt;OPA: Evaluate policy (tenant/tool context)
-  OPA--&gt;&gt;ControlPlane: Allow + quota remaining
-  ControlPlane--&gt;&gt;Adapter: Allow
-  Adapter-&gt;&gt;Agent: Continue execution
-  Adapter-&gt;&gt;ControlPlane: POST /provenance/sign
-  ControlPlane-&gt;&gt;Provenance: Sign manifest (hash + store)
-  Provenance--&gt;&gt;Adapter: Manifest id
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>Sentinel MCP implements a <strong>control plane architecture</strong>—a centralized system that sits between AI agents and the tools they want to use. This design pattern is essential for governing autonomous systems where you can't rely on traditional perimeter security.</p>
+<p><strong>Why a control plane?</strong>
+- <strong>Centralized governance</strong> – One place to enforce policies
+- <strong>Consistent behavior</strong> – Same rules apply everywhere
+- <strong>Complete visibility</strong> – All decisions logged and auditable
+- <strong>Instant control</strong> – Kill switches work system-wide</p>
+<h2 id="high-level-flow">High-Level Flow</h2>
+<p>When an AI agent wants to use a tool, here's what happens:</p>
+<pre><code>1. Agent → Adapter: &quot;I want to call tool X&quot;
+2. Adapter → Control Plane: &quot;Check if this is allowed&quot;
+3. Control Plane → Policy Engine: &quot;Evaluate policy&quot;
+4. Policy Engine → Control Plane: &quot;Allow/Deny + reasoning&quot;
+5. Control Plane → Adapter: &quot;Decision&quot;
+6. If allowed:
+   - Adapter → Agent: &quot;Proceed&quot;
+   - Adapter → Control Plane: &quot;Sign this action&quot;
+   - Control Plane → Provenance: &quot;Create manifest&quot;
+7. If denied:
+   - Adapter → Agent: &quot;Blocked: [reason]&quot;
+   - Control Plane → Audit Log: &quot;Denied: [reason]&quot;
 </code></pre>
-<p>(If policy denies, the adapter gets the reason and blocks the tool.)</p>
-<h2 id="deployment-modes">Deployment modes</h2>
-<ul>
-<li><strong>Local dev</strong>: <code>docker-compose.dev.yml</code> spins Postgres, Redis, OPA, control plane, admin console.</li>
-<li><strong>Staging/prod</strong>: use Terraform modules under <code>infra/terraform</code> (stub today) targeting managed Postgres, Redis, HashiCorp Vault, and container orchestrator (ECS/Kubernetes). OPA sidecar can be co-located per control plane pod.</li>
-</ul></div>
+<p><strong>Key insight:</strong> The agent never talks directly to the tool. Everything flows through the control plane, ensuring governance happens at every step.</p>
+<h2 id="component-architecture">Component Architecture</h2>
+<h3 id="control-plane-api-fastapi">Control Plane API (FastAPI)</h3>
+<p><strong>Technology:</strong> Python 3.11+, FastAPI, SQLAlchemy</p>
+<p><strong>Responsibilities:</strong>
+- Tool registry and inventory management
+- Policy evaluation proxy (delegates to OPA)
+- Kill-switch orchestration
+- Provenance manifest creation
+- Audit logging</p>
+<p><strong>Key Endpoints:</strong>
+- <code>POST /register</code> – Register a new tool
+- <code>POST /policy/check</code> – Request authorization decision
+- <code>POST /kill</code> – Disable a tool (kill switch)
+- <code>POST /kill/restore</code> – Re-enable a tool
+- <code>POST /provenance/sign</code> – Create provenance manifest
+- <code>GET /provenance/verify/{id}</code> – Verify a manifest</p>
+<p><strong>Design decisions:</strong>
+- <strong>FastAPI</strong> chosen for its async capabilities and automatic OpenAPI docs
+- <strong>SQLAlchemy</strong> for database abstraction and migrations
+- <strong>Structlog</strong> for structured, queryable logs</p>
+<h3 id="database-layer-postgresql">Database Layer (PostgreSQL)</h3>
+<p><strong>Technology:</strong> PostgreSQL 16</p>
+<p><strong>Schema highlights:</strong></p>
+<p><strong>Tenants Table:</strong></p>
+<pre><code class="language-sql">- id (UUID, primary key)
+- slug (text, unique)
+- display_name (text)
+- created_at (timestamp)
+</code></pre>
+<p><strong>Tools Table:</strong></p>
+<pre><code class="language-sql">- id (UUID, primary key)
+- tenant_id (UUID, foreign key)
+- name (text)
+- url (text)
+- owner (text)
+- scopes (JSONB)  -- Flexible scopes/metadata
+- extra_metadata (JSONB)  -- Tool-specific data
+- is_active (boolean)  -- Kill switch state
+- created_at, updated_at (timestamps)
+</code></pre>
+<p><strong>Policy Logs Table:</strong></p>
+<pre><code class="language-sql">- id (UUID, primary key)
+- tenant_id (UUID, foreign key)
+- tool_id (UUID, foreign key)
+- decision (text: &quot;allow&quot; | &quot;deny&quot;)
+- reason (text)
+- event_metadata (JSONB)
+- created_at (timestamp)
+</code></pre>
+<p><strong>Why PostgreSQL?</strong>
+- <strong>JSONB support</strong> – Flexible metadata storage
+- <strong>ACID compliance</strong> – Critical for audit logs
+- <strong>Mature ecosystem</strong> – Alembic migrations, connection pooling
+- <strong>Production-ready</strong> – Battle-tested at scale</p>
+<h3 id="policy-engine-opa">Policy Engine (OPA)</h3>
+<p><strong>Technology:</strong> Open Policy Agent (OPA) with Rego policies</p>
+<p><strong>Why OPA?</strong>
+- <strong>Policy-as-Code</strong> – Version control, testing, collaboration
+- <strong>Declarative</strong> – Policies describe "what" not "how"
+- <strong>Language-agnostic</strong> – Works with any system
+- <strong>Fast</strong> – Microsecond evaluation times
+- <strong>Proven</strong> – Used by major tech companies</p>
+<p><strong>Policy Evaluation Flow:</strong></p>
+<pre><code>1. Control Plane receives authorization request
+2. Constructs input document:
+   {
+     &quot;tenant&quot;: &quot;platform-eng&quot;,
+     &quot;tool&quot;: &quot;langsmith-docs-search&quot;,
+     &quot;purpose&quot;: &quot;documentation_lookup&quot;,
+     &quot;usage&quot;: 42,
+     &quot;context&quot;: {...}
+   }
+3. Sends to OPA with policy bundle
+4. OPA evaluates Rego rules
+5. Returns decision + reasoning
+</code></pre>
+<p><strong>Sample Policy (Rego):</strong></p>
+<pre><code class="language-rego">package sentinel.policy
+
+default allow := false
+
+allow {
+    allowed_tool[input.tool]
+    within_quota
+    purpose_ok
+}
+
+allowed_tool[tool] {
+    data.allowlist[input.tenant][tool]
+}
+
+within_quota {
+    input.usage &lt; data.quotas[input.tenant][input.tool]
+}
+
+purpose_ok {
+    input.purpose in data.allowed_purposes[input.tenant][input.tool]
+}
+</code></pre>
+<p><strong>OPA Deployment:</strong>
+- <strong>Development:</strong> Docker Compose sidecar
+- <strong>Production:</strong> Kubernetes sidecar or separate service
+- <strong>Policy Updates:</strong> GitOps workflow (bundle from Git)</p>
+<h3 id="provenance-service">Provenance Service</h3>
+<p><strong>Technology:</strong> Custom Python module, Sigstore-compatible design</p>
+<p><strong>What it does:</strong>
+- Creates cryptographically signed manifests
+- Stores manifests for verification
+- Provides verification endpoints
+- Supports C2PA-style provenance</p>
+<p><strong>Manifest Structure:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;manifest-uuid&quot;,
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;,
+  &quot;tenant&quot;: &quot;platform-eng&quot;,
+  &quot;tool&quot;: &quot;langsmith-docs-search&quot;,
+  &quot;action&quot;: &quot;invoke&quot;,
+  &quot;purpose&quot;: &quot;documentation_lookup&quot;,
+  &quot;payload_hash&quot;: &quot;sha256:...&quot;,
+  &quot;signature&quot;: &quot;...&quot;,
+  &quot;metadata&quot;: {...}
+}
+</code></pre>
+<p><strong>Current implementation:</strong>
+- Uses local signing key (<code>.env</code> SIGNING_KEY)
+- Stores manifests in <code>.data/provenance/</code>
+- Provides verification endpoint</p>
+<p><strong>Production target:</strong>
+- Sigstore integration for public-key infrastructure
+- Immutable storage (S3 + Glacier)
+- Rekor integration for transparency logs</p>
+<h3 id="admin-console-nextjs">Admin Console (Next.js)</h3>
+<p><strong>Technology:</strong> Next.js, React, TypeScript</p>
+<p><strong>Features:</strong>
+- <strong>Tool Inventory</strong> – Browse all registered tools
+- <strong>Kill Switch UI</strong> – One-click disable/enable
+- <strong>Policy Probes</strong> – Test policies before deployment
+- <strong>Manifest Viewer</strong> – Verify provenance manifests</p>
+<p><strong>Architecture:</strong>
+- Client-side React app
+- REST API integration with control plane
+- Real-time updates via polling (future: WebSockets)</p>
+<p><strong>Deployment:</strong>
+- <strong>Development:</strong> <code>npm run dev</code> (localhost:3000)
+- <strong>Production:</strong> Static export (<code>npm run build</code>) → CDN</p>
+<h3 id="agent-adapters">Agent Adapters</h3>
+<p><strong>Purpose:</strong> Bridge between agent frameworks and Sentinel MCP</p>
+<p><strong>Design Pattern:</strong></p>
+<pre><code class="language-python">class Adapter:
+    async def invoke_tool(self, tool_name, params):
+        # 1. Check authorization
+        decision = await control_plane.check_policy(...)
+        if not decision.allow:
+            raise PolicyDenied(decision.reason)
+
+        # 2. Invoke tool
+        result = await self._actual_tool_call(tool_name, params)
+
+        # 3. Sign provenance
+        manifest = await control_plane.sign_provenance(...)
+
+        return result
+</code></pre>
+<p><strong>Available Adapters:</strong>
+- <strong>AgentKit Adapter</strong> (<code>agentkit_adapter.py</code>) – OpenAI AgentKit integration
+- <strong>LangGraph Middleware</strong> (<code>langgraph_middleware.py</code>) – LangGraph integration
+- <strong>Claude Skills Hook</strong> (<code>skills_hook.ts</code>) – TypeScript hook for Claude</p>
+<p><strong>Extending:</strong>
+- Implement adapter interface
+- Handle authorization checks
+- Sign provenance after actions
+- Handle kill-switch signals</p>
+<h2 id="data-flow-tool-invocation-sequence">Data Flow: Tool Invocation Sequence</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant Agent
+    participant Adapter
+    participant ControlPlane
+    participant OPA
+    participant Tool
+    participant Provenance
+
+    Agent-&gt;&gt;Adapter: invoke_tool(&quot;search&quot;, query)
+    Adapter-&gt;&gt;ControlPlane: POST /policy/check
+    ControlPlane-&gt;&gt;OPA: Evaluate policy
+    OPA--&gt;&gt;ControlPlane: allow: true, reason: &quot;within quota&quot;
+    ControlPlane--&gt;&gt;Adapter: allow: true
+    Adapter-&gt;&gt;Tool: Actual API call
+    Tool--&gt;&gt;Adapter: Response
+    Adapter-&gt;&gt;ControlPlane: POST /provenance/sign
+    ControlPlane-&gt;&gt;Provenance: Create manifest
+    Provenance--&gt;&gt;ControlPlane: manifest_id
+    ControlPlane--&gt;&gt;Adapter: manifest_id
+    Adapter--&gt;&gt;Agent: Result + manifest_id
+</code></pre>
+<p><strong>If policy denies:</strong></p>
+<pre><code>Adapter-&gt;&gt;ControlPlane: POST /policy/check
+ControlPlane-&gt;&gt;OPA: Evaluate policy
+OPA--&gt;&gt;ControlPlane: allow: false, reason: &quot;quota exceeded&quot;
+ControlPlane--&gt;&gt;Adapter: allow: false, reason: &quot;quota exceeded&quot;
+Adapter--&gt;&gt;Agent: PolicyDenied(&quot;quota exceeded&quot;)
+</code></pre>
+<h2 id="observability-telemetry">Observability &amp; Telemetry</h2>
+<h3 id="structured-logging-structlog">Structured Logging (Structlog)</h3>
+<p><strong>What gets logged:</strong>
+- Policy decisions (<code>policy.check.allow</code>, <code>policy.check.deny</code>)
+- Kill-switch events (<code>kill_switch.disabled</code>, <code>kill_switch.restored</code>)
+- Provenance events (<code>provenance.signed</code>, <code>provenance.verified</code>)
+- Errors with full context</p>
+<p><strong>Log format:</strong></p>
+<pre><code class="language-json">{
+  &quot;event&quot;: &quot;kill_switch.disabled&quot;,
+  &quot;tenant&quot;: &quot;platform-eng&quot;,
+  &quot;tool&quot;: &quot;langsmith-docs-search&quot;,
+  &quot;reason&quot;: &quot;security_incident&quot;,
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;,
+  &quot;metadata&quot;: {...}
+}
+</code></pre>
+<h3 id="opentelemetry-spans">OpenTelemetry Spans</h3>
+<p><strong>Current implementation:</strong>
+- Wraps kill-switch handlers
+- Tracks tenant/tool metadata
+- Measures latency</p>
+<p><strong>Future expansion:</strong>
+- Policy evaluation spans
+- Provenance signing spans
+- Full request tracing
+- Export to Tempo, Jaeger, or Honeycomb</p>
+<h3 id="metrics-future">Metrics (Future)</h3>
+<p><strong>Recommended metrics:</strong>
+- Policy check latency (p50, p95, p99)
+- Kill-switch MTTR
+- Quota utilization rates
+- Provenance signing success rate
+- Error rates by endpoint</p>
+<h2 id="deployment-architectures">Deployment Architectures</h2>
+<h3 id="local-development">Local Development</h3>
+<p><strong>Stack:</strong></p>
+<pre><code>docker-compose.dev.yml
+├── postgres:16
+├── redis:7
+├── opa (sidecar)
+└── control-plane (FastAPI)
+</code></pre>
+<p><strong>Admin Console:</strong> Runs separately with <code>npm run dev</code></p>
+<p><strong>Pros:</strong>
+- Fast iteration
+- Easy debugging
+- Complete isolation</p>
+<p><strong>Cons:</strong>
+- Not production-like
+- Single tenant</p>
+<h3 id="production-architecture">Production Architecture</h3>
+<p><strong>Recommended:</strong></p>
+<pre><code>┌─────────────────────────────────┐
+│   Load Balancer (TLS)           │
+└────────────┬────────────────────┘
+             │
+    ┌────────▼────────┐
+    │  Control Plane  │
+    │  (Kubernetes)   │
+    │  - FastAPI pods │
+    │  - OPA sidecar  │
+    └────────┬────────┘
+             │
+    ┌────────▼────────┐
+    │   PostgreSQL    │
+    │  (Managed DB)   │
+    └─────────────────┘
+</code></pre>
+<p><strong>Components:</strong>
+- <strong>Control Plane:</strong> Kubernetes deployment with HPA
+- <strong>Database:</strong> Managed PostgreSQL (AWS RDS, GCP Cloud SQL)
+- <strong>Cache:</strong> Managed Redis (ElastiCache, Memorystore)
+- <strong>Secrets:</strong> Vault or cloud secrets manager
+- <strong>OPA:</strong> Sidecar or separate service
+- <strong>Admin Console:</strong> Static site on CDN</p>
+<p><strong>Security:</strong>
+- TLS everywhere
+- mTLS for service-to-service
+- Secrets rotation
+- Network policies
+- RBAC for Kubernetes</p>
+<h2 id="scalability-considerations">Scalability Considerations</h2>
+<h3 id="horizontal-scaling">Horizontal Scaling</h3>
+<p><strong>Control Plane:</strong>
+- Stateless design enables horizontal scaling
+- Load balancer distributes requests
+- Database connection pooling</p>
+<p><strong>OPA:</strong>
+- Stateless evaluation
+- Can run as sidecar or service
+- Policy bundles cached in memory</p>
+<h3 id="database-scaling">Database Scaling</h3>
+<p><strong>Read Replicas:</strong>
+- Policy logs are read-heavy
+- Use replicas for reporting</p>
+<p><strong>Partitioning:</strong>
+- Partition policy logs by date
+- Archive old logs</p>
+<h3 id="caching-strategy">Caching Strategy</h3>
+<p><strong>Redis Usage:</strong>
+- Rate limit counters (future)
+- Kill-switch broadcast cache (future)
+- Policy decision cache (future)</p>
+<h2 id="security-architecture">Security Architecture</h2>
+<h3 id="defense-in-depth">Defense in Depth</h3>
+<ol>
+<li><strong>Network Layer:</strong> TLS, mTLS, network policies</li>
+<li><strong>Application Layer:</strong> Policy enforcement, input validation</li>
+<li><strong>Data Layer:</strong> Encryption at rest, access controls</li>
+<li><strong>Identity Layer:</strong> API keys, OIDC (future)</li>
+</ol>
+<h3 id="threat-model">Threat Model</h3>
+<p><strong>Threats mitigated:</strong>
+- ✅ Unauthorized tool access → Policy enforcement
+- ✅ Compromised credentials → Kill switch
+- ✅ Policy bypass → Control plane architecture
+- ✅ Provenance tampering → Cryptographic signatures</p>
+<p><strong>Future enhancements:</strong>
+- Rate limiting at network layer
+- DDoS protection
+- Advanced threat detection</p>
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+<p><strong>Policy Check Latency:</strong>
+- Target: &lt; 10ms p95
+- OPA evaluation: &lt; 1ms typically
+- Database query: &lt; 5ms typically</p>
+<p><strong>Kill Switch MTTR:</strong>
+- Target: &lt; 5 seconds
+- Database update: &lt; 100ms
+- Adapter notification: &lt; 1s
+- State propagation: &lt; 5s total</p>
+<p><strong>Throughput:</strong>
+- Target: 1000+ policy checks/second
+- Database: Scales with connection pooling
+- OPA: Scales horizontally</p>
+<h2 id="future-architecture-evolution">Future Architecture Evolution</h2>
+<p><strong>Short-term:</strong>
+- Sigstore integration for provenance
+- Redis-based rate limiting
+- WebSocket support for real-time updates</p>
+<p><strong>Medium-term:</strong>
+- Policy decision caching
+- Advanced observability (OTel exports)
+- Terraform modules for cloud deployment</p>
+<p><strong>Long-term:</strong>
+- Multi-region support
+- Policy graph with relationships
+- ML-based anomaly detection</p>
+<hr />
+<p><strong>Understanding the architecture helps you:</strong>
+- Make informed deployment decisions
+- Troubleshoot issues effectively
+- Extend the system confidently
+- Plan for scale</p>
+<p>Next: <a href="../setup/">Setup Guide</a> for hands-on deployment.</p></div>
             </div>
         </div>
 

@@ -143,6 +143,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#running-tests_1" class="nav-link">Running tests</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#ci-recommendations" class="nav-link">CI recommendations</a>
               <ul class="nav flex-column">
               </ul>
@@ -201,6 +205,11 @@
 </li>
 </ol>
 <h2 id="running-tests">Running tests</h2>
+<ul>
+<li>Chaos drill: <code>make chaos CHAOS_CYCLES=3 CHAOS_TENANT=platform-eng CHAOS_TOOL=langsmith-docs-search</code> (override vars as needed).</li>
+<li>Documentation: <code>make docs-build</code> (build) or <code>make docs-serve</code> (live preview).</li>
+</ul>
+<h2 id="running-tests_1">Running tests</h2>
 <ul>
 <li>Backend unit + integration: <code>pytest</code></li>
 <li>API smoke against live control plane: <code>pytest -m e2e</code> (future marker).</li>

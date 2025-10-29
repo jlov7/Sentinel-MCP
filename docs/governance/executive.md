@@ -330,4 +330,4 @@ Sentinel MCP provides a **control plane for AI agents**—a centralized system t
 
 ---
 
-**Note on Project Status:** This is a personal research project, not a commercial offering. The concepts and implementations are shared for learning and exploration. See the [Setup Guide](technical/setup.md) for technical implementation details, or the [Policy Playbook](governance/policy-playbook.md) for policy development concepts.
+**Note on Project Status:** This is a personal research project, not a commercial offering. The concepts and implementations are shared for learning and exploration. See the [Setup Guide](../technical/setup.md) for technical implementation details, or the [Policy Playbook](policy-playbook.md) for policy development concepts.

@@ -129,25 +129,41 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#executive-brief" class="nav-link">Executive Brief</a>
+            <li class="nav-item" data-bs-level="1"><a href="#executive-brief-governance-for-ai-agents" class="nav-link">Executive Brief: Governance for AI Agents</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#problem-statement" class="nav-link">Problem statement</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#sentinel-mcp-value" class="nav-link">Sentinel MCP value</a>
+            <li class="nav-item" data-bs-level="2"><a href="#the-ai-agent-revolution-is-here" class="nav-link">The AI Agent Revolution Is Here</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#adoption-guide" class="nav-link">Adoption guide</a>
+            <li class="nav-item" data-bs-level="2"><a href="#the-problem-governance-gap" class="nav-link">The Problem: Governance Gap</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#metrics-to-track" class="nav-link">Metrics to track</a>
+            <li class="nav-item" data-bs-level="2"><a href="#the-solution-sentinel-mcp" class="nav-link">The Solution: Sentinel MCP</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next steps</a>
+            <li class="nav-item" data-bs-level="2"><a href="#adoption-roadmap" class="nav-link">Adoption Roadmap</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-metrics-to-track" class="nav-link">Key Metrics to Track</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#roi-considerations" class="nav-link">ROI Considerations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#business-case-summary" class="nav-link">Business Case Summary</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next Steps</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#conclusion" class="nav-link">Conclusion</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -158,39 +174,342 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="executive-brief">Executive Brief</h1>
-<h2 id="problem-statement">Problem statement</h2>
-<p>Enterprise agent stacks amplify productivity but expand the attack surface:
-- Tools proliferate without central inventory.
-- Policies and rate limits are inconsistent across vendors.
-- There is no provable audit trail tying actions to authorized identities.
-- Kill switches require bespoke scripts, creating MTTR risk.</p>
-<h2 id="sentinel-mcp-value">Sentinel MCP value</h2>
+<h1 id="executive-brief-governance-for-ai-agents">Executive Brief: Governance for AI Agents</h1>
+<p><strong>⚠️ Project Context:</strong> This documentation describes a personal R&amp;D exploration project. This is <strong>not a commercial product</strong> and I am <strong>not seeking to develop this into a product</strong>. The executive brief is provided for educational purposes to illustrate governance concepts for AI agents.</p>
+<h2 id="the-ai-agent-revolution-is-here">The AI Agent Revolution Is Here</h2>
+<p><strong>2024 marked a turning point.</strong> AI agents moved from demos to production. ChatGPT Actions, Claude Tools, and autonomous agent frameworks are being deployed across enterprises. These agents can:</p>
 <ul>
-<li><strong>Single source of truth</strong> for all MCP servers/skills with health, ownership, and scopes.</li>
-<li><strong>Policy brain</strong> combining identity, tool metadata, purpose, and budgets via OPA.</li>
-<li><strong>Kill-switch orchestration</strong> across AgentKit, LangGraph, Claude Skills, and custom adapters.</li>
-<li><strong>Signed provenance</strong> for every action, supporting compliance and incident response.</li>
+<li>🔍 Search the web autonomously</li>
+<li>📧 Send emails and messages</li>
+<li>💰 Make API calls to external services</li>
+<li>📊 Access databases and internal systems</li>
+<li>🤖 Execute code and run scripts</li>
 </ul>
-<h2 id="adoption-guide">Adoption guide</h2>
+<p><strong>The question is: Who's in control?</strong></p>
+<h2 id="the-problem-governance-gap">The Problem: Governance Gap</h2>
+<h3 id="what-happens-without-governance">What Happens Without Governance?</h3>
+<p><strong>Real-world scenarios organizations face today:</strong></p>
 <ol>
-<li><strong>Day 0 – Discovery:</strong> inventory existing tools with the registry API; map owners and scopes.</li>
-<li><strong>Day 1 – Policy pilot:</strong> deploy OPA bundles for a single business unit; monitor denies and adjust quotas.</li>
-<li><strong>Day 2 – Enterprise rollout:</strong> integrate adapters across agent frameworks, enforce provenance mandates, and publish kill-switch runbook.</li>
+<li><strong>Runaway Costs</strong></li>
+<li>An agent makes 10,000 API calls in minutes, exceeding monthly budget</li>
+<li>No alerting system catches it until the bill arrives</li>
+<li>
+<p><strong>Impact:</strong> Unexpected six-figure cloud bills</p>
+</li>
+<li>
+<p><strong>Security Breaches</strong></p>
+</li>
+<li>An agent accesses sensitive customer data without proper authorization</li>
+<li>The breach isn't discovered until weeks later</li>
+<li>
+<p><strong>Impact:</strong> Compliance violations, reputation damage, legal liability</p>
+</li>
+<li>
+<p><strong>Compliance Failures</strong></p>
+</li>
+<li>During an audit, you can't prove which actions were authorized</li>
+<li>Logs are incomplete or unreliable</li>
+<li>
+<p><strong>Impact:</strong> Failed compliance audits, regulatory fines</p>
+</li>
+<li>
+<p><strong>Tool Sprawl</strong></p>
+</li>
+<li>Teams deploy agents without coordination</li>
+<li>No central inventory of what tools agents can access</li>
+<li><strong>Impact:</strong> Shadow IT, security blind spots, cost overruns</li>
 </ol>
-<h2 id="metrics-to-track">Metrics to track</h2>
-<ul>
-<li>% of tools inventoried vs estimated total.</li>
-<li>Policy violations caught and resolved (MTTR &lt; 5 minutes goal).</li>
-<li>% of actions with verified provenance manifests.</li>
-<li>Kill-switch drill success rate (disabled + restored within SLA).</li>
-</ul>
-<h2 id="next-steps">Next steps</h2>
-<ul>
-<li>Approve R&amp;D spike for 2 weeks to productionize the prototype.</li>
-<li>Engage Platform Engineering and AppSec to co-own policy governance.</li>
-<li>Identify lighthouse teams (FinOps, Support) for co-design of policy templates.</li>
-</ul></div>
+<h3 id="why-traditional-security-models-fail">Why Traditional Security Models Fail</h3>
+<p><strong>Agents aren't human users.</strong> You can't:
+- ❌ Train them like employees
+- ❌ Trust them to follow policies
+- ❌ Rely on their judgment
+- ❌ Scale security reviews linearly</p>
+<p><strong>Agents are:</strong>
+- 🚀 Autonomous and unpredictable
+- 📈 Infinitely scalable
+- ⚡ Sub-second decision makers
+- 🔄 Constantly evolving</p>
+<p><strong>You need runtime governance</strong> that sits between agents and tools, enforcing policies at the moment of decision.</p>
+<h2 id="the-solution-sentinel-mcp">The Solution: Sentinel MCP</h2>
+<p>Sentinel MCP provides a <strong>control plane for AI agents</strong>—a centralized system that governs every tool access request.</p>
+<h3 id="core-value-propositions">Core Value Propositions</h3>
+<h4 id="1-security-through-policy-enforcement">1. 🛡️ <strong>Security Through Policy Enforcement</strong></h4>
+<p><strong>What it does:</strong>
+- Every tool access request is evaluated against policies
+- Policies consider identity, purpose, quotas, and context
+- Deny-by-default means tools are blocked unless explicitly allowed</p>
+<p><strong>Business value:</strong>
+- <strong>Prevent unauthorized access</strong> before it happens
+- <strong>Reduce security incidents</strong> by orders of magnitude
+- <strong>Meet compliance requirements</strong> through policy enforcement</p>
+<p><strong>Example:</strong> A policy prevents agents from accessing customer PII unless the request comes from an approved purpose and the agent has proper authorization.</p>
+<h4 id="2-cost-control-through-quota-management">2. 💰 <strong>Cost Control Through Quota Management</strong></h4>
+<p><strong>What it does:</strong>
+- Enforces spending limits per tool, per tenant, per time period
+- Blocks requests when quotas are exceeded
+- Provides real-time visibility into usage</p>
+<p><strong>Business value:</strong>
+- <strong>Prevent budget overruns</strong> from runaway agent usage
+- <strong>Enable chargeback</strong> by tracking usage per team
+- <strong>Optimize costs</strong> by identifying waste</p>
+<p><strong>Example:</strong> A policy limits GPT-4 API calls to 1,000 per day per team. When exceeded, requests are denied with clear messaging.</p>
+<h4 id="3-instant-response-through-kill-switch">3. 🚨 <strong>Instant Response Through Kill Switch</strong></h4>
+<p><strong>What it does:</strong>
+- Disables tools system-wide in seconds
+   - Revokes credentials automatically
+   - Prevents further tool invocations immediately</p>
+<p><strong>Business value:</strong>
+- <strong>Respond to incidents immediately</strong> (target: &lt; 5 seconds)
+- <strong>Reduce breach impact</strong> by stopping malicious activity fast
+- <strong>Enable safe experimentation</strong> knowing you can stop instantly</p>
+<p><strong>Example:</strong> A security team detects suspicious activity. They trigger the kill switch, disabling the compromised tool across all agents instantly.</p>
+<h4 id="4-compliance-through-provenance-tracking">4. 📋 <strong>Compliance Through Provenance Tracking</strong></h4>
+<p><strong>What it does:</strong>
+- Creates cryptographic proof of every action
+- Signs manifests with non-repudiation
+- Provides complete audit trails</p>
+<p><strong>Business value:</strong>
+- <strong>Pass compliance audits</strong> with verifiable proof
+- <strong>Demonstrate due diligence</strong> to regulators
+- <strong>Enable forensic investigations</strong> with complete trails</p>
+<p><strong>Example:</strong> During a SOC 2 audit, auditors request proof of actions. Provenance manifests provide cryptographic proof of authorized actions only.</p>
+<h4 id="5-visibility-through-centralized-inventory">5. 📊 <strong>Visibility Through Centralized Inventory</strong></h4>
+<p><strong>What it does:</strong>
+- Maintains a single source of truth for all tools
+- Tracks ownership, health, and usage
+- Provides dashboards and reporting</p>
+<p><strong>Business value:</strong>
+- <strong>Eliminate shadow IT</strong> by discovering all tools
+- <strong>Enable governance</strong> through visibility
+- <strong>Optimize operations</strong> through usage insights</p>
+<p><strong>Example:</strong> A CISO discovers teams are using unauthorized tools. Sentinel MCP's inventory reveals all tools, enabling proper governance.</p>
+<h2 id="adoption-roadmap">Adoption Roadmap</h2>
+<h3 id="phase-1-discovery-weeks-1-2">Phase 1: Discovery (Weeks 1-2)</h3>
+<p><strong>Goal:</strong> Understand your current state</p>
+<p><strong>Activities:</strong>
+- Inventory existing tools and agents
+- Map current access patterns
+- Identify high-risk areas
+- Document existing policies (written or implicit)</p>
+<p><strong>Deliverables:</strong>
+- Complete tool inventory
+- Risk assessment
+- Policy gap analysis</p>
+<p><strong>Success metrics:</strong>
+- 100% of tools inventoried
+- Risk areas identified
+- Quick wins identified</p>
+<h3 id="phase-2-pilot-weeks-3-6">Phase 2: Pilot (Weeks 3-6)</h3>
+<p><strong>Goal:</strong> Prove value with a single use case</p>
+<p><strong>Activities:</strong>
+- Deploy Sentinel MCP in pilot environment
+- Select one team/tool for initial rollout
+- Write initial policies
+- Integrate with one agent framework
+- Run kill-switch drills</p>
+<p><strong>Deliverables:</strong>
+- Working pilot deployment
+- Initial policy set
+- Integration with one agent framework
+- Kill-switch demonstration</p>
+<p><strong>Success metrics:</strong>
+- Policy violations caught
+- Kill-switch MTTR &lt; 5 seconds
+- Positive feedback from pilot team</p>
+<h3 id="phase-3-expansion-weeks-7-12">Phase 3: Expansion (Weeks 7-12)</h3>
+<p><strong>Goal:</strong> Scale to enterprise-wide deployment</p>
+<p><strong>Activities:</strong>
+- Expand to additional teams
+- Integrate with all agent frameworks
+- Refine policies based on learnings
+- Establish governance processes
+- Train operations teams</p>
+<p><strong>Deliverables:</strong>
+- Multi-team deployment
+- Complete framework coverage
+- Mature policy library
+- Operations runbooks
+- Training materials</p>
+<p><strong>Success metrics:</strong>
+- 80%+ of tools under governance
+- Policy violations declining
+- Positive ROI demonstrated</p>
+<h3 id="phase-4-optimization-ongoing">Phase 4: Optimization (Ongoing)</h3>
+<p><strong>Goal:</strong> Continuous improvement</p>
+<p><strong>Activities:</strong>
+- Refine policies based on data
+- Optimize quota allocations
+- Expand provenance requirements
+- Enhance observability
+- Automate governance processes</p>
+<p><strong>Deliverables:</strong>
+- Optimized policies
+- Automated governance
+- Enhanced reporting
+- Cost optimization</p>
+<p><strong>Success metrics:</strong>
+- Policy violations near zero
+- Costs optimized
+- Compliance maintained</p>
+<h2 id="key-metrics-to-track">Key Metrics to Track</h2>
+<h3 id="security-metrics">Security Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy violations prevented</td>
+<td>Track baseline</td>
+<td>Measures security effectiveness</td>
+</tr>
+<tr>
+<td>Kill-switch MTTR</td>
+<td>&lt; 5 seconds</td>
+<td>Measures incident response speed</td>
+</tr>
+<tr>
+<td>Tools under governance</td>
+<td>100%</td>
+<td>Measures coverage</td>
+</tr>
+<tr>
+<td>Unauthorized access attempts</td>
+<td>Track baseline</td>
+<td>Measures threat landscape</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cost-metrics">Cost Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Budget overruns prevented</td>
+<td>Track incidents</td>
+<td>Measures cost control</td>
+</tr>
+<tr>
+<td>Cost per action</td>
+<td>Track baseline</td>
+<td>Measures efficiency</td>
+</tr>
+<tr>
+<td>Quota utilization</td>
+<td>70-90%</td>
+<td>Measures optimization</td>
+</tr>
+<tr>
+<td>Chargeback accuracy</td>
+<td>100%</td>
+<td>Measures attribution</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compliance-metrics">Compliance Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Actions with provenance</td>
+<td>100%</td>
+<td>Measures auditability</td>
+</tr>
+<tr>
+<td>Audit trail completeness</td>
+<td>100%</td>
+<td>Measures compliance readiness</td>
+</tr>
+<tr>
+<td>Policy review cycle</td>
+<td>Quarterly</td>
+<td>Measures governance maturity</td>
+</tr>
+<tr>
+<td>Compliance audit success</td>
+<td>100%</td>
+<td>Measures effectiveness</td>
+</tr>
+</tbody>
+</table>
+<h2 id="roi-considerations">ROI Considerations</h2>
+<h3 id="cost-avoidance">Cost Avoidance</h3>
+<p><strong>Without Sentinel MCP:</strong>
+- Security incidents: $100K+ per incident
+- Compliance failures: $50K+ per audit failure
+- Budget overruns: Variable, often $10K-$100K+</p>
+<p><strong>With Sentinel MCP:</strong>
+- Prevent security incidents through policy enforcement
+- Pass compliance audits with provenance tracking
+- Avoid budget overruns through quota management</p>
+<h3 id="time-savings">Time Savings</h3>
+<p><strong>Without Sentinel MCP:</strong>
+- Manual tool reviews: Hours per tool
+- Incident response: Hours to days
+- Compliance audits: Weeks of preparation</p>
+<p><strong>With Sentinel MCP:</strong>
+- Automated policy enforcement: Near-zero manual effort
+- Instant kill-switch: Seconds instead of hours
+- Automated audit trails: Days instead of weeks</p>
+<h3 id="risk-reduction">Risk Reduction</h3>
+<p><strong>Without Sentinel MCP:</strong>
+- Unknown risk exposure
+- Manual controls prone to error
+- Compliance gaps</p>
+<p><strong>With Sentinel MCP:</strong>
+- Measurable risk reduction
+- Automated controls
+- Compliance-ready</p>
+<h2 id="business-case-summary">Business Case Summary</h2>
+<p><strong>Investment:</strong>
+- Development: 2-4 weeks for pilot
+- Deployment: 1-2 weeks
+- Ongoing operations: &lt; 0.5 FTE</p>
+<p><strong>Returns:</strong>
+- Security: Prevent incidents worth $100K+
+- Compliance: Pass audits, avoid fines
+- Cost: Prevent overruns worth $10K-$100K+
+- Operations: Hours saved per week</p>
+<p><strong>Payback Period:</strong> Typically &lt; 3 months</p>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li><strong>Week 1:</strong> Review this brief with leadership</li>
+<li><strong>Week 2:</strong> Identify pilot team and use case</li>
+<li><strong>Week 3:</strong> Begin Phase 1 (Discovery)</li>
+<li><strong>Week 4:</strong> Plan Phase 2 (Pilot)</li>
+</ol>
+<p><strong>Questions to answer:</strong>
+- Which team should pilot first?
+- What are the highest-risk tools/agents?
+- What compliance requirements must we meet?
+- What budget thresholds matter most?</p>
+<h2 id="conclusion">Conclusion</h2>
+<p><strong>AI agents are here to stay.</strong> They're transforming how we work, but they require new governance models. Traditional security approaches don't work for autonomous systems.</p>
+<p><strong>Sentinel MCP explores:</strong>
+- Runtime governance patterns for AI agents
+- Policy-driven security and compliance approaches
+- Instant incident response mechanisms
+- Complete auditability capabilities</p>
+<p><strong>Note:</strong> This is a personal R&amp;D project exploring these concepts. The architecture and approaches discussed here are shared for educational and research purposes to advance understanding of AI agent governance.</p>
+<hr />
+<p><strong>Note on Project Status:</strong> This is a personal research project, not a commercial offering. The concepts and implementations are shared for learning and exploration. See the <a href="../../technical/setup/">Setup Guide</a> for technical implementation details, or the <a href="../policy-playbook/">Policy Playbook</a> for policy development concepts.</p></div>
             </div>
         </div>
 
