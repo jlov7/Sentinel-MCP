@@ -1,5 +1,7 @@
 # Executive Brief: Governance for AI Agents
 
+**⚠️ Project Context:** This documentation describes a personal R&D exploration project. This is **not a commercial product** and I am **not seeking to develop this into a product**. The executive brief is provided for educational purposes to illustrate governance concepts for AI agents.
+
 ## The AI Agent Revolution Is Here
 
 **2024 marked a turning point.** AI agents moved from demos to production. ChatGPT Actions, Claude Tools, and autonomous agent frameworks are being deployed across enterprises. These agents can:
@@ -318,14 +320,14 @@ Sentinel MCP provides a **control plane for AI agents**—a centralized system t
 
 **AI agents are here to stay.** They're transforming how we work, but they require new governance models. Traditional security approaches don't work for autonomous systems.
 
-**Sentinel MCP provides:**
-- Runtime governance for AI agents
-- Policy-driven security and compliance
-- Instant incident response
-- Complete auditability
+**Sentinel MCP explores:**
+- Runtime governance patterns for AI agents
+- Policy-driven security and compliance approaches
+- Instant incident response mechanisms
+- Complete auditability capabilities
 
-**The question isn't whether you need governance for AI agents—it's how quickly you can deploy it.**
+**Note:** This is a personal R&D project exploring these concepts. The architecture and approaches discussed here are shared for educational and research purposes to advance understanding of AI agent governance.
 
 ---
 
-**Ready to get started?** See the [Setup Guide](technical/setup.md) for technical implementation, or the [Policy Playbook](governance/policy-playbook.md) for policy development.
+**Note on Project Status:** This is a personal research project, not a commercial offering. The concepts and implementations are shared for learning and exploration. See the [Setup Guide](technical/setup.md) for technical implementation details, or the [Policy Playbook](governance/policy-playbook.md) for policy development concepts.

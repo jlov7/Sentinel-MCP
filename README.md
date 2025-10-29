@@ -4,6 +4,8 @@
 
 [![CI](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml)
 
+**⚠️ Important: This is a personal R&D project** – an exploration of governance patterns for AI agents born from passion, curiosity, and continuous learning. This is **not a commercial product** and I am **not seeking to develop this into a product**. It's shared openly for learning, research, and community discussion.
+
 Sentinel MCP is a **control plane for AI agents** that brings enterprise-grade governance, security, and auditability to Model-Context Protocol (MCP) servers and agent skills. Think of it as the "air traffic control" for your AI tool ecosystem—ensuring every tool invocation is authorized, monitored, and auditable.
 
 ## 🌟 Why This Matters Now
@@ -157,9 +159,11 @@ Visit `http://localhost:3000` to see the admin console, or explore the API at `h
 - **Claude Skills** hook
 - Easy to extend for custom frameworks
 
-## 📊 Current Status
+## 📊 Project Status
 
-**Status:** 🧪 **R&D Prototype** – Active development
+**Important:** This is a **personal R&D exploration project**, not a commercial product. This work represents my passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable. I am **not seeking to commercialize or productize** this project—it's shared as open research and learning.
+
+**Status:** 🧪 **Personal R&D Prototype** – Exploratory development
 
 **What's Working:**
 - ✅ Control plane API (FastAPI) with core endpoints
@@ -237,7 +241,9 @@ make coverage
 
 ## 🤝 Contributing
 
-Contributions welcome! This is a learning project exploring governance patterns for AI agents. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions welcome! This is a personal R&D project exploring governance patterns for AI agents—shared openly for learning, research, and community discussion. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Note:** This project is not seeking commercialization or productization. It's an exploration of interesting problems in AI governance, shared for educational and research purposes.
 
 **Areas we'd love help with:**
 - Additional agent framework adapters

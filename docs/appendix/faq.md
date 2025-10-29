@@ -1,5 +1,15 @@
 # Frequently Asked Questions
 
+## Project Status
+
+### Is this a commercial product?
+
+**No.** This is a **personal R&D exploration project**, not a commercial product. I am **not seeking to develop this into a product** or commercialize it. This project represents my passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable. It's shared openly for learning, research, and community discussion.
+
+### What's the purpose of this project?
+
+This project is an exploration of governance patterns for AI agents—born from curiosity, passion, and continuous learning. The goal is to advance understanding of how to govern autonomous systems, share ideas with the community, and contribute to the broader conversation about AI agent safety and controllability.
+
 ## General Questions
 
 ### What is Sentinel MCP?
