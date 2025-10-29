@@ -213,10 +213,13 @@
 <h2 id="6-chaos-drill-killrestore">6. Chaos drill (kill/restore)</h2>
 <ol>
 <li>Ensure the stack is running (<code>./scripts/dev_up.sh</code>).</li>
-<li>Execute <code>./scripts/chaos_kill.sh [options] &lt;tenant&gt; &lt;tool&gt;</code> to simulate repeated kill/restore actions (<code>--cycles</code>, <code>--delay</code>, <code>--jitter</code>, <code>--log</code>).</li>
+<li>Execute <code>make chaos</code> (invokes <code>hostname_check.sh</code> + <code>chaos_kill.sh</code>) or run <code>./scripts/chaos_kill.sh [options] &lt;tenant&gt; &lt;tool&gt;</code> manually (<code>--cycles</code>, <code>--delay</code>, <code>--jitter</code>, <code>--log</code>).</li>
 <li>Monitor logs for <code>kill_switch.disabled</code> / <code>kill_switch.restored</code> and corresponding OTel spans.</li>
 <li>Verify tool state via <code>/register?tenant_slug=...</code> and the Admin console.</li>
-<li>Review provenance manifests and policy logs covering the drill window.</li>
+<li>Review provenance manifests and policy logs covering the drill window.<blockquote>
+<p><strong>NOTE:</strong> Local chaos drill automation (<code>make chaos</code>, etc.) is configured for developer machines. Do not run in shared staging/production environments without approval.</p>
+</blockquote>
+</li>
 </ol></div>
             </div>
         </div>

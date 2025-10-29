@@ -479,4 +479,4 @@ docker-compose.dev.yml
 - Extend the system confidently
 - Plan for scale
 
-Next: [Setup Guide](technical/setup.md) for hands-on deployment.
+Next: [Setup Guide](setup.md) for hands-on deployment.

@@ -37,7 +37,7 @@ Sentinel MCP is a **control plane for AI agents** that provides governance, secu
 - 🔄 Enhanced observability
 - 🔄 Performance optimization
 
-**Recommendation:** Use for R&D, pilot projects, and learning. For production deployments, plan for additional hardening (see [Security Guide](operations/security.md)).
+**Recommendation:** Use for R&D, pilot projects, and learning. For production deployments, plan for additional hardening (see [Security Guide](../operations/security.md)).
 
 ### How does Sentinel MCP differ from API gateways?
 
@@ -390,7 +390,7 @@ allow {
 - Time-based rules
 - Context-aware decisions
 
-**See:** [Policy Playbook](governance/policy-playbook.md) for examples and best practices.
+**See:** [Policy Playbook](../governance/policy-playbook.md) for examples and best practices.
 
 ### Can policies be tested?
 
@@ -496,7 +496,7 @@ allow {
    - Verify quotas in OPA data
    - Check purpose values
 
-**See:** [Runbooks](operations/runbooks.md) for detailed troubleshooting.
+**See:** [Runbooks](../operations/runbooks.md) for detailed troubleshooting.
 
 ### Kill switch not working
 
@@ -520,10 +520,10 @@ curl http://control-plane:8000/register?tenant_slug=platform-eng
 # Should deny when is_active = false
 ```
 
-**See:** [Runbooks](operations/runbooks.md) for detailed procedures.
+**See:** [Runbooks](../operations/runbooks.md) for detailed procedures.
 
 ## Still Have Questions?
 
-- 📖 Check the [full documentation](index.md)
+- 📖 Check the [full documentation](../index.md)
 - 🐛 Open an issue on GitHub
-- 💬 Review [Runbooks](operations/runbooks.md) for operational questions
+- 💬 Review [Runbooks](../operations/runbooks.md) for operational questions

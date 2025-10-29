@@ -129,8 +129,44 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#faq" class="nav-link">FAQ</a>
+            <li class="nav-item" data-bs-level="1"><a href="#frequently-asked-questions" class="nav-link">Frequently Asked Questions</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#project-status" class="nav-link">Project Status</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#general-questions" class="nav-link">General Questions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#real-world-scenarios" class="nav-link">Real-World Scenarios</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#technical-questions" class="nav-link">Technical Questions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#deployment-questions" class="nav-link">Deployment Questions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#policy-questions" class="nav-link">Policy Questions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#performance-questions" class="nav-link">Performance Questions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#still-have-questions" class="nav-link">Still Have Questions?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -138,35 +174,479 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="faq">FAQ</h1>
-<p><strong>Is Sentinel MCP production-ready?</strong></p>
-<blockquote>
-<p>No. It is an R&amp;D prototype intended to explore control-plane patterns.</p>
-</blockquote>
-<p><strong>Can I use SQLite instead of Postgres?</strong></p>
-<blockquote>
-<p>Not currently; the schema relies on Postgres-specific types (JSONB). Future work could add an abstraction for testing.</p>
-</blockquote>
-<p><strong>How fast is the kill switch?</strong></p>
-<blockquote>
-<p>Local drills complete in milliseconds for state change; adapters must also revoke credentials. Target MTTR is &lt; 5 seconds in production.</p>
-</blockquote>
-<p><strong>Where are provenance manifests stored?</strong></p>
-<blockquote>
-<p>Locally under <code>.data/provenance</code>. Replace with object storage or immutable logs (S3 + Glacier, append-only database) for production.</p>
-</blockquote>
-<p><strong>Do policies support hierarchical budgets?</strong></p>
-<blockquote>
-<p>Today only tenant-tool quotas exist. Extend OPA data to include nested budget policies.</p>
-</blockquote>
-<p><strong>How is authentication handled?</strong></p>
-<blockquote>
-<p>Prototype has no auth. Add API keys/OIDC before exposing outside trusted network.</p>
-</blockquote>
-<p><strong>Can I integrate with SIEM/alerts?</strong></p>
-<blockquote>
-<p>Yes—structured logs capture kill events. Ship them to your log pipeline; add webhooks for real-time notifications.</p>
-</blockquote></div>
+<h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+<h2 id="project-status">Project Status</h2>
+<h3 id="is-this-a-commercial-product">Is this a commercial product?</h3>
+<p><strong>No.</strong> This is a <strong>personal R&amp;D exploration project</strong>, not a commercial product. I am <strong>not seeking to develop this into a product</strong> or commercialize it. This project represents my passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable. It's shared openly for learning, research, and community discussion.</p>
+<h3 id="whats-the-purpose-of-this-project">What's the purpose of this project?</h3>
+<p>This project is an exploration of governance patterns for AI agents—born from curiosity, passion, and continuous learning. The goal is to advance understanding of how to govern autonomous systems, share ideas with the community, and contribute to the broader conversation about AI agent safety and controllability.</p>
+<h2 id="general-questions">General Questions</h2>
+<h3 id="what-is-sentinel-mcp">What is Sentinel MCP?</h3>
+<p>Sentinel MCP is a <strong>control plane for AI agents</strong> that provides governance, security, and compliance for autonomous systems. It sits between AI agents and the tools they want to use, enforcing policies, tracking provenance, and enabling instant control through kill switches.</p>
+<p><strong>Think of it as:</strong> A security guard, budget manager, and compliance auditor all rolled into one system, specifically designed for AI agents.</p>
+<h3 id="is-sentinel-mcp-production-ready">Is Sentinel MCP production-ready?</h3>
+<p><strong>Status:</strong> 🧪 <strong>R&amp;D Prototype</strong> – Active development</p>
+<p><strong>What's working:</strong>
+- ✅ Core control plane functionality
+- ✅ Policy engine integration
+- ✅ Kill switch capability
+- ✅ Provenance signing
+- ✅ Multi-framework adapters
+- ✅ Admin console</p>
+<p><strong>What needs work for production:</strong>
+- 🔄 Authentication/authorization (currently open)
+- 🔄 Production-grade secrets management
+- 🔄 Sigstore integration for provenance
+- 🔄 Enhanced observability
+- 🔄 Performance optimization</p>
+<p><strong>Recommendation:</strong> Use for R&amp;D, pilot projects, and learning. For production deployments, plan for additional hardening (see <a href="../../operations/security/">Security Guide</a>).</p>
+<h3 id="how-does-sentinel-mcp-differ-from-api-gateways">How does Sentinel MCP differ from API gateways?</h3>
+<p><strong>API gateways</strong> are designed for human users and traditional applications. Sentinel MCP is designed specifically for <strong>AI agents</strong> with unique challenges:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>API Gateway</th>
+<th>Sentinel MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Designed for</strong></td>
+<td>Human users, traditional apps</td>
+<td>AI agents</td>
+</tr>
+<tr>
+<td><strong>Policy evaluation</strong></td>
+<td>Basic auth/rate limiting</td>
+<td>Rich context-aware policies</td>
+</tr>
+<tr>
+<td><strong>Provenance</strong></td>
+<td>Logs only</td>
+<td>Cryptographic signatures</td>
+</tr>
+<tr>
+<td><strong>Kill switch</strong></td>
+<td>Manual or complex</td>
+<td>Instant, system-wide</td>
+</tr>
+<tr>
+<td><strong>Agent awareness</strong></td>
+<td>No</td>
+<td>Yes (framework adapters)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key difference:</strong> Sentinel MCP understands that agents are autonomous, unpredictable, and need runtime governance.</p>
+<h3 id="can-i-use-sqlite-instead-of-postgresql">Can I use SQLite instead of PostgreSQL?</h3>
+<p><strong>Not currently.</strong> The schema relies on PostgreSQL-specific features:
+- <strong>JSONB</strong> for flexible metadata storage
+- <strong>Advanced indexing</strong> for performance
+- <strong>ACID compliance</strong> for audit logs</p>
+<p><strong>For testing:</strong> Consider using PostgreSQL in Docker for local development.</p>
+<p><strong>Future:</strong> Could add SQLite support for testing, but PostgreSQL is recommended for any real usage.</p>
+<h2 id="real-world-scenarios">Real-World Scenarios</h2>
+<h3 id="scenario-an-agent-is-making-too-many-api-calls-and-exceeding-our-budget">Scenario: "An agent is making too many API calls and exceeding our budget"</h3>
+<p><strong>Problem:</strong> Your AI agent is calling an expensive API repeatedly, running up costs.</p>
+<p><strong>Solution:</strong>
+1. <strong>Define a quota policy:</strong>
+   <code>rego
+   quota := data.quotas[input.tenant][input.tool]
+   input.usage &lt; quota</code></p>
+<ol>
+<li>
+<p><strong>Set quotas in OPA data:</strong>
+   <code>json
+   {
+     "quotas": {
+       "platform-eng": {
+         "openai-gpt4": 1000
+       }
+     }
+   }</code></p>
+</li>
+<li>
+<p><strong>Result:</strong> When quota is exceeded, requests are denied with clear messaging.</p>
+</li>
+</ol>
+<p><strong>Business value:</strong> Prevents budget overruns automatically, no manual intervention needed.</p>
+<h3 id="scenario-we-need-to-prove-compliance-during-an-audit">Scenario: "We need to prove compliance during an audit"</h3>
+<p><strong>Problem:</strong> Auditor asks: "Can you prove which actions were authorized?"</p>
+<p><strong>Solution:</strong>
+1. <strong>Every action generates a provenance manifest:</strong>
+   <code>json
+   {
+     "id": "manifest-123",
+     "tenant": "platform-eng",
+     "tool": "customer-api",
+     "action": "invoke",
+     "authorized": true,
+     "signature": "...",
+     "timestamp": "2024-01-15T10:30:00Z"
+   }</code></p>
+<ol>
+<li>
+<p><strong>Manifests are cryptographically signed</strong> (non-repudiation)</p>
+</li>
+<li>
+<p><strong>Export manifests for audit window:</strong>
+   <code>bash
+   # Query database for manifests in date range
+   SELECT * FROM provenance_manifests 
+   WHERE created_at BETWEEN '2024-01-01' AND '2024-01-31'</code></p>
+</li>
+</ol>
+<p><strong>Business value:</strong> Pass compliance audits with cryptographic proof, not just logs.</p>
+<h3 id="scenario-a-security-incident-requires-immediately-disabling-a-tool">Scenario: "A security incident requires immediately disabling a tool"</h3>
+<p><strong>Problem:</strong> Security team detects suspicious activity. Need to block tool access NOW.</p>
+<p><strong>Solution:</strong>
+1. <strong>Trigger kill switch:</strong>
+   <code>bash
+   curl -X POST http://control-plane:8000/kill \
+     -H "Content-Type: application/json" \
+     -d '{"tenant": "platform-eng", "tool": "compromised-tool"}'</code></p>
+<ol>
+<li><strong>What happens:</strong></li>
+<li>Tool marked as <code>is_active = false</code> in database (&lt; 100ms)</li>
+<li>Adapters notified via hooks (&lt; 1s)</li>
+<li>All future policy checks deny immediately</li>
+<li>
+<p>Audit log entry created</p>
+</li>
+<li>
+<p><strong>Target MTTR:</strong> &lt; 5 seconds from incident to tool disablement</p>
+</li>
+</ol>
+<p><strong>Business value:</strong> Respond to incidents instantly, reducing breach impact.</p>
+<h3 id="scenario-teams-are-deploying-agents-without-coordination">Scenario: "Teams are deploying agents without coordination"</h3>
+<p><strong>Problem:</strong> Shadow IT—teams deploying agents and tools without central oversight.</p>
+<p><strong>Solution:</strong>
+1. <strong>Register all tools:</strong>
+   <code>bash
+   curl -X POST http://control-plane:8000/register \
+     -H "Content-Type: application/json" \
+     -d '{
+       "tenant": "team-alpha",
+       "name": "unsanctioned-tool",
+       "url": "https://api.example.com",
+       "owner": "team-alpha@company.com"
+     }'</code></p>
+<ol>
+<li>
+<p><strong>Discover existing tools:</strong>
+   <code>bash
+   curl http://control-plane:8000/register?tenant_slug=team-alpha</code></p>
+</li>
+<li>
+<p><strong>Apply governance:</strong></p>
+</li>
+<li>Write policies for discovered tools</li>
+<li>Enforce quotas</li>
+<li>Monitor usage</li>
+</ol>
+<p><strong>Business value:</strong> Eliminate shadow IT, enable proper governance.</p>
+<h2 id="technical-questions">Technical Questions</h2>
+<h3 id="how-fast-is-the-kill-switch">How fast is the kill switch?</h3>
+<p><strong>Local testing:</strong> &lt; 1 second<br />
+<strong>Production target:</strong> &lt; 5 seconds end-to-end</p>
+<p><strong>Breakdown:</strong>
+- Database update: &lt; 100ms
+- State propagation: &lt; 1s
+- Adapter notification: &lt; 1s
+- Full system propagation: &lt; 5s</p>
+<p><strong>Factors affecting speed:</strong>
+- Database latency
+- Network latency to adapters
+- Adapter implementation quality</p>
+<p><strong>Note:</strong> Kill switch speed depends on adapter implementation. Ensure adapters check kill-switch state frequently.</p>
+<h3 id="where-are-provenance-manifests-stored">Where are provenance manifests stored?</h3>
+<p><strong>Current (R&amp;D):</strong>
+- Local filesystem: <code>.data/provenance/</code>
+- Simple file-based storage</p>
+<p><strong>Production recommendations:</strong>
+- <strong>Immutable storage:</strong> S3 + Glacier for long-term retention
+- <strong>Database:</strong> PostgreSQL JSONB column for queryable storage
+- <strong>Transparency log:</strong> Sigstore Rekor for public verification</p>
+<p><strong>Why immutable storage matters:</strong>
+- Compliance requires non-repudiation
+- Can't delete or modify past manifests
+- Append-only ensures audit integrity</p>
+<h3 id="do-policies-support-hierarchical-budgets">Do policies support hierarchical budgets?</h3>
+<p><strong>Current:</strong> Flat quotas per tenant-tool pair</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">{
+  &quot;quotas&quot;: {
+    &quot;platform-eng&quot;: {
+      &quot;openai-gpt4&quot;: 1000
+    }
+  }
+}
+</code></pre>
+<p><strong>Future (planned):</strong>
+- Hierarchical budgets (org → team → tool)
+- Time-based quotas (per day, per month)
+- Shared quotas across tools</p>
+<p><strong>Workaround today:</strong>
+- Use Rego policies to implement custom logic
+- Track usage in external system
+- Pre-aggregate quotas</p>
+<h3 id="how-is-authentication-handled">How is authentication handled?</h3>
+<p><strong>Current:</strong> ❌ No authentication (prototype)</p>
+<p><strong>Production requirements:</strong>
+- API keys for service-to-service auth
+- OIDC for admin console
+- mTLS for service mesh environments</p>
+<p><strong>Security note:</strong> Never expose control plane without authentication in production.</p>
+<h3 id="can-i-integrate-with-siemalerts">Can I integrate with SIEM/alerts?</h3>
+<p><strong>Yes!</strong> Multiple integration points:</p>
+<ol>
+<li>
+<p><strong>Structured logs:</strong>
+   <code>json
+   {
+     "event": "kill_switch.disabled",
+     "tenant": "platform-eng",
+     "tool": "compromised-tool",
+     "reason": "security_incident"
+   }</code>
+   Ship these to your SIEM (Splunk, Datadog, etc.)</p>
+</li>
+<li>
+<p><strong>Policy logs:</strong>
+   Query <code>policy_logs</code> table for policy decisions</p>
+</li>
+<li>
+<p><strong>Future webhooks:</strong>
+   Real-time notifications for kill-switch events (planned)</p>
+</li>
+</ol>
+<p><strong>Example integration:</strong></p>
+<pre><code class="language-python"># Forward logs to SIEM
+import structlog
+from your_siem import forward_log
+
+logger = structlog.get_logger()
+logger.info(&quot;kill_switch.disabled&quot;, 
+           tenant=&quot;platform-eng&quot;,
+           tool=&quot;compromised-tool&quot;)
+# SIEM forwarder picks up structured log
+</code></pre>
+<h3 id="how-do-i-add-support-for-a-new-agent-framework">How do I add support for a new agent framework?</h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Create adapter:</strong>
+   ```python
+   # packages/mcp_adapters/my_framework_adapter.py
+   class MyFrameworkAdapter:
+       async def invoke_tool(self, tool_name, params):
+           # Check policy
+           decision = await control_plane.check_policy(...)
+           if not decision.allow:
+               raise PolicyDenied(decision.reason)</p>
+<pre><code>   # Invoke tool
+   result = await actual_tool_call(tool_name, params)
+
+   # Sign provenance
+   manifest = await control_plane.sign_provenance(...)
+
+   return result
+</code></pre>
+<p>```</p>
+</li>
+<li>
+<p><strong>Integrate with framework:</strong></p>
+</li>
+<li>Hook into framework's tool invocation point</li>
+<li>
+<p>Use adapter for all tool calls</p>
+</li>
+<li>
+<p><strong>Test:</strong></p>
+</li>
+<li>Write unit tests</li>
+<li>Test policy enforcement</li>
+<li>Test kill-switch behavior</li>
+</ol>
+<p><strong>See existing adapters for examples:</strong>
+- <code>agentkit_adapter.py</code> – OpenAI AgentKit
+- <code>langgraph_middleware.py</code> – LangGraph
+- <code>skills_hook.ts</code> – Claude Skills</p>
+<h2 id="deployment-questions">Deployment Questions</h2>
+<h3 id="can-i-deploy-this-in-kubernetes">Can I deploy this in Kubernetes?</h3>
+<p><strong>Yes!</strong> Sentinel MCP is containerized and Kubernetes-ready.</p>
+<p><strong>Components:</strong>
+- Control plane: FastAPI app (Dockerfile included)
+- OPA: Sidecar or separate service
+- Database: External managed PostgreSQL
+- Admin console: Static site on CDN</p>
+<p><strong>See:</strong>
+- <code>apps/control-plane/Dockerfile</code> for container build
+- <code>infra/terraform/</code> (stub) for infrastructure as code</p>
+<p><strong>Production considerations:</strong>
+- Use managed databases (RDS, Cloud SQL)
+- Configure secrets management (Vault, Secrets Manager)
+- Set up monitoring and alerting
+- Use service mesh for mTLS (optional)</p>
+<h3 id="what-are-the-resource-requirements">What are the resource requirements?</h3>
+<p><strong>Minimum (development):</strong>
+- CPU: 2 cores
+- Memory: 4GB
+- Storage: 10GB</p>
+<p><strong>Recommended (production):</strong>
+- CPU: 4+ cores
+- Memory: 8GB+
+- Storage: 100GB+ (for audit logs)</p>
+<p><strong>Scaling:</strong>
+- Control plane: Horizontal scaling (stateless)
+- Database: Read replicas for reporting
+- OPA: Scales horizontally (stateless)</p>
+<h3 id="how-do-i-handle-secrets-in-production">How do I handle secrets in production?</h3>
+<p><strong>Current (R&amp;D):</strong>
+- Environment variables in <code>.env</code></p>
+<p><strong>Production recommendations:</strong>
+- <strong>HashiCorp Vault:</strong> Inject secrets at runtime
+- <strong>Cloud Secrets Manager:</strong> AWS Secrets Manager, GCP Secret Manager
+- <strong>Kubernetes Secrets:</strong> Use with external secrets operator
+- <strong>Rotation:</strong> Automated rotation schedules</p>
+<p><strong>Secrets to manage:</strong>
+- Database credentials
+- Signing keys
+- API keys (if using external services)
+- OPA bundle encryption keys</p>
+<h2 id="policy-questions">Policy Questions</h2>
+<h3 id="how-do-i-write-effective-policies">How do I write effective policies?</h3>
+<p><strong>Start simple:</strong></p>
+<pre><code class="language-rego">default allow := false
+
+allow {
+    input.tool in data.allowed_tools[input.tenant]
+}
+</code></pre>
+<p><strong>Add complexity gradually:</strong>
+- Quota checks
+- Purpose validation
+- Time-based rules
+- Context-aware decisions</p>
+<p><strong>See:</strong> <a href="../../governance/policy-playbook/">Policy Playbook</a> for examples and best practices.</p>
+<h3 id="can-policies-be-tested">Can policies be tested?</h3>
+<p><strong>Yes!</strong> Multiple approaches:</p>
+<ol>
+<li>
+<p><strong>OPA test files:</strong>
+   <code>rego
+   test_allowed {
+       allow with input as {
+           "tenant": "platform-eng",
+           "tool": "allowed-tool"
+       }
+   }</code></p>
+</li>
+<li>
+<p><strong>Integration tests:</strong>
+   <code>python
+   def test_policy_allows_valid_request():
+       response = client.post("/policy/check", json={...})
+       assert response.json()["allow"] == True</code></p>
+</li>
+<li>
+<p><strong>Policy probes in admin console:</strong></p>
+</li>
+<li>Test policies before deployment</li>
+<li>Validate behavior</li>
+</ol>
+<h3 id="how-do-i-update-policies">How do I update policies?</h3>
+<p><strong>Development:</strong>
+- Edit Rego files in <code>opa/</code>
+- Restart OPA container
+- Policies reload automatically</p>
+<p><strong>Production (recommended):</strong>
+- GitOps workflow
+- Policy bundles from Git
+- Automated testing before deployment
+- Rollback capability</p>
+<p><strong>Process:</strong>
+1. Edit policies in Git
+2. CI runs tests
+3. Bundle created on success
+4. Deployed to OPA
+5. Verified in staging first</p>
+<h2 id="performance-questions">Performance Questions</h2>
+<h3 id="whats-the-latency-impact">What's the latency impact?</h3>
+<p><strong>Policy check overhead:</strong>
+- OPA evaluation: &lt; 1ms typically
+- Database query: &lt; 5ms typically
+- <strong>Total:</strong> &lt; 10ms p95</p>
+<p><strong>For comparison:</strong>
+- Typical API call: 50-500ms
+- Policy check overhead: ~2-5% of total latency</p>
+<p><strong>Optimization:</strong>
+- Policy decision caching (future)
+- Database connection pooling
+- OPA sidecar (reduces network latency)</p>
+<h3 id="how-many-policy-checks-per-second">How many policy checks per second?</h3>
+<p><strong>Target:</strong> 1000+ policy checks/second per control plane instance</p>
+<p><strong>Scaling:</strong>
+- Horizontal scaling (stateless design)
+- Load balancer distribution
+- Database connection pooling
+- OPA scales independently</p>
+<p><strong>Bottlenecks:</strong>
+- Database write capacity (policy logs)
+- Network bandwidth
+- OPA evaluation (rarely)</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="policy-denies-expected-action">Policy denies expected action</h3>
+<p><strong>Debugging steps:</strong></p>
+<ol>
+<li>
+<p><strong>Check policy logs:</strong>
+   <code>sql
+   SELECT decision, reason, created_at 
+   FROM policy_logs 
+   ORDER BY created_at DESC LIMIT 10;</code></p>
+</li>
+<li>
+<p><strong>Test policy directly:</strong>
+   <code>bash
+   opa eval \
+     --data opa/data.json \
+     --input input.json \
+     'data.sentinel.policy.allow'</code></p>
+</li>
+<li>
+<p><strong>Verify input:</strong></p>
+</li>
+<li>Check tenant/tool names match</li>
+<li>Verify quotas in OPA data</li>
+<li>Check purpose values</li>
+</ol>
+<p><strong>See:</strong> <a href="../../operations/runbooks/">Runbooks</a> for detailed troubleshooting.</p>
+<h3 id="kill-switch-not-working">Kill switch not working</h3>
+<p><strong>Symptoms:</strong> Tool remains accessible after kill-switch trigger</p>
+<p><strong>Check:</strong>
+1. Is tool marked as <code>is_active = false</code> in database?
+2. Are adapters checking kill-switch state?
+3. Are adapters receiving kill notifications?
+4. Is there cached state?</p>
+<p><strong>Debug:</strong></p>
+<pre><code class="language-bash"># Check database state
+curl http://control-plane:8000/register?tenant_slug=platform-eng
+
+# Check adapter logs
+# Look for kill-switch signals
+
+# Verify policy checks
+# Should deny when is_active = false
+</code></pre>
+<p><strong>See:</strong> <a href="../../operations/runbooks/">Runbooks</a> for detailed procedures.</p>
+<h2 id="still-have-questions">Still Have Questions?</h2>
+<ul>
+<li>📖 Check the <a href="../../">full documentation</a></li>
+<li>🐛 Open an issue on GitHub</li>
+<li>💬 Review <a href="../../operations/runbooks/">Runbooks</a> for operational questions</li>
+</ul></div>
             </div>
         </div>
 

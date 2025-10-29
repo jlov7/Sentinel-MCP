@@ -131,6 +131,46 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#glossary" class="nav-link">Glossary</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#core-concepts" class="nav-link">Core Concepts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#policy-governance" class="nav-link">Policy &amp; Governance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#security-compliance" class="nav-link">Security &amp; Compliance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#technology-stack" class="nav-link">Technology Stack</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#agent-frameworks" class="nav-link">Agent Frameworks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#operations" class="nav-link">Operations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#compliance-governance" class="nav-link">Compliance &amp; Governance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#aiml-terms" class="nav-link">AI/ML Terms</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#architecture-terms" class="nav-link">Architecture Terms</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#metrics-observability" class="nav-link">Metrics &amp; Observability</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -139,17 +179,259 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="glossary">Glossary</h1>
-<ul>
-<li><strong>MCP (Model-Context Protocol)</strong> – protocol for agent tools/skills to register capabilities and exchange structured context.</li>
-<li><strong>OPA (Open Policy Agent)</strong> – policy engine evaluating Rego policies to return allow/deny decisions.</li>
-<li><strong>Rego</strong> – policy language used by OPA.</li>
-<li><strong>AgentKit / LangGraph / Claude Skills</strong> – ecosystems for building agent workflows; adapters integrate them with Sentinel MCP.</li>
-<li><strong>Kill switch</strong> – emergency disable mechanism preventing tools from being invoked.</li>
-<li><strong>Provenance manifest</strong> – signed record (payload + hash + timestamp) proving what action occurred.</li>
-<li><strong>Sigstore</strong> – open-source signing infrastructure; future target for production provenance.</li>
-<li><strong>OTel (OpenTelemetry)</strong> – observability framework for traces/logs/metrics.</li>
-<li><strong>Structlog</strong> – Python logging library producing structured logs.</li>
-</ul></div>
+<h2 id="core-concepts">Core Concepts</h2>
+<h3 id="sentinel-mcp">Sentinel MCP</h3>
+<p><strong>Control plane for AI agents</strong> that provides governance, security, and compliance. Sits between AI agents and tools, enforcing policies, tracking provenance, and enabling instant control through kill switches.</p>
+<p><strong>Think of it as:</strong> Air traffic control for your AI tool ecosystem.</p>
+<h3 id="control-plane">Control Plane</h3>
+<p>A centralized system that manages policy enforcement, tool inventory, and audit logging. All agent-to-tool interactions flow through the control plane, ensuring consistent governance.</p>
+<p><strong>Why it matters:</strong> Enables runtime governance for autonomous systems where traditional security models don't work.</p>
+<h3 id="ai-agent">AI Agent</h3>
+<p>An autonomous software system that can make decisions, use tools, and take actions without human intervention for each step. Examples include ChatGPT Actions, Claude Tools, and LangGraph workflows.</p>
+<p><strong>Key characteristics:</strong>
+- Autonomous decision-making
+- Tool usage capabilities
+- Unpredictable behavior
+- Infinitely scalable</p>
+<h3 id="model-context-protocol-mcp">Model-Context Protocol (MCP)</h3>
+<p>A protocol for agent tools/skills to register capabilities and exchange structured context. Enables dynamic tool discovery and integration.</p>
+<p><strong>Relevance:</strong> Sentinal MCP governs MCP servers and skills, ensuring they're used safely and compliantly.</p>
+<h2 id="policy-governance">Policy &amp; Governance</h2>
+<h3 id="policy-engine">Policy Engine</h3>
+<p>The component that evaluates authorization requests against policies. Sentinel MCP uses Open Policy Agent (OPA) as its policy engine.</p>
+<p><strong>How it works:</strong>
+1. Receives authorization request with context
+2. Evaluates policies written in Rego
+3. Returns allow/deny decision with reasoning</p>
+<h3 id="rego">Rego</h3>
+<p>The policy language used by Open Policy Agent. Declarative language for expressing authorization policies.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-rego">allow {
+    input.tool in data.allowed_tools[input.tenant]
+    input.usage &lt; data.quotas[input.tenant][input.tool]
+}
+</code></pre>
+<p><strong>Why Rego:</strong>
+- Policy-as-code (version control, testing)
+- Declarative (describe "what" not "how")
+- Fast evaluation (microseconds)</p>
+<h3 id="policy-as-code">Policy-as-Code</h3>
+<p>Storing policies as code files (e.g., Rego files) rather than configuration UIs or databases.</p>
+<p><strong>Benefits:</strong>
+- Version control (Git)
+- Automated testing
+- GitOps deployment
+- Consistency across environments</p>
+<h3 id="rbac-role-based-access-control">RBAC (Role-Based Access Control)</h3>
+<p>Access control based on roles assigned to users/agents. Example: "Only agents with 'admin' role can use 'delete-user' tool."</p>
+<p><strong>In Sentinel MCP:</strong> Policies can check roles as part of authorization decisions.</p>
+<h3 id="abac-attribute-based-access-control">ABAC (Attribute-Based Access Control)</h3>
+<p>Access control based on attributes (properties) of the request, user, resource, or environment. Example: "Agents can only use 'customer-api' during business hours."</p>
+<p><strong>In Sentinel MCP:</strong> Policies can check any attribute (tenant, tool, purpose, time, context).</p>
+<h3 id="quota">Quota</h3>
+<p>A limit on resource usage, typically enforced per tenant, tool, and time period. Example: "Maximum 1,000 API calls per day per team."</p>
+<p><strong>Purpose:</strong> Prevent budget overruns and resource exhaustion.</p>
+<p><strong>In Sentinel MCP:</strong> Quotas are enforced through policy evaluation.</p>
+<h2 id="security-compliance">Security &amp; Compliance</h2>
+<h3 id="kill-switch">Kill Switch</h3>
+<p>An emergency mechanism to instantly disable a tool system-wide. When triggered, the tool is marked inactive, credentials are revoked, and all future requests are denied.</p>
+<p><strong>Target MTTR:</strong> &lt; 5 seconds from trigger to system-wide disablement.</p>
+<p><strong>Use cases:</strong>
+- Security incidents
+- Budget emergencies
+- Compliance violations
+- Testing and drills</p>
+<h3 id="provenance">Provenance</h3>
+<p>A cryptographically signed record proving that an action occurred, who performed it, when it happened, and whether it was authorized.</p>
+<p><strong>Components:</strong>
+- Action metadata (what, who, when)
+- Cryptographic signature (non-repudiation)
+- Authorization proof (policy decision)</p>
+<p><strong>Use cases:</strong>
+- Compliance audits
+- Forensic investigations
+- Accountability
+- Trust verification</p>
+<h3 id="provenance-manifest">Provenance Manifest</h3>
+<p>A structured document containing provenance information for a specific action. Cryptographically signed to ensure integrity.</p>
+<p><strong>Structure:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;manifest-uuid&quot;,
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;,
+  &quot;tenant&quot;: &quot;platform-eng&quot;,
+  &quot;tool&quot;: &quot;customer-api&quot;,
+  &quot;action&quot;: &quot;invoke&quot;,
+  &quot;authorized&quot;: true,
+  &quot;signature&quot;: &quot;...&quot;
+}
+</code></pre>
+<h3 id="c2pa-coalition-for-content-provenance-and-authenticity">C2PA (Coalition for Content Provenance and Authenticity)</h3>
+<p>A standard for content provenance, specifying how to create and verify provenance manifests. Sentinel MCP uses C2PA-style manifests.</p>
+<p><strong>Why it matters:</strong> Industry-standard format ensures interoperability and compliance.</p>
+<h3 id="non-repudiation">Non-Repudiation</h3>
+<p>A cryptographic property ensuring that an action cannot be denied. Cryptographic signatures provide non-repudiation—you can prove who signed what.</p>
+<p><strong>In Sentinel MCP:</strong> Provenance manifests are cryptographically signed, providing non-repudiation.</p>
+<h3 id="audit-trail">Audit Trail</h3>
+<p>A chronological record of all actions and decisions, stored for compliance and investigation purposes.</p>
+<p><strong>In Sentinel MCP:</strong>
+- Policy decisions logged
+- Kill-switch events logged
+- Provenance manifests stored
+- Structured logs for querying</p>
+<h2 id="technology-stack">Technology Stack</h2>
+<h3 id="open-policy-agent-opa">Open Policy Agent (OPA)</h3>
+<p>Open-source policy engine used by Sentinel MCP. Evaluates policies written in Rego and returns authorization decisions.</p>
+<p><strong>Key features:</strong>
+- Fast evaluation (microseconds)
+- Language-agnostic (REST API)
+- Policy-as-code support
+- Proven at scale</p>
+<h3 id="fastapi">FastAPI</h3>
+<p>Modern Python web framework used for the Sentinel MCP control plane API.</p>
+<p><strong>Why FastAPI:</strong>
+- Async/await support
+- Automatic OpenAPI documentation
+- Type hints and validation
+- High performance</p>
+<h3 id="sqlalchemy">SQLAlchemy</h3>
+<p>Python SQL toolkit and ORM used for database operations in Sentinel MCP.</p>
+<p><strong>Why SQLAlchemy:</strong>
+- Database abstraction
+- Migration support (Alembic)
+- Type safety
+- Mature ecosystem</p>
+<h3 id="postgresql">PostgreSQL</h3>
+<p>Relational database used by Sentinel MCP for storing tenants, tools, policy logs, and audit data.</p>
+<p><strong>Why PostgreSQL:</strong>
+- JSONB support (flexible metadata)
+- ACID compliance (critical for audit logs)
+- Mature ecosystem
+- Production-ready</p>
+<h3 id="redis">Redis</h3>
+<p>In-memory data store used for caching and future rate limiting in Sentinel MCP.</p>
+<p><strong>Planned uses:</strong>
+- Rate limit counters
+- Kill-switch broadcast cache
+- Policy decision cache</p>
+<h3 id="structlog">Structlog</h3>
+<p>Python structured logging library used by Sentinel MCP for queryable, JSON-formatted logs.</p>
+<p><strong>Benefits:</strong>
+- Structured output (JSON)
+- Context preservation
+- Queryable logs
+- SIEM integration</p>
+<h3 id="opentelemetry-otel">OpenTelemetry (OTel)</h3>
+<p>Observability framework for generating traces, metrics, and logs. Sentinel MCP uses OTel for distributed tracing.</p>
+<p><strong>Benefits:</strong>
+- Standardized observability
+- Vendor-agnostic
+- Rich context propagation</p>
+<h3 id="sigstore">Sigstore</h3>
+<p>Open-source signing infrastructure providing public-key infrastructure for software signing. Future target for Sentinel MCP provenance.</p>
+<p><strong>Components:</strong>
+- Cosign (signing tool)
+- Rekor (transparency log)
+- Fulcio (certificate authority)</p>
+<p><strong>Why Sigstore:</strong>
+- Public-key infrastructure
+- Transparency logs
+- Industry standard</p>
+<h2 id="agent-frameworks">Agent Frameworks</h2>
+<h3 id="agentkit-openai">AgentKit (OpenAI)</h3>
+<p>OpenAI's framework for building AI agents with tool usage capabilities.</p>
+<p><strong>In Sentinel MCP:</strong> <code>agentkit_adapter.py</code> integrates AgentKit agents with Sentinel MCP governance.</p>
+<h3 id="langgraph">LangGraph</h3>
+<p>A framework for building stateful, multi-actor applications with LLMs.</p>
+<p><strong>In Sentinel MCP:</strong> <code>langgraph_middleware.py</code> provides middleware for LangGraph applications.</p>
+<h3 id="claude-skills">Claude Skills</h3>
+<p>Anthropic's framework for extending Claude with custom capabilities.</p>
+<p><strong>In Sentinel MCP:</strong> <code>skills_hook.ts</code> provides a TypeScript hook for Claude Skills integration.</p>
+<h3 id="mcp-server">MCP Server</h3>
+<p>A server implementing the Model-Context Protocol, exposing tools and capabilities to agents.</p>
+<p><strong>In Sentinel MCP:</strong> MCP servers are registered and governed through the control plane.</p>
+<h2 id="operations">Operations</h2>
+<h3 id="mttr-mean-time-to-recovery">MTTR (Mean Time To Recovery)</h3>
+<p>The average time to recover from an incident. For kill switches, Sentinel MCP targets &lt; 5 seconds MTTR.</p>
+<p><strong>Components:</strong>
+- Detection time
+- Response time
+- Recovery time</p>
+<h3 id="chaos-engineering">Chaos Engineering</h3>
+<p>The practice of intentionally introducing failures to test system resilience.</p>
+<p><strong>In Sentinel MCP:</strong> <code>chaos_kill.sh</code> performs kill-switch drills to verify system behavior.</p>
+<h3 id="shadow-it">Shadow IT</h3>
+<p>Technology solutions deployed by teams without central IT approval or oversight.</p>
+<p><strong>Problem:</strong> Creates security blind spots and compliance gaps.</p>
+<p><strong>Solution:</strong> Sentinel MCP's registry discovers and governs all tools, eliminating shadow IT.</p>
+<h3 id="gitops">GitOps</h3>
+<p>A methodology for managing infrastructure and applications using Git as the source of truth.</p>
+<p><strong>In Sentinel MCP:</strong> Policies can be managed via GitOps workflows, with automated testing and deployment.</p>
+<h2 id="compliance-governance">Compliance &amp; Governance</h2>
+<h3 id="soc-2">SOC 2</h3>
+<p>A compliance framework for security, availability, processing integrity, confidentiality, and privacy.</p>
+<p><strong>Relevance:</strong> Sentinel MCP's audit trails and provenance support SOC 2 compliance.</p>
+<h3 id="hipaa">HIPAA</h3>
+<p>Health Insurance Portability and Accountability Act, governing healthcare data protection.</p>
+<p><strong>Relevance:</strong> Sentinel MCP can enforce policies preventing unauthorized access to patient data.</p>
+<h3 id="compliance-audit">Compliance Audit</h3>
+<p>A review process to verify adherence to regulations and standards.</p>
+<p><strong>How Sentinel MCP helps:</strong>
+- Complete audit trails
+- Cryptographic proof of actions
+- Policy enforcement evidence
+- Usage tracking and reporting</p>
+<h3 id="rbac-vs-abac">RBAC vs ABAC</h3>
+<p><strong>RBAC:</strong> Role-based (simpler, less flexible)
+<strong>ABAC:</strong> Attribute-based (more flexible, more complex)</p>
+<p><strong>In Sentinel MCP:</strong> Policies can implement both RBAC and ABAC patterns, or combine them.</p>
+<h2 id="aiml-terms">AI/ML Terms</h2>
+<h3 id="llm-large-language-model">LLM (Large Language Model)</h3>
+<p>A type of AI model trained on vast amounts of text data. Examples: GPT-4, Claude, Llama.</p>
+<p><strong>Relevance:</strong> LLMs power AI agents, which Sentinel MCP governs.</p>
+<h3 id="multi-agent-system">Multi-Agent System</h3>
+<p>A system where multiple AI agents collaborate to accomplish tasks.</p>
+<p><strong>Challenge:</strong> Requires coordination and governance.</p>
+<p><strong>Solution:</strong> Sentinel MCP provides centralized governance for multi-agent systems.</p>
+<h3 id="tool-calling">Tool Calling</h3>
+<p>The capability of AI agents to invoke external tools (APIs, functions, scripts) to extend their capabilities.</p>
+<p><strong>In Sentinel MCP:</strong> All tool calls are governed through policy enforcement.</p>
+<h3 id="prompt-injection">Prompt Injection</h3>
+<p>A security vulnerability where malicious input tricks an AI system into unintended behavior.</p>
+<p><strong>Mitigation:</strong> Sentinel MCP's policy enforcement sits between agents and tools, preventing unauthorized actions regardless of prompt content.</p>
+<h3 id="hallucination">Hallucination</h3>
+<p>When an AI model generates incorrect or fabricated information.</p>
+<p><strong>Relevance:</strong> While Sentinel MCP doesn't prevent hallucinations, it ensures that even hallucinated tool calls are properly governed.</p>
+<h3 id="fine-tuning">Fine-Tuning</h3>
+<p>The process of training an AI model on additional data to improve performance on specific tasks.</p>
+<p><strong>Note:</strong> Sentinel MCP operates at the runtime governance layer, independent of model training.</p>
+<h2 id="architecture-terms">Architecture Terms</h2>
+<h3 id="sidecar-pattern">Sidecar Pattern</h3>
+<p>A deployment pattern where a helper container runs alongside the main application container.</p>
+<p><strong>In Sentinel MCP:</strong> OPA can run as a sidecar alongside the control plane for reduced latency.</p>
+<h3 id="microservices">Microservices</h3>
+<p>An architectural approach where applications are built as small, independent services.</p>
+<p><strong>In Sentinel MCP:</strong> Control plane is designed as a microservice, enabling horizontal scaling.</p>
+<h3 id="service-mesh">Service Mesh</h3>
+<p>A dedicated infrastructure layer for managing service-to-service communication.</p>
+<p><strong>Future:</strong> Sentinel MCP could integrate with service meshes for mTLS and advanced routing.</p>
+<h3 id="api-gateway">API Gateway</h3>
+<p>A service that sits between clients and backend services, providing routing, authentication, rate limiting, etc.</p>
+<p><strong>Difference:</strong> Sentinel MCP is agent-aware and policy-driven, whereas traditional API gateways are user-focused.</p>
+<h2 id="metrics-observability">Metrics &amp; Observability</h2>
+<h3 id="p50-p95-p99">P50, P95, P99</h3>
+<p>Percentiles indicating latency distribution:
+- <strong>P50:</strong> Median latency (50% of requests)
+- <strong>P95:</strong> 95th percentile (95% of requests faster)
+- <strong>P99:</strong> 99th percentile (99% of requests faster)</p>
+<p><strong>In Sentinel MCP:</strong> Policy check latency targets &lt; 10ms p95.</p>
+<h3 id="throughput">Throughput</h3>
+<p>The number of requests processed per second.</p>
+<p><strong>In Sentinel MCP:</strong> Target: 1000+ policy checks/second per instance.</p>
+<h3 id="latency">Latency</h3>
+<p>The time taken to process a request.</p>
+<p><strong>In Sentinel MCP:</strong> Policy check adds &lt; 10ms typically.</p>
+<hr />
+<p><strong>Need more terms?</strong> Check the <a href="../../">full documentation</a> or open an issue on GitHub.</p></div>
             </div>
         </div>
 

@@ -218,7 +218,9 @@
 <h2 id="testing-commands">Testing commands</h2>
 <pre><code class="language-bash">source .venv/bin/activate
 pytest
-pytest tests/api/test_control_plane.py  # requires stack running
+# API smoke (requires stack running)
+make api-test
+make coverage
 cd apps/admin-console
 npm run lint
 npm run test
