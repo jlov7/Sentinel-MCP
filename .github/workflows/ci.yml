@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --upgrade pip
+          pip install -e packages/policy_engine/python
+          pip install -e packages/provenance
+          pip install -e apps/control-plane[dev]
+      - name: Run linters
+        run: |
+          . .venv/bin/activate
+          make lint
+      - name: Run backend tests
+        run: |
+          . .venv/bin/activate
+          pytest --cov=sentinel_control_plane --cov=sentinel_policy --cov=sentinel_provenance --cov-report=term
+
+  frontend:
+    name: Frontend Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/admin-console/package-lock.json
+      - name: Install dependencies
+        working-directory: apps/admin-console
+        run: npm ci
+      - name: Lint
+        working-directory: apps/admin-console
+        run: npm run lint
+      - name: Test
+        working-directory: apps/admin-console
+        run: npm run test
+
+  docs:
+    name: Docs Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+      - name: Build documentation
+        run: mkdocs build --strict

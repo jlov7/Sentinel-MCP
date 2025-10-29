@@ -1,0 +1,14 @@
+[run]
+source =
+    sentinel_control_plane
+    sentinel_policy
+    sentinel_provenance
+omit =
+    */tests/*
+    */.venv/*
+    */__pycache__/*
+
+[report]
+show_missing = True
+skip_covered = True
+precision = 2

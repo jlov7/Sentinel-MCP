@@ -1,0 +1,32 @@
+{
+  "name": "sentinel-mcp-admin-console",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal R&D console for Sentinel MCP policy IDE",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.51.23",
+    "next": "14.2.33",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.2.0",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "^24.9.2",
+    "@types/react": "18.3.7",
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.10",
+    "jsdom": "25.0.1",
+    "typescript": "5.6.2",
+    "vitest": "4.0.5"
+  }
+}

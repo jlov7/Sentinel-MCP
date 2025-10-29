@@ -1,0 +1,26 @@
+{
+  "allowlist": {
+    "platform-eng": {
+      "langsmith-docs-search": true
+    },
+    "finops": {
+      "finance-ledger-writer": false
+    }
+  },
+  "quotas": {
+    "platform-eng": {
+      "langsmith-docs-search": 1000
+    },
+    "finops": {
+      "finance-ledger-writer": 10
+    }
+  },
+  "required_purpose": {
+    "platform-eng": {
+      "langsmith-docs-search": "support"
+    },
+    "finops": {
+      "finance-ledger-writer": "finance"
+    }
+  }
+}
