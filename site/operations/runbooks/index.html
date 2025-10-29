@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Runbooks - Sentinel MCP Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Sentinel MCP Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Overview</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Technical Guides</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../technical/architecture/" class="dropdown-item">Architecture</a>
+</li>
+                                    
+<li>
+    <a href="../../technical/setup/" class="dropdown-item">Setup & Deployment</a>
+</li>
+                                    
+<li>
+    <a href="../../technical/testing/" class="dropdown-item">Testing Strategy</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Operations</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Runbooks</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security & Compliance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Governance</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../governance/executive/" class="dropdown-item">Executive Brief</a>
+</li>
+                                    
+<li>
+    <a href="../../governance/policy-playbook/" class="dropdown-item">Policy Playbook</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Appendix</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../appendix/glossary/" class="dropdown-item">Glossary</a>
+</li>
+                                    
+<li>
+    <a href="../../appendix/faq/" class="dropdown-item">FAQ</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../technical/testing/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../security/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#operations-runbooks" class="nav-link">Operations Runbooks</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#1-control-plane-health-check-fails" class="nav-link">1. Control plane health check fails</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-policy-denies-expected-action" class="nav-link">2. Policy denies expected action</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-kill-switch-stuck-tool-remains-disabled" class="nav-link">3. Kill switch stuck (tool remains disabled)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4-provenance-verification-failure" class="nav-link">4. Provenance verification failure</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5-seeding-script-fails" class="nav-link">5. Seeding script fails</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#escalation-notifications" class="nav-link">Escalation &amp; notifications</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#6-chaos-drill-killrestore" class="nav-link">6. Chaos drill (kill/restore)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="operations-runbooks">Operations Runbooks</h1>
+<h2 id="1-control-plane-health-check-fails">1. Control plane health check fails</h2>
+<p><strong>Symptoms:</strong> <code>/healthz</code> returns non-200, agents report tool registry unavailable.</p>
+<ol>
+<li><code>docker compose ps</code> (or orchestrator equivalent) – ensure control-plane/OPA/Postgres are running.</li>
+<li>Check structlog output for <code>control_plane.startup</code> errors.</li>
+<li>Run <code>alembic current</code> to verify database migrations.</li>
+<li>Re-run <code>make seed</code> to validate registry operations.</li>
+<li>If OPA unreachable, inspect <code>opa</code> container logs or policy bundle path.</li>
+</ol>
+<h2 id="2-policy-denies-expected-action">2. Policy denies expected action</h2>
+<ol>
+<li>Query recent policy log via database (<code>SELECT decision, reason FROM policy_logs ORDER BY created_at DESC LIMIT 10</code>).</li>
+<li>Run <code>pytest tests/unit/test_policy_route.py::test_policy_check_deny</code> to ensure deny flow behaves.</li>
+<li>Verify OPA data (<code>opa eval --data opa/data.json --input &lt;input.json&gt; 'data.sentinel.policy'</code>).</li>
+<li>Update policies (Rego) and redeploy bundle.</li>
+</ol>
+<h2 id="3-kill-switch-stuck-tool-remains-disabled">3. Kill switch stuck (tool remains disabled)</h2>
+<ol>
+<li>Check structlog events <code>kill_switch.disabled</code> and <code>kill_switch.restored</code>.</li>
+<li>Confirm adapters acknowledged disable (AgentKit logs, LangGraph middleware).</li>
+<li>Run <code>curl /register?tenant_slug=...</code> to confirm <code>is_active</code> status.</li>
+<li>Use <code>/kill/restore</code> endpoint or Admin UI enable button.</li>
+<li>If tool remains disabled, inspect adapter credentials and cached tokens; rotate secrets via Vault.</li>
+</ol>
+<h2 id="4-provenance-verification-failure">4. Provenance verification failure</h2>
+<ol>
+<li>Use new manifest viewer (<code>npm run dev</code> -&gt; UI) or CLI: <code>curl /provenance/verify/&lt;id&gt;</code>.</li>
+<li>Compare manifest payload vs expected action; confirm timestamp/time skew.</li>
+<li>If signature mismatch, check signing key rotation; update <code>.env</code> <code>SIGNING_KEY</code> and redeploy.</li>
+<li>Consider re-signing using Sigstore when production signer introduced.</li>
+</ol>
+<h2 id="5-seeding-script-fails">5. Seeding script fails</h2>
+<ol>
+<li>Ensure stack is running: <code>docker compose up -d</code>.</li>
+<li>Seed script now waits for <code>/healthz</code>; review logs for <code>Control plane health check failed</code>.</li>
+<li>Validate environment variables (<code>POSTGRES_PASSWORD</code>, <code>OPA_URL</code>).</li>
+<li>Run <code>pytest tests/api/test_control_plane.py</code> against live stack to reproduce.</li>
+</ol>
+<h2 id="escalation-notifications">Escalation &amp; notifications</h2>
+<ul>
+<li>Structured logs: forward to SIEM/Observability stack to trigger alerts on <code>kill_switch.*</code> events.</li>
+<li>Add future webhook integration to notify Slack/PagerDuty on kill/restore operations.</li>
+</ul>
+<h2 id="6-chaos-drill-killrestore">6. Chaos drill (kill/restore)</h2>
+<ol>
+<li>Ensure the stack is running (<code>./scripts/dev_up.sh</code>).</li>
+<li>Execute <code>./scripts/chaos_kill.sh [options] &lt;tenant&gt; &lt;tool&gt;</code> to simulate repeated kill/restore actions (<code>--cycles</code>, <code>--delay</code>, <code>--jitter</code>, <code>--log</code>).</li>
+<li>Monitor logs for <code>kill_switch.disabled</code> / <code>kill_switch.restored</code> and corresponding OTel spans.</li>
+<li>Verify tool state via <code>/register?tenant_slug=...</code> and the Admin console.</li>
+<li>Review provenance manifests and policy logs covering the drill window.</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

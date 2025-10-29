@@ -1,0 +1,11 @@
+{
+  "name": "sentinel-mcp",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -e packages/policy_engine/python && pip install -e packages/provenance && pip install -e apps/control-plane[dev]",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [8000, 3000],
+  "postStartCommand": "pre-commit install || true",
+  "remoteUser": "vscode"
+}

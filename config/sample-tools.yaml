@@ -1,0 +1,23 @@
+- name: langsmith-docs-search
+  url: https://mcp.example.com/tools/langsmith-docs
+  owner: platform-eng
+  scopes:
+    - read:docs
+  metadata:
+    default_purpose: support
+  healthcheck:
+    method: GET
+    path: /healthz
+    interval_seconds: 60
+- name: finance-ledger-writer
+  url: https://mcp.internal.corp/tools/finance-ledger
+  owner: finops
+  scopes:
+    - write:finance
+  metadata:
+    default_purpose: finance
+  healthcheck:
+    method: POST
+    path: /healthz
+    body: "{}"
+    interval_seconds: 30

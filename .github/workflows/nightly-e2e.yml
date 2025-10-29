@@ -1,0 +1,70 @@
+name: Nightly Integration
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare environment file
+        run: |
+          cat <<'ENV' > .env
+          POSTGRES_DB=sentinel
+          POSTGRES_USER=sentinel
+          POSTGRES_PASSWORD=sentinel-ci-pass
+          SIGNING_KEY=ci-signing-key
+          SENTINEL_TENANT_ID=tenant-ci
+          ENV
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --upgrade pip
+          pip install -e packages/policy_engine/python
+          pip install -e packages/provenance
+          pip install -e apps/control-plane[dev]
+
+      - name: Start stack
+        run: docker compose -f docker-compose.dev.yml up -d --build
+
+      - name: Wait for database
+        env:
+          POSTGRES_USER: sentinel
+        run: |
+          for i in {1..10}; do
+            if docker compose -f docker-compose.dev.yml exec -T postgres pg_isready -U "$POSTGRES_USER"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Postgres never became ready" >&2
+          exit 1
+
+      - name: Run migrations
+        run: docker compose -f docker-compose.dev.yml exec -T control-plane alembic upgrade head
+
+      - name: Seed sample data
+        env:
+          SENTINEL_SEED_MAX_ATTEMPTS: "10"
+        run: |
+          . .venv/bin/activate
+          python scripts/seed.py
+
+      - name: API smoke tests
+        run: |
+          . .venv/bin/activate
+          pytest tests/api/test_control_plane.py
+
+      - name: Tear down stack
+        if: always()
+        run: docker compose -f docker-compose.dev.yml down -v

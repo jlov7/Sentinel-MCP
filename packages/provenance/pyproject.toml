@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinel-provenance"
+version = "0.1.0"
+description = "Provenance signer/verifier utilities for Sentinel MCP (personal R&D)"
+authors = [{ name = "Jason Lovell" }]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sentinel_provenance*"]

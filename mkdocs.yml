@@ -1,0 +1,18 @@
+site_name: Sentinel MCP Docs
+theme:
+  name: mkdocs
+nav:
+  - Overview: index.md
+  - Technical Guides:
+      - Architecture: technical/architecture.md
+      - Setup & Deployment: technical/setup.md
+      - Testing Strategy: technical/testing.md
+  - Operations:
+      - Runbooks: operations/runbooks.md
+      - Security & Compliance: operations/security.md
+  - Governance:
+      - Executive Brief: governance/executive.md
+      - Policy Playbook: governance/policy-playbook.md
+  - Appendix:
+      - Glossary: appendix/glossary.md
+      - FAQ: appendix/faq.md

@@ -1,0 +1,7 @@
+decision_logs:
+  console: true
+
+labels:
+  app: sentinel-mcp
+
+persistence_directory: /tmp/opa
