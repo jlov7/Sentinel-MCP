@@ -1,6 +1,8 @@
 # Contributing to Sentinel MCP (Personal R&D)
 
-Thanks for exploring this experimental control-plane project. Contributions keep the R&D momentum going and are always welcome.
+**⚠️ Project Context:** This is a personal R&D exploration project, not a commercial product. I am not seeking to develop this into a product or commercialize it. This project represents my passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable.
+
+Thanks for exploring this experimental control-plane project. Contributions keep the R&D momentum going and are always welcome—whether code, documentation, ideas, or feedback.
 
 ## Getting started
 

@@ -2,9 +2,13 @@
 
 Welcome to the comprehensive documentation for Sentinel MCP—your guide to building secure, governable AI agent systems.
 
+**⚠️ Important:** This is a **personal R&D project** – an exploration of governance patterns for AI agents. This is **not a commercial product** and I am **not seeking to develop this into a product**. The documentation is shared for learning, research, and community discussion.
+
 ## 🎯 What Is Sentinel MCP?
 
 Sentinel MCP is a **control plane for AI agents** that brings enterprise-grade governance to autonomous systems. In an era where AI agents can autonomously use tools, access APIs, and make decisions, Sentinel MCP ensures you maintain control, visibility, and compliance.
+
+**Project Nature:** This is a personal research and development project, born from passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable.
 
 **Think of it as:**
 - 🛡️ **A security guard** checking every tool access request
