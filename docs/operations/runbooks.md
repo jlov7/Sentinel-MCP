@@ -47,7 +47,7 @@
 ## 6. Chaos drill (kill/restore)
 
 1. Ensure the stack is running (`./scripts/dev_up.sh`).
-2. Execute `./scripts/chaos_kill.sh [options] <tenant> <tool>` to simulate repeated kill/restore actions (`--cycles`, `--delay`, `--jitter`, `--log`).
+2. Execute `make chaos` (invokes `hostname_check.sh` + `chaos_kill.sh`) or run `./scripts/chaos_kill.sh [options] <tenant> <tool>` manually (`--cycles`, `--delay`, `--jitter`, `--log`).
 3. Monitor logs for `kill_switch.disabled` / `kill_switch.restored` and corresponding OTel spans.
 4. Verify tool state via `/register?tenant_slug=...` and the Admin console.
 5. Review provenance manifests and policy logs covering the drill window.

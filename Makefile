@@ -29,6 +29,7 @@ CHAOS_JITTER?=0
 CHAOS_LOG?=logs/chaos.log
 
 chaos: ## Run kill/restore chaos drill (override CHAOS_* vars as needed)
+	./scripts/hostname_check.sh
 	@mkdir -p logs
 	./scripts/chaos_kill.sh --cycles $(CHAOS_CYCLES) --delay $(CHAOS_DELAY) --jitter $(CHAOS_JITTER) --log $(CHAOS_LOG) $(CHAOS_TENANT) $(CHAOS_TOOL)
 
