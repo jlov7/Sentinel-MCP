@@ -5,10 +5,43 @@
     - read:docs
   metadata:
     default_purpose: support
+    data_sensitivity: public
+    criticality: low
+    tier: knowledge
   healthcheck:
     method: GET
     path: /healthz
     interval_seconds: 60
+- name: incident-response-runbook
+  url: https://mcp.secops.example/tools/incident-response
+  owner: secops
+  scopes:
+    - read:incidents
+    - write:incidents
+  metadata:
+    default_purpose: security
+    data_sensitivity: restricted
+    criticality: high
+    tier: response
+  healthcheck:
+    method: GET
+    path: /healthz
+    interval_seconds: 30
+- name: customer-profile-api
+  url: https://mcp.support.example/tools/customer-profile
+  owner: support
+  scopes:
+    - read:customer-profile
+  metadata:
+    default_purpose: support
+    data_sensitivity: pii
+    criticality: high
+    tier: customer
+  healthcheck:
+    method: POST
+    path: /healthz
+    body: "{}"
+    interval_seconds: 45
 - name: finance-ledger-writer
   url: https://mcp.internal.corp/tools/finance-ledger
   owner: finops
@@ -16,6 +49,9 @@
     - write:finance
   metadata:
     default_purpose: finance
+    data_sensitivity: restricted
+    criticality: high
+    tier: finance
   healthcheck:
     method: POST
     path: /healthz

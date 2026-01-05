@@ -128,9 +128,9 @@ Sentinel MCP is a **control plane for AI agents** that provides governance, secu
 **Solution:**
 1. **Trigger kill switch:**
    ```bash
-   curl -X POST http://control-plane:8000/kill \
-     -H "Content-Type: application/json" \
-     -d '{"tenant": "platform-eng", "tool": "compromised-tool"}'
+  curl -X POST http://control-plane:8000/kill \
+    -H "Content-Type: application/json" \
+    -d '{"tenant_slug":"platform-eng","tool_name":"compromised-tool","reason":"security_incident"}'
    ```
 
 2. **What happens:**
@@ -150,14 +150,14 @@ Sentinel MCP is a **control plane for AI agents** that provides governance, secu
 **Solution:**
 1. **Register all tools:**
    ```bash
-   curl -X POST http://control-plane:8000/register \
-     -H "Content-Type: application/json" \
-     -d '{
-       "tenant": "team-alpha",
-       "name": "unsanctioned-tool",
-       "url": "https://api.example.com",
-       "owner": "team-alpha@company.com"
-     }'
+  curl -X POST http://control-plane:8000/register \
+    -H "Content-Type: application/json" \
+    -d '{
+      "tenant_slug": "team-alpha",
+      "name": "unsanctioned-tool",
+      "url": "https://api.example.com",
+      "owner": "team-alpha@company.com"
+    }'
    ```
 
 2. **Discover existing tools:**

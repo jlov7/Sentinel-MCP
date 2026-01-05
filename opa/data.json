@@ -3,21 +3,39 @@
     "platform-eng": {
       "langsmith-docs-search": true
     },
+    "secops": {
+      "incident-response-runbook": true
+    },
+    "support": {
+      "customer-profile-api": true
+    },
     "finops": {
-      "finance-ledger-writer": false
+      "finance-ledger-writer": true
     }
   },
   "quotas": {
     "platform-eng": {
       "langsmith-docs-search": 1000
     },
+    "secops": {
+      "incident-response-runbook": 200
+    },
+    "support": {
+      "customer-profile-api": 50
+    },
     "finops": {
-      "finance-ledger-writer": 10
+      "finance-ledger-writer": 5
     }
   },
   "required_purpose": {
     "platform-eng": {
       "langsmith-docs-search": "support"
+    },
+    "secops": {
+      "incident-response-runbook": "security"
+    },
+    "support": {
+      "customer-profile-api": "support"
     },
     "finops": {
       "finance-ledger-writer": "finance"

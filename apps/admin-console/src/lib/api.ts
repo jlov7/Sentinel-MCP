@@ -30,7 +30,14 @@ export type ManifestVerification = {
   manifest: Record<string, unknown>;
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_CONTROL_PLANE_URL?.replace(/\/$/, "") ?? "http://localhost:8000";
+export type HealthStatus = {
+  status: string;
+};
+
+const baseUrl =
+  process.env.NEXT_PUBLIC_CONTROL_PLANE_URL?.replace(/\/$/, "") ?? "http://localhost:8000";
+
+export const CONTROL_PLANE_URL = baseUrl;
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${baseUrl}${path}`, {
@@ -78,6 +85,10 @@ export async function enableTool(payload: {
 
 export async function verifyManifest(manifestId: string): Promise<ManifestVerification> {
   return api<ManifestVerification>(`/provenance/verify/${manifestId}`);
+}
+
+export async function fetchHealth(): Promise<HealthStatus> {
+  return api<HealthStatus>("/healthz");
 }
 
 export async function evaluatePolicy(payload: {

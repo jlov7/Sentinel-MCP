@@ -28,7 +28,7 @@ An autonomous software system that can make decisions, use tools, and take actio
 
 A protocol for agent tools/skills to register capabilities and exchange structured context. Enables dynamic tool discovery and integration.
 
-**Relevance:** Sentinal MCP governs MCP servers and skills, ensuring they're used safely and compliantly.
+**Relevance:** Sentinel MCP governs MCP servers and skills, ensuring they're used safely and compliantly.
 
 ## Policy & Governance
 

@@ -42,7 +42,7 @@ describe("ToolTable", () => {
 
     render(<ToolTable tenant={"tenant-1"} />);
 
-    const killSwitchButton = await screen.findByRole("button", { name: /kill-switch/i });
+    const killSwitchButton = await screen.findByRole("button", { name: /kill switch/i });
     await userEvent.click(killSwitchButton);
 
     await waitFor(() => expect(mockDisableTool).toHaveBeenCalledTimes(1));
