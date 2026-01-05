@@ -29,43 +29,47 @@ export const ManifestViewer = () => {
   };
 
   return (
-    <section style={{ marginTop: "2rem" }}>
-      <h2>Provenance manifest viewer</h2>
-      <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end" }}>
-        <label style={{ display: "flex", flexDirection: "column" }}>
-          Manifest id
-          <input
-            type="text"
-            value={manifestId}
-            onChange={(event) => setManifestId(event.target.value)}
-            placeholder="paste manifest signature"
-          />
-        </label>
-        <button type="button" onClick={handleVerify} disabled={loading}>
-          {loading ? "Verifying…" : "Verify"}
-        </button>
+    <section className="panel">
+      <h2 className="panel__title">Provenance verifier</h2>
+      <p className="panel__meta">
+        Paste a manifest signature to verify integrity and view the signed payload.
+      </p>
+      <div className="form-grid">
+        <div className="field">
+          <label className="field__label" htmlFor="manifest-id">
+            Manifest id
+          </label>
+          <div className="field__control">
+            <input
+              id="manifest-id"
+              type="text"
+              value={manifestId}
+              onChange={(event) => setManifestId(event.target.value)}
+              placeholder="paste manifest signature"
+            />
+          </div>
+        </div>
+        <div className="field">
+          <div className="field__label" aria-hidden="true">
+            Verify
+          </div>
+          <button
+            type="button"
+            className="button button--subtle"
+            onClick={handleVerify}
+            disabled={loading}
+          >
+            {loading ? "Verifying..." : "Verify manifest"}
+          </button>
+        </div>
       </div>
-      {error ? <p style={{ color: "red", marginTop: "0.5rem" }}>{error}</p> : null}
+      {error ? <div className="status-line status-line--error">{error}</div> : null}
       {verified !== null ? (
-        <p style={{ color: verified ? "green" : "orange" }}>
+        <div className={verified ? "decision decision--allow" : "decision decision--deny"}>
           {verified ? "Manifest verified" : "Manifest failed verification"}
-        </p>
+        </div>
       ) : null}
-      {result ? (
-        <pre
-          style={{
-            marginTop: "0.75rem",
-            padding: "0.75rem",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            maxHeight: "220px",
-            overflow: "auto",
-            background: "#fafafa",
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      ) : null}
+      {result ? <pre className="monoblock">{JSON.stringify(result, null, 2)}</pre> : null}
     </section>
   );
 };

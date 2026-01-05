@@ -1,8 +1,22 @@
 site_name: Sentinel MCP Docs
+
 theme:
-  name: mkdocs
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+  font:
+    text: IBM Plex Sans
+    code: JetBrains Mono
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
 nav:
   - Overview: index.md
+  - Demo Walkthrough: demo.md
   - Technical Guides:
       - Architecture: technical/architecture.md
       - Setup & Deployment: technical/setup.md

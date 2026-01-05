@@ -1,70 +1,53 @@
 # Setup & Deployment
 
-## Prerequisites
+## Quickstart (local)
 
-- Python 3.11+
-- Node 20+
-- Docker Desktop (or compatible engine) for local compose
-- mkdocs (optional) for building docs: `pip install mkdocs`
+```bash
+# Clone and configure
 
-## Local development
+git clone <repo>
+cd sentinel-mcp
+cp .env.example .env  # set POSTGRES_PASSWORD, SIGNING_KEY
 
-1. **Clone and bootstrap**
-   ```bash
-   git clone <repo>
-   cd sentinel-mcp
-   cp .env.example .env  # update POSTGRES_PASSWORD, SIGNING_KEY, etc.
-   make install
-   source .venv/bin/activate
-   pytest
-   cd apps/admin-console && npm install && npm run lint && npm run test
-   ```
+# Install dependencies
+make install
 
-2. **Bring up the stack**
-   ```bash
-   docker compose -f docker-compose.dev.yml up -d
-   docker compose -f docker-compose.dev.yml exec control-plane alembic upgrade head
-   source ../.venv/bin/activate && make seed
-   ```
+# Start the stack + seed demo data
+./scripts/dev_up.sh
 
-3. **Explore the UI**
-   ```bash
-   NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
-   ```
-   - Inventory tools, trigger kill switch, re-enable via restore, and verify manifests.
+# Run the admin console
+cd apps/admin-console
+npm install
+NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
+```
 
-4. **Tear down**
-   ```bash
-   docker compose -f docker-compose.dev.yml down
-   ```
+## Common commands
 
-## Running tests
+- **Stop the stack:** `./scripts/dev_down.sh`
+- **Re-seed demo data:** `make seed`
+- **Chaos drill:** `make chaos CHAOS_CYCLES=3 CHAOS_TENANT=platform-eng CHAOS_TOOL=langsmith-docs-search`
 
-- Chaos drill: `make chaos CHAOS_CYCLES=3 CHAOS_TENANT=platform-eng CHAOS_TOOL=langsmith-docs-search` (override vars as needed).
-- Documentation: `make docs-build` (build) or `make docs-serve` (live preview).
+## Tests
 
-## Running tests
-
-- Backend unit + integration: `pytest`
-- API smoke against live control plane: `pytest -m e2e` (future marker).
-- Frontend: `npm run lint && npm run test`
-- Docs: `mkdocs serve` (live preview) or `mkdocs build` (static output).
+- Backend: `pytest`
+- API smoke (requires running stack): `make api-test`
+- Frontend: `cd apps/admin-console && npm run lint && npm run test`
+- Docs: `pip install mkdocs-material` then `mkdocs serve` (preview) or `mkdocs build`
 
 ## CI recommendations
 
 - Lint & format: `pre-commit run --all-files`
-- Python matrix: `pytest` with `sqlite` fallback + `docker-compose` integration job.
-- Frontend job: install, lint, vitest.
-- Docs job: `pip install mkdocs-material` then `mkdocs build`.
-- Security job: `pip install bandit` and run `bandit -r apps/control-plane/src` plus `npm audit --production`.
+- Python matrix: `pytest` with `sqlite` fallback + compose integration job
+- Frontend job: install, lint, vitest
+- Docs job: `pip install mkdocs-material` then `mkdocs build`
+- Security job: `pip install bandit` and run `bandit -r apps/control-plane/src` plus `npm audit --production`
 
 ## Deployment outline
 
-1. **Infrastructure**: provision Postgres (with TLS), Redis, Vault or Secrets Manager, and an OPA deployment.
-2. **Control plane**: build container via `docker build -f apps/control-plane/Dockerfile .`, push to registry.
-3. **OPA policies**: mount Rego bundles via bucket or GitOps.
-4. **Admin console**: build static site (`npm run build`) and host behind CDN.
-5. **Observability**: configure OTLP exporter and structure logs to a centralized log pipeline.
-6. **Secrets**: supply environment variables via Vault injectors or orchestrator secrets.
-7. **Kill/restore notifications**: integrate with Slack/PagerDuty via webhook triggered from Structlog processor or event stream (future work).
-
+1. **Infrastructure:** provision Postgres (TLS), Redis, Vault/Secrets Manager, and an OPA deployment.
+2. **Control plane:** build and push the container (`docker build -f apps/control-plane/Dockerfile .`).
+3. **OPA policies:** mount Rego bundles via bucket or GitOps.
+4. **Admin console:** build static assets (`npm run build`) and host behind CDN.
+5. **Observability:** configure OTLP exporter and structured log pipeline.
+6. **Secrets:** supply env vars via Vault injectors or orchestration secrets.
+7. **Notifications:** send kill/restore events to Slack/PagerDuty (future work).

@@ -1,275 +1,121 @@
-# Sentinel MCP 🛡️
+# Sentinel MCP
 
-> **Governance for the Age of AI Agents**
+Governance control plane for AI agents and MCP tools. Enforce policy, budgets, and provenance every time a tool is invoked.
 
 [![CI](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml)
 
-**⚠️ Important: This is a personal R&D project** – an exploration of governance patterns for AI agents born from passion, curiosity, and continuous learning. This is **not a commercial product** and I am **not seeking to develop this into a product**. It's shared openly for learning, research, and community discussion.
+**Project context:** Personal R&D prototype for exploring AI agent governance patterns. Not a commercial product.
 
-Sentinel MCP is a **control plane for AI agents** that brings enterprise-grade governance, security, and auditability to Model-Context Protocol (MCP) servers and agent skills. Think of it as the "air traffic control" for your AI tool ecosystem—ensuring every tool invocation is authorized, monitored, and auditable.
+## What it does
 
-## 🌟 Why This Matters Now
+Sentinel MCP sits between AI agents and the tools they use. Every tool invocation is authorized, logged, and signed.
 
-**The AI agent revolution is here.** Organizations are deploying AI agents that can autonomously use tools, access APIs, and make decisions. But there's a critical gap: **who's in control?**
+**Core capabilities**
+- **Registry + inventory** for MCP servers and tools
+- **Policy engine** (OPA/Rego) with purpose checks and quotas
+- **Kill switch** to disable tools system-wide in seconds
+- **Provenance manifests** with cryptographic signatures
+- **Adapters** for AgentKit, LangGraph, Claude Skills, and custom frameworks
 
-### The Problem We're Solving
-
-In 2024, AI agents are proliferating across enterprises:
-- **ChatGPT Actions** and **Claude Tools** enable agents to call APIs automatically
-- **OpenAI's AgentKit** and **LangGraph** orchestrate complex multi-tool workflows  
-- **MCP servers** expose capabilities that agents can discover and use dynamically
-
-**But what happens when:**
-- 🤖 An agent tries to use a tool it shouldn't have access to?
-- 💰 Tool usage exceeds budgets, causing unexpected costs?
-- 🚨 A security incident requires immediately disabling a tool?
-- 📋 Compliance auditors need proof of what actions were taken?
-
-**Traditional security models don't work for AI agents.** Agents aren't human users—they make decisions autonomously, scale instantly, and can't be "trained" like employees. You need **runtime governance** that sits between the agent and the tool.
-
-### What Sentinel MCP Provides
-
-Sentinel MCP solves this by implementing a **policy-driven control plane** that:
-
-✅ **Inventories & Authorizes** – Every tool must register and pass policy checks before use  
-✅ **Enforces Budgets** – Prevents runaway costs with quota management  
-✅ **Kill Switch Capability** – Disable tools instantly in emergencies  
-✅ **Provenance Tracking** – Cryptographic proof of every action for compliance  
-✅ **Multi-Framework Support** – Works with AgentKit, LangGraph, Claude Skills, and custom adapters
-
-## 🎯 Who Is This For?
-
-**For Technical Teams:**
-- Platform engineers building AI agent infrastructure
-- Security teams needing governance for autonomous systems
-- DevOps engineers managing agent deployments
-
-**For Business Leaders:**
-- CTOs/CIOs evaluating AI agent security
-- Risk officers concerned about compliance and auditability
-- Product leaders shipping AI-powered features
-
-**For Researchers:**
-- AI safety researchers exploring governance patterns
-- Organizations prototyping agent systems
-- Anyone exploring policy-as-code for AI agents
-
-## 🚀 Quick Start
+## Quickstart (local)
 
 ```bash
-# Clone the repository
+# Clone and configure
+
 git clone https://github.com/jlov7/Sentinel-MCP.git
 cd Sentinel-MCP
-
-# Set up environment
-cp .env.example .env
-# Edit .env and set POSTGRES_PASSWORD
+cp .env.example .env  # set POSTGRES_PASSWORD, SIGNING_KEY
 
 # Install dependencies
 make install
-source .venv/bin/activate
 
-# Run tests
-pytest
-cd apps/admin-console && npm install && npm run lint && npm run test
-
-# Start the stack
+# Start the stack + seed demo data
 ./scripts/dev_up.sh
 
-# Access the admin console
+# Run the admin console
 cd apps/admin-console
+npm install
 NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the admin console, or explore the API at `http://localhost:8000/docs`.
+Admin console: http://localhost:3000
+API docs: http://localhost:8000/docs
 
-## 📖 Documentation
+## Guided demo (10 minutes)
 
-**New to Sentinel MCP?** Start with the [Executive Brief](docs/governance/executive.md) for the business case, or jump into [Architecture](docs/technical/architecture.md) for technical details.
+1. **Seed demo data** (already done by `dev_up.sh`, but safe to rerun):
+   ```bash
+   make seed
+   ```
 
-**Full documentation:**
-- 📘 [Overview](docs/index.md) – Complete documentation index
-- 🏛️ [Executive Brief](docs/governance/executive.md) – Business value and adoption
-- 🏗️ [Architecture](docs/technical/architecture.md) – System design and components
-- 🔧 [Setup Guide](docs/technical/setup.md) – Installation and deployment
-- 📋 [Policy Playbook](docs/governance/policy-playbook.md) – Writing and managing policies
-- 🔒 [Security Guide](docs/operations/security.md) – Threat model and hardening
-- 🛠️ [Runbooks](docs/operations/runbooks.md) – Operational procedures
+2. **Try a policy check:**
+   ```bash
+   curl -X POST http://localhost:8000/policy/check \
+     -H "Content-Type: application/json" \
+     -d '{"tenant_slug":"platform-eng","tool_name":"langsmith-docs-search","action":"invoke","purpose":"support","usage":10}'
+   ```
 
-## 🏗️ Architecture at a Glance
+3. **Trigger the kill switch:**
+   ```bash
+   curl -X POST http://localhost:8000/kill \
+     -H "Content-Type: application/json" \
+     -d '{"tenant_slug":"platform-eng","tool_name":"langsmith-docs-search","reason":"demo"}'
+   ```
+
+4. **Verify provenance:**
+   ```bash
+   curl http://localhost:8000/provenance/verify/<manifest-id>
+   ```
+
+Or use the Admin Console to flip the kill switch, probe policies, and verify manifests visually.
+
+## Documentation
+
+- **Overview:** `docs/index.md`
+- **Executive brief:** `docs/governance/executive.md`
+- **Architecture:** `docs/technical/architecture.md`
+- **Setup guide:** `docs/technical/setup.md`
+- **Demo walkthrough:** `docs/demo.md`
+- **Policy playbook:** `docs/governance/policy-playbook.md`
+
+## Architecture snapshot
 
 ```
-┌─────────────────────────────────────────────────────┐
-│           AI Agents (AgentKit, LangGraph, etc.)      │
-└────────────────────┬──────────────────────────────────┘
-                     │
-                     ▼
-         ┌───────────────────────────┐
-         │   Sentinel MCP Control     │
-         │         Plane              │
-         │                            │
-         │  • Registry & Inventory    │
-         │  • Policy Engine (OPA)     │◀── Admin Console
-         │  • Kill Switch             │
-         │  • Provenance Signer       │
-         │  • Audit Logging           │
-         └───────────┬────────────────┘
-                     │
-         ┌───────────▼───────────┐
-         │   Tool/API Layer      │
-         │  (MCP Servers, APIs)  │
-         └───────────────────────┘
+AI Agent
+   |
+   v
+Adapter (AgentKit/LangGraph/Claude)
+   |
+   v
+Sentinel MCP Control Plane
+  - Registry
+  - Policy Engine (OPA)
+  - Kill Switch
+  - Provenance Signer
+   |
+   v
+Tools / MCP Servers
 ```
 
-**How it works:**
-1. **Agent requests tool** → Adapter intercepts
-2. **Policy check** → Control plane evaluates permissions
-3. **Allow/Deny** → Based on identity, quota, purpose
-4. **Provenance signing** → Cryptographic proof created
-5. **Audit logging** → Everything recorded
+## Project status
 
-## 🎨 Key Features
+**Working today**
+- Control plane API (FastAPI)
+- OPA-backed policy checks
+- Kill switch API + audit logs
+- Provenance signing/verification
+- Admin console (Next.js)
 
-### 📋 Registry & Inventory
-- Central catalog of all MCP servers and skills
-- Health monitoring and status tracking
-- Ownership and scope management
+**Near-term upgrades**
+- Authn/authz for control plane endpoints
+- Sigstore/KMS-backed signing
+- Rate limiting + usage counters
+- Richer observability exports
 
-### ⚖️ Policy Engine
-- **OPA-based** policy evaluation (Rego language)
-- **RBAC + ABAC** support (role-based and attribute-based access control)
-- **Quota enforcement** – prevent budget overruns
-- **Purpose validation** – ensure tools used for intended purpose
+## Contributing
 
-### 🚨 Kill Switch
-- Instant tool disabling for security incidents
-- Credential revocation via adapter hooks
-- One-click restore when safe
-- Audit trail of all kill/restore operations
+Contributions welcome. See `CONTRIBUTING.md` for guidelines.
 
-### 🔐 Provenance & Compliance
-- **C2PA-style manifests** for every action
-- Cryptographic signatures
-- Verification endpoints and UI widget
-- Compliance-ready audit trails
+## License
 
-### 🔌 Multi-Framework Adapters
-- **OpenAI AgentKit** adapter
-- **LangGraph** middleware
-- **Claude Skills** hook
-- Easy to extend for custom frameworks
-
-## 📊 Project Status
-
-**Important:** This is a **personal R&D exploration project**, not a commercial product. This work represents my passion for AI governance and continuous exploration of how to make autonomous systems safer and more controllable. I am **not seeking to commercialize or productize** this project—it's shared as open research and learning.
-
-**Status:** 🧪 **Personal R&D Prototype** – Exploratory development
-
-**What's Working:**
-- ✅ Control plane API (FastAPI) with core endpoints
-- ✅ Policy engine integration with OPA
-- ✅ Provenance signer/verifier
-- ✅ Agent adapters (AgentKit, LangGraph, Claude Skills)
-- ✅ Admin console (Next.js)
-- ✅ Test suite (unit, API, E2E)
-- ✅ CI/CD workflows
-- ✅ Docker Compose development environment
-
-**Roadmap:**
-- 🔄 Production hardening (auth, TLS, secrets management)
-- 🔄 Advanced policy features (hierarchical budgets, time-based rules)
-- 🔄 Enhanced observability (OTel exports, SIEM integration)
-- 🔄 Sigstore integration for provenance
-- 🔄 Terraform modules for cloud deployment
-
-## 🛠️ Development Stack
-
-- **Backend:** Python 3.11+, FastAPI, SQLAlchemy, Alembic
-- **Database:** PostgreSQL 16
-- **Cache:** Redis 7
-- **Policy Engine:** Open Policy Agent (OPA)
-- **Frontend:** Next.js, React, TypeScript
-- **Testing:** Pytest, Vitest
-- **Docs:** MkDocs with Material theme
-
-## 🔧 Development Commands
-
-```bash
-# Install dependencies
-make install
-
-# Run tests
-pytest                           # Backend tests
-cd apps/admin-console && npm test  # Frontend tests
-
-# Start development stack
-./scripts/dev_up.sh              # Start services
-./scripts/dev_down.sh            # Stop services
-
-# Run chaos drills
-make chaos CHAOS_CYCLES=3        # Kill/restore drills
-
-# Build documentation
-make docs-build                  # Build docs
-make docs-serve                  # Serve locally
-
-# Generate coverage report
-make coverage
-```
-
-## 🌍 Real-World Use Cases
-
-**Financial Services:**
-- Prevent AI agents from accessing sensitive trading APIs without approval
-- Enforce daily spending limits on paid API calls
-- Generate compliance reports proving only authorized actions occurred
-
-**Healthcare:**
-- Restrict patient data access to authorized AI tools only
-- Immediately disable tools if HIPAA violations detected
-- Maintain audit trails for regulatory compliance
-
-**Enterprise SaaS:**
-- Prevent agents from using expensive APIs during off-hours
-- Quickly disable compromised tools during security incidents
-- Track tool usage for cost allocation across teams
-
-**AI Research:**
-- Safely test experimental agents with strict policy boundaries
-- Monitor tool usage patterns for research insights
-- Ensure reproducibility with provenance tracking
-
-## 🤝 Contributing
-
-Contributions welcome! This is a personal R&D project exploring governance patterns for AI agents—shared openly for learning, research, and community discussion. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Note:** This project is not seeking commercialization or productization. It's an exploration of interesting problems in AI governance, shared for educational and research purposes.
-
-**Areas we'd love help with:**
-- Additional agent framework adapters
-- Policy templates for common scenarios
-- Enhanced observability and monitoring
-- Documentation improvements
-- Test coverage expansion
-
-## 📝 License
-
-Apache License 2.0 – See [LICENSE](LICENSE) for details.
-
-## 🙏 Acknowledgments
-
-Built with:
-- [FastAPI](https://fastapi.tiangolo.com/) – Modern Python web framework
-- [Open Policy Agent](https://www.openpolicyagent.org/) – Policy engine
-- [Next.js](https://nextjs.org/) – React framework
-- And many other open-source projects
-
-## 📬 Questions?
-
-- 📖 Check the [FAQ](docs/appendix/faq.md)
-- 📚 Read the [full documentation](docs/index.md)
-- 🐛 Open an [issue](https://github.com/jlov7/Sentinel-MCP/issues)
-
----
-
-**Built with ❤️ to make AI agents safer, more controllable, and more trustworthy.**
+Apache 2.0. See `LICENSE` for details.

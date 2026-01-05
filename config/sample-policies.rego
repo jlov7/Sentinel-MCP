@@ -21,6 +21,11 @@ within_quota {
     quota > input.usage
 }
 
+quota_remaining := remaining {
+    quota := data.quotas[tenant][tool]
+    remaining := quota - input.usage
+}
+
 purpose_ok {
     required_purpose := data.required_purpose[tenant][tool]
     input.purpose == required_purpose

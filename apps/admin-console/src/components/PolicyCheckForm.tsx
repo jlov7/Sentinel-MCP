@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { PolicyDecision, evaluatePolicy } from "../lib/api";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 export const PolicyCheckForm = ({ tenant }: Props) => {
   const [toolName, setToolName] = useState("");
   const [purpose, setPurpose] = useState("");
+  const [usage, setUsage] = useState(10);
   const [decision, setDecision] = useState<PolicyDecision | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,7 @@ export const PolicyCheckForm = ({ tenant }: Props) => {
         tool_name: toolName,
         action: "invoke",
         purpose: purpose || undefined,
+        usage,
       });
       setDecision(result);
     } catch (err) {
@@ -40,38 +42,73 @@ export const PolicyCheckForm = ({ tenant }: Props) => {
   };
 
   return (
-    <section style={{ marginTop: "2rem" }}>
-      <h2>Policy probe</h2>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", gap: "1rem", alignItems: "flex-end" }}
-      >
-        <label style={{ display: "flex", flexDirection: "column" }}>
-          Tool name
-          <input
-            type="text"
-            value={toolName}
-            onChange={(event) => setToolName(event.target.value)}
-            placeholder="langsmith-docs-search"
-          />
-        </label>
-        <label style={{ display: "flex", flexDirection: "column" }}>
-          Purpose
-          <input
-            type="text"
-            value={purpose}
-            onChange={(event) => setPurpose(event.target.value)}
-            placeholder="support"
-          />
-        </label>
-        <button type="submit">Evaluate</button>
+    <section className="panel">
+      <h2 className="panel__title">Policy probe</h2>
+      <p className="panel__meta">
+        Test an authorization decision before a tool runs. Useful for tightening purpose checks
+        and quotas.
+      </p>
+      <form onSubmit={handleSubmit} className="form-grid form-grid--wide">
+        <div className="field">
+          <label className="field__label" htmlFor="policy-tool-name">
+            Tool name
+          </label>
+          <div className="field__control">
+            <input
+              id="policy-tool-name"
+              type="text"
+              value={toolName}
+              onChange={(event) => setToolName(event.target.value)}
+              placeholder="langsmith-docs-search"
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label className="field__label" htmlFor="policy-purpose">
+            Purpose
+          </label>
+          <div className="field__control">
+            <input
+              id="policy-purpose"
+              type="text"
+              value={purpose}
+              onChange={(event) => setPurpose(event.target.value)}
+              placeholder="support"
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label className="field__label" htmlFor="policy-usage">
+            Usage (units)
+          </label>
+          <div className="field__control">
+            <input
+              id="policy-usage"
+              type="number"
+              min={0}
+              value={usage}
+              onChange={(event) => setUsage(Number(event.target.value))}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <div className="field__label" aria-hidden="true">
+            Run check
+          </div>
+          <button type="submit" className="button">
+            Evaluate policy
+          </button>
+        </div>
       </form>
-      {error ? <p style={{ color: "red" }}>{error}</p> : null}
+      {error ? <div className="status-line status-line--error">{error}</div> : null}
       {decision ? (
-        <p>
-          Result: <strong>{decision.allow ? "ALLOW" : "DENY"}</strong>
+        <div className={decision.allow ? "decision decision--allow" : "decision decision--deny"}>
+          <strong>{decision.allow ? "ALLOW" : "DENY"}</strong>
           {decision.reason ? ` — ${decision.reason}` : null}
-        </p>
+          {decision.quota_remaining !== null && decision.quota_remaining !== undefined ? (
+            <div>Quota remaining: {decision.quota_remaining}</div>
+          ) : null}
+        </div>
       ) : null}
     </section>
   );

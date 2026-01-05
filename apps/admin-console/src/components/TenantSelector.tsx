@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tenant, fetchTenants } from "../lib/api";
 
 type Props = {
@@ -15,6 +15,7 @@ export const TenantSelector = ({ activeTenant, onSelect }: Props) => {
     async function load() {
       try {
         setLoading(true);
+        setError(null);
         const data = await fetchTenants();
         setTenants(data);
       } catch (err) {
@@ -27,27 +28,32 @@ export const TenantSelector = ({ activeTenant, onSelect }: Props) => {
   }, []);
 
   if (loading) {
-    return <p>Loading tenants…</p>;
+    return <div className="status-line">Loading tenants...</div>;
   }
 
   if (error) {
-    return <p style={{ color: "red" }}>Failed to load tenants: {error}</p>;
+    return <div className="status-line status-line--error">Failed to load tenants: {error}</div>;
   }
 
   return (
-    <label style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-      Tenant:
-      <select
-        value={activeTenant ?? ""}
-        onChange={(event) => onSelect(event.target.value || null)}
-      >
-        <option value="">All</option>
-        {tenants.map((tenant) => (
-          <option key={tenant.id} value={tenant.slug}>
-            {tenant.display_name} ({tenant.slug})
-          </option>
-        ))}
-      </select>
-    </label>
+    <div className="field">
+      <label className="field__label" htmlFor="tenant-select">
+        Tenant scope
+      </label>
+      <div className="field__control">
+        <select
+          id="tenant-select"
+          value={activeTenant ?? ""}
+          onChange={(event) => onSelect(event.target.value || null)}
+        >
+          <option value="">All tenants</option>
+          {tenants.map((tenant) => (
+            <option key={tenant.id} value={tenant.slug}>
+              {tenant.display_name} ({tenant.slug})
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
   );
 };
