@@ -1,53 +1,90 @@
 # Setup & Deployment
 
-## Quickstart (local)
+This guide gives you two fast onboarding tracks:
+- Local evaluation (single-machine, fastest path)
+- Production-like mode (persistent store + strict controls)
+
+## Prerequisites
+
+- macOS/Linux shell environment
+- Docker (for v1 stack helpers)
+- Rust toolchain (`cargo`)
+- Node.js + npm (admin console)
+- Python virtualenv (`.venv`) for legacy tests
+
+## Track A: Local v2 in 10 Minutes
 
 ```bash
-# Clone and configure
+git clone https://github.com/jlov7/Sentinel-MCP.git
+cd Sentinel-MCP
 
-git clone <repo>
-cd sentinel-mcp
-cp .env.example .env  # set POSTGRES_PASSWORD, SIGNING_KEY
-
-# Install dependencies
 make install
 
-# Start the stack + seed demo data
-./scripts/dev_up.sh
-
-# Run the admin console
-cd apps/admin-console
-npm install
-NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
+cd apps/control-plane-v2
+cargo run
 ```
 
-## Common commands
+In a second terminal:
 
-- **Stop the stack:** `./scripts/dev_down.sh`
-- **Re-seed demo data:** `make seed`
-- **Chaos drill:** `make chaos CHAOS_CYCLES=3 CHAOS_TENANT=platform-eng CHAOS_TOOL=langsmith-docs-search`
+```bash
+cd apps/admin-console
+npm install
+NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8082 npm run dev
+```
 
-## Tests
+Validate:
+- `http://localhost:8082/healthz`
+- `http://localhost:3000`
 
-- Backend: `pytest`
-- API smoke (requires running stack): `make api-test`
-- Frontend: `cd apps/admin-console && npm run lint && npm run test`
-- Docs: `pip install mkdocs-material` then `mkdocs serve` (preview) or `mkdocs build`
+## Track B: Production-Like Runtime Modes
 
-## CI recommendations
+Configure v2 runtime via environment variables:
 
-- Lint & format: `pre-commit run --all-files`
-- Python matrix: `pytest` with `sqlite` fallback + compose integration job
-- Frontend job: install, lint, vitest
-- Docs job: `pip install mkdocs-material` then `mkdocs build`
-- Security job: `pip install bandit` and run `bandit -r apps/control-plane/src` plus `npm audit --production`
+- Store backend:
+  - `SENTINEL_V2_STORE_BACKEND=memory|postgres`
+  - `SENTINEL_V2_DATABASE_URL=postgres://...` (required for postgres)
+  - `SENTINEL_V2_RUN_MIGRATIONS=true`
+- Attestation backend:
+  - `SENTINEL_V2_ATTESTATION_MODE=local|rekor|sigstore_keyless`
+  - `SENTINEL_V2_REKOR_URL=...`
+  - `SENTINEL_V2_STRICT_REKOR=true`
+  - Sigstore keyless options (`SENTINEL_V2_SIGSTORE_*`)
 
-## Deployment outline
+## One-Command Validation
 
-1. **Infrastructure:** provision Postgres (TLS), Redis, Vault/Secrets Manager, and an OPA deployment.
-2. **Control plane:** build and push the container (`docker build -f apps/control-plane/Dockerfile .`).
-3. **OPA policies:** mount Rego bundles via bucket or GitOps.
-4. **Admin console:** build static assets (`npm run build`) and host behind CDN.
-5. **Observability:** configure OTLP exporter and structured log pipeline.
-6. **Secrets:** supply env vars via Vault injectors or orchestration secrets.
-7. **Notifications:** send kill/restore events to Slack/PagerDuty (future work).
+Run the full release gate:
+
+```bash
+make v2-release-gate
+```
+
+Report output:
+- `apps/control-plane-v2/eval/reports/latest.json`
+
+## Deployment Blueprint
+
+1. Provision Postgres with TLS and backup policy.
+2. Deploy v2 control plane (`apps/control-plane-v2`) with scoped JWT issuer.
+3. Publish policy bundles and verify hash/version metadata.
+4. Configure attestation mode (`sigstore_keyless` recommended for advanced provenance).
+5. Deploy admin console behind SSO/authenticated access.
+6. Wire CI artifact retention for release-gate reports.
+
+## Troubleshooting
+
+### `healthz` is offline
+
+- Confirm process bind address/port
+- Validate env vars for store/attestation modes
+- Check startup logs for migration or config errors
+
+### Admin console cannot authorize
+
+- Ensure a valid bearer token is set in UI
+- Verify tenant/scopes include required endpoint permissions
+
+### Rekor/Sigstore verification failures
+
+- Verify mode and strictness env vars
+- Confirm trust-root environment (`production` vs `staging`)
+- Inspect attestation envelope fields (`rekor_log_index`, `rekor_log_id`, `sigstore_bundle`)

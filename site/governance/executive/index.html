@@ -1,590 +1,1449 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../operations/security/">
+      
+      
+        <link rel="next" href="../policy-playbook/">
+      
+      
         
-        
-        
-        <link rel="shortcut icon" href="../../img/favicon.ico">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
         <title>Executive Brief - Sentinel MCP Docs</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../css/brands.min.css" rel="stylesheet">
-        <link href="../../css/solid.min.css" rel="stylesheet">
-        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../..">Sentinel MCP Docs</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="../.." class="nav-link">Overview</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Technical Guides</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../technical/architecture/" class="dropdown-item">Architecture</a>
-</li>
-                                    
-<li>
-    <a href="../../technical/setup/" class="dropdown-item">Setup & Deployment</a>
-</li>
-                                    
-<li>
-    <a href="../../technical/testing/" class="dropdown-item">Testing Strategy</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Operations</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../operations/runbooks/" class="dropdown-item">Runbooks</a>
-</li>
-                                    
-<li>
-    <a href="../../operations/security/" class="dropdown-item">Security & Compliance</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Governance</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Executive Brief</a>
-</li>
-                                    
-<li>
-    <a href="../policy-playbook/" class="dropdown-item">Policy Playbook</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Appendix</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../appendix/glossary/" class="dropdown-item">Glossary</a>
-</li>
-                                    
-<li>
-    <a href="../../appendix/faq/" class="dropdown-item">FAQ</a>
-</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../../operations/security/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../policy-playbook/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#executive-brief" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Sentinel MCP Docs" class="md-header__button md-logo" aria-label="Sentinel MCP Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sentinel MCP Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
-            <li class="nav-item" data-bs-level="1"><a href="#executive-brief-governance-for-ai-agents" class="nav-link">Executive Brief: Governance for AI Agents</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#the-ai-agent-revolution-is-here" class="nav-link">The AI Agent Revolution Is Here</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#the-problem-governance-gap" class="nav-link">The Problem: Governance Gap</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#the-solution-sentinel-mcp" class="nav-link">The Solution: Sentinel MCP</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#adoption-roadmap" class="nav-link">Adoption Roadmap</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#key-metrics-to-track" class="nav-link">Key Metrics to Track</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#roi-considerations" class="nav-link">ROI Considerations</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#business-case-summary" class="nav-link">Business Case Summary</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next Steps</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#conclusion" class="nav-link">Conclusion</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
-
-<h1 id="executive-brief-governance-for-ai-agents">Executive Brief: Governance for AI Agents</h1>
-<p><strong>⚠️ Project Context:</strong> This documentation describes a personal R&amp;D exploration project. This is <strong>not a commercial product</strong> and I am <strong>not seeking to develop this into a product</strong>. The executive brief is provided for educational purposes to illustrate governance concepts for AI agents.</p>
-<h2 id="the-ai-agent-revolution-is-here">The AI Agent Revolution Is Here</h2>
-<p><strong>2024 marked a turning point.</strong> AI agents moved from demos to production. ChatGPT Actions, Claude Tools, and autonomous agent frameworks are being deployed across enterprises. These agents can:</p>
-<ul>
-<li>🔍 Search the web autonomously</li>
-<li>📧 Send emails and messages</li>
-<li>💰 Make API calls to external services</li>
-<li>📊 Access databases and internal systems</li>
-<li>🤖 Execute code and run scripts</li>
-</ul>
-<p><strong>The question is: Who's in control?</strong></p>
-<h2 id="the-problem-governance-gap">The Problem: Governance Gap</h2>
-<h3 id="what-happens-without-governance">What Happens Without Governance?</h3>
-<p><strong>Real-world scenarios organizations face today:</strong></p>
-<ol>
-<li><strong>Runaway Costs</strong></li>
-<li>An agent makes 10,000 API calls in minutes, exceeding monthly budget</li>
-<li>No alerting system catches it until the bill arrives</li>
-<li>
-<p><strong>Impact:</strong> Unexpected six-figure cloud bills</p>
-</li>
-<li>
-<p><strong>Security Breaches</strong></p>
-</li>
-<li>An agent accesses sensitive customer data without proper authorization</li>
-<li>The breach isn't discovered until weeks later</li>
-<li>
-<p><strong>Impact:</strong> Compliance violations, reputation damage, legal liability</p>
-</li>
-<li>
-<p><strong>Compliance Failures</strong></p>
-</li>
-<li>During an audit, you can't prove which actions were authorized</li>
-<li>Logs are incomplete or unreliable</li>
-<li>
-<p><strong>Impact:</strong> Failed compliance audits, regulatory fines</p>
-</li>
-<li>
-<p><strong>Tool Sprawl</strong></p>
-</li>
-<li>Teams deploy agents without coordination</li>
-<li>No central inventory of what tools agents can access</li>
-<li><strong>Impact:</strong> Shadow IT, security blind spots, cost overruns</li>
-</ol>
-<h3 id="why-traditional-security-models-fail">Why Traditional Security Models Fail</h3>
-<p><strong>Agents aren't human users.</strong> You can't:
-- ❌ Train them like employees
-- ❌ Trust them to follow policies
-- ❌ Rely on their judgment
-- ❌ Scale security reviews linearly</p>
-<p><strong>Agents are:</strong>
-- 🚀 Autonomous and unpredictable
-- 📈 Infinitely scalable
-- ⚡ Sub-second decision makers
-- 🔄 Constantly evolving</p>
-<p><strong>You need runtime governance</strong> that sits between agents and tools, enforcing policies at the moment of decision.</p>
-<h2 id="the-solution-sentinel-mcp">The Solution: Sentinel MCP</h2>
-<p>Sentinel MCP provides a <strong>control plane for AI agents</strong>—a centralized system that governs every tool access request.</p>
-<h3 id="core-value-propositions">Core Value Propositions</h3>
-<h4 id="1-security-through-policy-enforcement">1. 🛡️ <strong>Security Through Policy Enforcement</strong></h4>
-<p><strong>What it does:</strong>
-- Every tool access request is evaluated against policies
-- Policies consider identity, purpose, quotas, and context
-- Deny-by-default means tools are blocked unless explicitly allowed</p>
-<p><strong>Business value:</strong>
-- <strong>Prevent unauthorized access</strong> before it happens
-- <strong>Reduce security incidents</strong> by orders of magnitude
-- <strong>Meet compliance requirements</strong> through policy enforcement</p>
-<p><strong>Example:</strong> A policy prevents agents from accessing customer PII unless the request comes from an approved purpose and the agent has proper authorization.</p>
-<h4 id="2-cost-control-through-quota-management">2. 💰 <strong>Cost Control Through Quota Management</strong></h4>
-<p><strong>What it does:</strong>
-- Enforces spending limits per tool, per tenant, per time period
-- Blocks requests when quotas are exceeded
-- Provides real-time visibility into usage</p>
-<p><strong>Business value:</strong>
-- <strong>Prevent budget overruns</strong> from runaway agent usage
-- <strong>Enable chargeback</strong> by tracking usage per team
-- <strong>Optimize costs</strong> by identifying waste</p>
-<p><strong>Example:</strong> A policy limits GPT-4 API calls to 1,000 per day per team. When exceeded, requests are denied with clear messaging.</p>
-<h4 id="3-instant-response-through-kill-switch">3. 🚨 <strong>Instant Response Through Kill Switch</strong></h4>
-<p><strong>What it does:</strong>
-- Disables tools system-wide in seconds
-   - Revokes credentials automatically
-   - Prevents further tool invocations immediately</p>
-<p><strong>Business value:</strong>
-- <strong>Respond to incidents immediately</strong> (target: &lt; 5 seconds)
-- <strong>Reduce breach impact</strong> by stopping malicious activity fast
-- <strong>Enable safe experimentation</strong> knowing you can stop instantly</p>
-<p><strong>Example:</strong> A security team detects suspicious activity. They trigger the kill switch, disabling the compromised tool across all agents instantly.</p>
-<h4 id="4-compliance-through-provenance-tracking">4. 📋 <strong>Compliance Through Provenance Tracking</strong></h4>
-<p><strong>What it does:</strong>
-- Creates cryptographic proof of every action
-- Signs manifests with non-repudiation
-- Provides complete audit trails</p>
-<p><strong>Business value:</strong>
-- <strong>Pass compliance audits</strong> with verifiable proof
-- <strong>Demonstrate due diligence</strong> to regulators
-- <strong>Enable forensic investigations</strong> with complete trails</p>
-<p><strong>Example:</strong> During a SOC 2 audit, auditors request proof of actions. Provenance manifests provide cryptographic proof of authorized actions only.</p>
-<h4 id="5-visibility-through-centralized-inventory">5. 📊 <strong>Visibility Through Centralized Inventory</strong></h4>
-<p><strong>What it does:</strong>
-- Maintains a single source of truth for all tools
-- Tracks ownership, health, and usage
-- Provides dashboards and reporting</p>
-<p><strong>Business value:</strong>
-- <strong>Eliminate shadow IT</strong> by discovering all tools
-- <strong>Enable governance</strong> through visibility
-- <strong>Optimize operations</strong> through usage insights</p>
-<p><strong>Example:</strong> A CISO discovers teams are using unauthorized tools. Sentinel MCP's inventory reveals all tools, enabling proper governance.</p>
-<h2 id="adoption-roadmap">Adoption Roadmap</h2>
-<h3 id="phase-1-discovery-weeks-1-2">Phase 1: Discovery (Weeks 1-2)</h3>
-<p><strong>Goal:</strong> Understand your current state</p>
-<p><strong>Activities:</strong>
-- Inventory existing tools and agents
-- Map current access patterns
-- Identify high-risk areas
-- Document existing policies (written or implicit)</p>
-<p><strong>Deliverables:</strong>
-- Complete tool inventory
-- Risk assessment
-- Policy gap analysis</p>
-<p><strong>Success metrics:</strong>
-- 100% of tools inventoried
-- Risk areas identified
-- Quick wins identified</p>
-<h3 id="phase-2-pilot-weeks-3-6">Phase 2: Pilot (Weeks 3-6)</h3>
-<p><strong>Goal:</strong> Prove value with a single use case</p>
-<p><strong>Activities:</strong>
-- Deploy Sentinel MCP in pilot environment
-- Select one team/tool for initial rollout
-- Write initial policies
-- Integrate with one agent framework
-- Run kill-switch drills</p>
-<p><strong>Deliverables:</strong>
-- Working pilot deployment
-- Initial policy set
-- Integration with one agent framework
-- Kill-switch demonstration</p>
-<p><strong>Success metrics:</strong>
-- Policy violations caught
-- Kill-switch MTTR &lt; 5 seconds
-- Positive feedback from pilot team</p>
-<h3 id="phase-3-expansion-weeks-7-12">Phase 3: Expansion (Weeks 7-12)</h3>
-<p><strong>Goal:</strong> Scale to enterprise-wide deployment</p>
-<p><strong>Activities:</strong>
-- Expand to additional teams
-- Integrate with all agent frameworks
-- Refine policies based on learnings
-- Establish governance processes
-- Train operations teams</p>
-<p><strong>Deliverables:</strong>
-- Multi-team deployment
-- Complete framework coverage
-- Mature policy library
-- Operations runbooks
-- Training materials</p>
-<p><strong>Success metrics:</strong>
-- 80%+ of tools under governance
-- Policy violations declining
-- Positive ROI demonstrated</p>
-<h3 id="phase-4-optimization-ongoing">Phase 4: Optimization (Ongoing)</h3>
-<p><strong>Goal:</strong> Continuous improvement</p>
-<p><strong>Activities:</strong>
-- Refine policies based on data
-- Optimize quota allocations
-- Expand provenance requirements
-- Enhance observability
-- Automate governance processes</p>
-<p><strong>Deliverables:</strong>
-- Optimized policies
-- Automated governance
-- Enhanced reporting
-- Cost optimization</p>
-<p><strong>Success metrics:</strong>
-- Policy violations near zero
-- Costs optimized
-- Compliance maintained</p>
-<h2 id="key-metrics-to-track">Key Metrics to Track</h2>
-<h3 id="security-metrics">Security Metrics</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Target</th>
-<th>Why It Matters</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Policy violations prevented</td>
-<td>Track baseline</td>
-<td>Measures security effectiveness</td>
-</tr>
-<tr>
-<td>Kill-switch MTTR</td>
-<td>&lt; 5 seconds</td>
-<td>Measures incident response speed</td>
-</tr>
-<tr>
-<td>Tools under governance</td>
-<td>100%</td>
-<td>Measures coverage</td>
-</tr>
-<tr>
-<td>Unauthorized access attempts</td>
-<td>Track baseline</td>
-<td>Measures threat landscape</td>
-</tr>
-</tbody>
-</table>
-<h3 id="cost-metrics">Cost Metrics</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Target</th>
-<th>Why It Matters</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Budget overruns prevented</td>
-<td>Track incidents</td>
-<td>Measures cost control</td>
-</tr>
-<tr>
-<td>Cost per action</td>
-<td>Track baseline</td>
-<td>Measures efficiency</td>
-</tr>
-<tr>
-<td>Quota utilization</td>
-<td>70-90%</td>
-<td>Measures optimization</td>
-</tr>
-<tr>
-<td>Chargeback accuracy</td>
-<td>100%</td>
-<td>Measures attribution</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compliance-metrics">Compliance Metrics</h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Target</th>
-<th>Why It Matters</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Actions with provenance</td>
-<td>100%</td>
-<td>Measures auditability</td>
-</tr>
-<tr>
-<td>Audit trail completeness</td>
-<td>100%</td>
-<td>Measures compliance readiness</td>
-</tr>
-<tr>
-<td>Policy review cycle</td>
-<td>Quarterly</td>
-<td>Measures governance maturity</td>
-</tr>
-<tr>
-<td>Compliance audit success</td>
-<td>100%</td>
-<td>Measures effectiveness</td>
-</tr>
-</tbody>
-</table>
-<h2 id="roi-considerations">ROI Considerations</h2>
-<h3 id="cost-avoidance">Cost Avoidance</h3>
-<p><strong>Without Sentinel MCP:</strong>
-- Security incidents: $100K+ per incident
-- Compliance failures: $50K+ per audit failure
-- Budget overruns: Variable, often $10K-$100K+</p>
-<p><strong>With Sentinel MCP:</strong>
-- Prevent security incidents through policy enforcement
-- Pass compliance audits with provenance tracking
-- Avoid budget overruns through quota management</p>
-<h3 id="time-savings">Time Savings</h3>
-<p><strong>Without Sentinel MCP:</strong>
-- Manual tool reviews: Hours per tool
-- Incident response: Hours to days
-- Compliance audits: Weeks of preparation</p>
-<p><strong>With Sentinel MCP:</strong>
-- Automated policy enforcement: Near-zero manual effort
-- Instant kill-switch: Seconds instead of hours
-- Automated audit trails: Days instead of weeks</p>
-<h3 id="risk-reduction">Risk Reduction</h3>
-<p><strong>Without Sentinel MCP:</strong>
-- Unknown risk exposure
-- Manual controls prone to error
-- Compliance gaps</p>
-<p><strong>With Sentinel MCP:</strong>
-- Measurable risk reduction
-- Automated controls
-- Compliance-ready</p>
-<h2 id="business-case-summary">Business Case Summary</h2>
-<p><strong>Investment:</strong>
-- Development: 2-4 weeks for pilot
-- Deployment: 1-2 weeks
-- Ongoing operations: &lt; 0.5 FTE</p>
-<p><strong>Returns:</strong>
-- Security: Prevent incidents worth $100K+
-- Compliance: Pass audits, avoid fines
-- Cost: Prevent overruns worth $10K-$100K+
-- Operations: Hours saved per week</p>
-<p><strong>Payback Period:</strong> Typically &lt; 3 months</p>
-<h2 id="next-steps">Next Steps</h2>
-<ol>
-<li><strong>Week 1:</strong> Review this brief with leadership</li>
-<li><strong>Week 2:</strong> Identify pilot team and use case</li>
-<li><strong>Week 3:</strong> Begin Phase 1 (Discovery)</li>
-<li><strong>Week 4:</strong> Plan Phase 2 (Pilot)</li>
-</ol>
-<p><strong>Questions to answer:</strong>
-- Which team should pilot first?
-- What are the highest-risk tools/agents?
-- What compliance requirements must we meet?
-- What budget thresholds matter most?</p>
-<h2 id="conclusion">Conclusion</h2>
-<p><strong>AI agents are here to stay.</strong> They're transforming how we work, but they require new governance models. Traditional security approaches don't work for autonomous systems.</p>
-<p><strong>Sentinel MCP explores:</strong>
-- Runtime governance patterns for AI agents
-- Policy-driven security and compliance approaches
-- Instant incident response mechanisms
-- Complete auditability capabilities</p>
-<p><strong>Note:</strong> This is a personal R&amp;D project exploring these concepts. The architecture and approaches discussed here are shared for educational and research purposes to advance understanding of AI agent governance.</p>
-<hr />
-<p><strong>Note on Project Status:</strong> This is a personal research project, not a commercial offering. The concepts and implementations are shared for learning and exploration. See the <a href="../../technical/setup/">Setup Guide</a> for technical implementation details, or the <a href="../policy-playbook/">Policy Playbook</a> for policy development concepts.</p></div>
-            </div>
+              Executive Brief
+            
+          </span>
         </div>
-
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "../..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../../js/base.js"></script>
-        <script src="../../search/main.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
+      </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-    </body>
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Sentinel MCP Docs" class="md-nav__button md-logo" aria-label="Sentinel MCP Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Sentinel MCP Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v2 (Rust)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/api-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v2 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/release-gate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/runbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Brief
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-sentinel-mcp-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Sentinel MCP Solves
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capability-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#positioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../policy-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plans
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plans/2026-03-02-sentinel-v2-initial-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-02 v2 Initial Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plans/2026-03-03-sentinel-v2-frontier-gap-closure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Frontier Gap Closure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plans/2026-03-03-sentinel-v2-frontier-tranche-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Frontier Tranche 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plans/2026-03-03-repo-documentation-world-class-overhaul/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Documentation Overhaul
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-sentinel-mcp-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Sentinel MCP Solves
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capability-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#positioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="executive-brief">Executive Brief</h1>
+<h2 id="what-sentinel-mcp-solves">What Sentinel MCP Solves</h2>
+<p>Modern AI agents can call tools, APIs, and internal systems autonomously. Traditional security and governance controls were designed for human-paced behavior, not machine-speed execution.</p>
+<p>Sentinel MCP introduces a runtime governance layer between agents and tools so every invocation is:
+- evaluated against policy
+- explainable (reason codes and decision context)
+- auditable (event ledger + trace IDs)
+- verifiable (signed attestations, optional transparency linkage)</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Without a control plane for agent tool use, organizations typically face four failure patterns:
+- Cost volatility from runaway tool invocation
+- Unauthorized actions across sensitive systems
+- Weak incident forensics due to fragmented logs
+- Compliance gaps from non-verifiable authorization trails</p>
+<p>Sentinel MCP addresses these with deterministic policy enforcement, kill-switch controls, approval workflows, and cryptographic provenance.</p>
+<h2 id="business-outcomes">Business Outcomes</h2>
+<ul>
+<li>Reduced operational and security risk for agent deployments</li>
+<li>Faster containment during incidents (kill-switch precedence)</li>
+<li>Stronger audit readiness with replayable evidence</li>
+<li>Better cross-team governance through a centralized runtime contract</li>
+</ul>
+<h2 id="capability-snapshot">Capability Snapshot</h2>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Business Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deterministic policy decisions</td>
+<td>Consistent governance under load</td>
+</tr>
+<tr>
+<td>Kill switch with strict precedence</td>
+<td>Rapid mitigation of active incidents</td>
+</tr>
+<tr>
+<td>Approval workflow interrupts</td>
+<td>Human oversight for high-risk actions</td>
+</tr>
+<tr>
+<td>Event-sourced evidence</td>
+<td>Faster post-incident analysis</td>
+</tr>
+<tr>
+<td>DSSE + Sigstore provenance path</td>
+<td>Independent integrity verification</td>
+</tr>
+</tbody>
+</table>
+<h2 id="operating-model">Operating Model</h2>
+<p>Recommended rollout stages:
+1. Establish baseline policies and tool inventory for one pilot tenant.
+2. Introduce approval thresholds for high-risk actions.
+3. Add provenance verification and evidence drills to release gates.
+4. Expand to additional teams with standardized runbooks and SLOs.</p>
+<h2 id="success-criteria">Success Criteria</h2>
+<p>Track outcomes with metrics tied to governance behavior:
+- Percentage of tool calls governed by control-plane authorization
+- Kill-switch propagation and enforcement latency
+- Time to reconstruct a full evidence trail for an incident
+- Share of allow decisions with valid signed attestations</p>
+<h2 id="positioning">Positioning</h2>
+<p>Sentinel MCP is a personal R&amp;D project focused on frontier governance engineering patterns, not a product announcement or employer roadmap.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
 </html>

@@ -1,4 +1,4 @@
-.PHONY: dev seed chaos lint test clean docs-build docs-serve
+.PHONY: dev seed chaos lint test clean docs-build docs-serve rust-lint rust-test v2-release-gate
 
 VENV?=.venv
 PYTHON?=$(VENV)/bin/python
@@ -40,6 +40,16 @@ lint:
 
 test:
 	$(PYTHON) -m pytest
+
+rust-lint:
+	cd apps/control-plane-v2 && cargo fmt -- --check
+	cd apps/control-plane-v2 && cargo clippy --all-targets --all-features -- -D warnings
+
+rust-test:
+	cd apps/control-plane-v2 && cargo test
+
+v2-release-gate:
+	./apps/control-plane-v2/scripts/release_gate.sh
 
 clean:
 	rm -rf $(VENV) .mypy_cache .pytest_cache */**/__pycache__

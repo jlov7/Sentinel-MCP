@@ -1,121 +1,149 @@
 # Sentinel MCP
 
-Governance control plane for AI agents and MCP tools. Enforce policy, budgets, and provenance every time a tool is invoked.
+```text
+  ███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗     
+  ██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║     
+  ███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║     
+  ╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║     
+  ███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
+  ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+
+  MCP Governance Runtime • Verifiable Policy Enforcement • Provenance by Design
+```
+
+Governance control plane for agent tool use across MCP/A2A ecosystems.
 
 [![CI](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/jlov7/Sentinel-MCP/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-**Project context:** Personal R&D prototype for exploring AI agent governance patterns. Not a commercial product.
+![Sentinel Frontier Illustration](docs/assets/illustrations/sentinel-frontier.svg)
 
-## What it does
+## Why Sentinel MCP
 
-Sentinel MCP sits between AI agents and the tools they use. Every tool invocation is authorized, logged, and signed.
+AI agents can execute tools at machine speed; failures and misuse scale at machine speed too. Sentinel MCP adds an auditable decision layer between agents and tools so every invocation can be authorized, explained, replayed, and verified.
 
-**Core capabilities**
-- **Registry + inventory** for MCP servers and tools
-- **Policy engine** (OPA/Rego) with purpose checks and quotas
-- **Kill switch** to disable tools system-wide in seconds
-- **Provenance manifests** with cryptographic signatures
-- **Adapters** for AgentKit, LangGraph, Claude Skills, and custom frameworks
+Core value:
+- Deterministic policy enforcement (OPA/Rego as system of record)
+- Human approval interrupts for high-risk actions
+- Kill-switch controls with strong precedence guarantees
+- Signed provenance with Sigstore-ready transparency linkage
+- Event-sourced evidence for post-incident investigation and compliance
 
-## Quickstart (local)
+## One-Minute Architecture
+
+![Architecture Overview](docs/assets/diagrams/architecture-overview.svg)
+
+```mermaid
+flowchart LR
+    AG["Agent Runtime"] --> AD["Adapter Layer (MCP + A2A)"]
+    AD --> CP["Sentinel Control Plane v2"]
+    CP --> PE["OPA/Rego"]
+    CP --> EV["Event Ledger"]
+    CP --> PR["Provenance (DSSE + Sigstore)"]
+    CP --> TOOLS["Tools / MCP Servers"]
+```
+
+## Product Storyboard
+
+![Mission Control Walkthrough](docs/assets/screenshots/mission-control-walkthrough.gif)
+
+![Mission Control Screenshot](docs/assets/screenshots/mission-control-home.png)
+
+## Choose Your Path
+
+- Non-technical overview: [Executive Brief](docs/governance/executive.md)
+- Technical deep dive: [Architecture v2](docs/technical/architecture-v2.md)
+- Quick onboarding: [Setup & Deployment](docs/technical/setup.md)
+- Hands-on walkthrough: [Demo Guide](docs/demo.md)
+- Operational response: [Runbooks](docs/operations/runbooks.md)
+- Security posture: [Security & Compliance](docs/operations/security.md)
+- API details: [v2 API Reference](docs/reference/api-v2.md)
+
+## Quickstart (v2, local)
 
 ```bash
-# Clone and configure
-
 git clone https://github.com/jlov7/Sentinel-MCP.git
 cd Sentinel-MCP
-cp .env.example .env  # set POSTGRES_PASSWORD, SIGNING_KEY
 
-# Install dependencies
+# Python + legacy stack deps
 make install
 
-# Start the stack + seed demo data
-./scripts/dev_up.sh
+# Rust v2 control plane
+cd apps/control-plane-v2
+cargo run
+```
 
-# Run the admin console
+Run Mission Control UI:
+
+```bash
 cd apps/admin-console
 npm install
-NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev
+NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8082 npm run dev
 ```
 
-Admin console: http://localhost:3000
-API docs: http://localhost:8000/docs
+- UI: `http://localhost:3000`
+- v2 health: `http://localhost:8082/healthz`
 
-## Guided demo (10 minutes)
+## Verifiable Governance: End-to-End
 
-1. **Seed demo data** (already done by `dev_up.sh`, but safe to rerun):
-   ```bash
-   make seed
-   ```
+Decision traceability in v2:
+1. `POST /v2/decisions/authorize` evaluates policy + risk
+2. allow decisions auto-generate signed attestation (fail-closed if attestation persistence fails)
+3. evidence replay available through `GET /v2/evidence/{trace_id}`
+4. attestation verification through API and standalone CLI
 
-2. **Try a policy check:**
-   ```bash
-   curl -X POST http://localhost:8000/policy/check \
-     -H "Content-Type: application/json" \
-     -d '{"tenant_slug":"platform-eng","tool_name":"langsmith-docs-search","action":"invoke","purpose":"support","usage":10}'
-   ```
+Independent verifier example:
 
-3. **Trigger the kill switch:**
-   ```bash
-   curl -X POST http://localhost:8000/kill \
-     -H "Content-Type: application/json" \
-     -d '{"tenant_slug":"platform-eng","tool_name":"langsmith-docs-search","reason":"demo"}'
-   ```
-
-4. **Verify provenance:**
-   ```bash
-   curl http://localhost:8000/provenance/verify/<manifest-id>
-   ```
-
-Or use the Admin Console to flip the kill switch, probe policies, and verify manifests visually.
-
-## Documentation
-
-- **Overview:** `docs/index.md`
-- **Executive brief:** `docs/governance/executive.md`
-- **Architecture:** `docs/technical/architecture.md`
-- **Setup guide:** `docs/technical/setup.md`
-- **Demo walkthrough:** `docs/demo.md`
-- **Policy playbook:** `docs/governance/policy-playbook.md`
-
-## Architecture snapshot
-
-```
-AI Agent
-   |
-   v
-Adapter (AgentKit/LangGraph/Claude)
-   |
-   v
-Sentinel MCP Control Plane
-  - Registry
-  - Policy Engine (OPA)
-  - Kill Switch
-  - Provenance Signer
-   |
-   v
-Tools / MCP Servers
+```bash
+cd apps/control-plane-v2
+cargo run --bin attestation_verify -- \
+  --mode local \
+  --secret "$SENTINEL_V2_DSSE_SIGNING_SECRET" \
+  --envelope /path/to/envelope.json
 ```
 
-## Project status
+## Quality Gates (Pre-Release)
 
-**Working today**
-- Control plane API (FastAPI)
-- OPA-backed policy checks
-- Kill switch API + audit logs
-- Provenance signing/verification
-- Admin console (Next.js)
+Run the full gate:
 
-**Near-term upgrades**
-- Authn/authz for control plane endpoints
-- Sigstore/KMS-backed signing
-- Rate limiting + usage counters
-- Richer observability exports
+```bash
+make v2-release-gate
+```
 
-## Contributing
+This runs:
+- Rust format/lint/tests
+- Performance/security regression suites
+- Independent attestation verifier test
+- Admin console lint/test/build
+- Root Python pytest suite
+- Machine-readable report output at `apps/control-plane-v2/eval/reports/latest.json`
 
-Contributions welcome. See `CONTRIBUTING.md` for guidelines.
+## Repository Map
 
-## License
+```text
+apps/
+  control-plane/            # v1 FastAPI baseline
+  control-plane-v2/         # v2 Rust governance runtime
+  admin-console/            # Mission control UI (Next.js)
+packages/
+  policy_engine/            # OPA policy client + helpers
+  provenance/               # Provenance helpers (v1 path)
+docs/
+  governance/               # Non-technical and leadership docs
+  technical/                # Architecture, setup, testing
+  operations/               # Security + incident runbooks
+  reference/                # API and release-gate references
+  assets/                   # Diagrams, screenshots, illustrations
+```
 
-Apache 2.0. See `LICENSE` for details.
+## Contribution Standards
+
+- Keep policy changes test-backed and reviewable.
+- Keep decision semantics deterministic and explicitly reason-coded.
+- Keep docs synchronized with behavior changes (API, evidence fields, gate criteria).
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Disclaimer
+
+This repository is a personal R&D project created independently, is not affiliated with my employer, and does not represent my employer's views, systems, or roadmap.

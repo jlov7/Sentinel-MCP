@@ -1,0 +1,50 @@
+[
+  {
+    "tenant_slug": "platform-eng",
+    "tool_name": "langsmith-docs-search",
+    "action": "invoke",
+    "purpose": "support",
+    "usage": 4,
+    "context": {"channel": "ops", "region": "us"}
+  },
+  {
+    "tenant_slug": "finops",
+    "tool_name": "finance-ledger-writer",
+    "action": "write",
+    "purpose": "finance",
+    "usage": 140,
+    "context": {"payment": "invoice", "priority": "high"}
+  },
+  {
+    "tenant_slug": "platform-eng",
+    "tool_name": "browser-automation",
+    "action": "invoke",
+    "purpose": "support",
+    "usage": 9,
+    "context": {"page": "docs", "tenant": "platform-eng"}
+  },
+  {
+    "tenant_slug": "security",
+    "tool_name": "incident-escalation-api",
+    "action": "write",
+    "purpose": "incident_response",
+    "usage": 65,
+    "context": {"severity": "sev1", "pager": "primary"}
+  },
+  {
+    "tenant_slug": "platform-eng",
+    "tool_name": "customer-profile-api",
+    "action": "invoke",
+    "purpose": "support",
+    "usage": 3,
+    "context": {"ticket": "abc-123", "locale": "en-US"}
+  },
+  {
+    "tenant_slug": "ml-research",
+    "tool_name": "vector-store-writer",
+    "action": "write",
+    "purpose": "index_update",
+    "usage": 240,
+    "context": {"embedding_model": "text-embedding-3-large"}
+  }
+]

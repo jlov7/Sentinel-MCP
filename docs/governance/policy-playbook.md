@@ -1,39 +1,28 @@
 # Policy Playbook
 
-This playbook covers the core policy primitives, data inputs, and a few high-value policy patterns for Sentinel MCP.
+This playbook defines practical policy design patterns for Sentinel MCP.
 
-## Policy primitives
+## Policy Objectives
 
-- **Allow/deny rules:** map tenant + tool + purpose to permitted actions.
-- **Quotas:** limit usage per tool/team over time.
-- **Scoped secrets:** inject credentials only when policy allows (future integration).
-- **Kill overrides:** emergency disable regardless of other rules.
+A strong policy set should be:
+- deterministic (same input => same decision)
+- explainable (stable reason codes)
+- reviewable (versioned as code)
+- testable (fixture-backed regression cases)
 
-## Recommended data model
+## Minimal Input Contract
 
-Keep policy data explicit and testable:
+Authorization input should include:
+- `tenant`
+- `tool`
+- `action`
+- `purpose`
+- `usage`
+- `context`
 
-```json
-{
-  "allowlist": {
-    "platform-eng": {
-      "langsmith-docs-search": true
-    }
-  },
-  "quotas": {
-    "platform-eng": {
-      "langsmith-docs-search": 1000
-    }
-  },
-  "required_purpose": {
-    "platform-eng": {
-      "langsmith-docs-search": "support"
-    }
-  }
-}
-```
+These fields are evaluated by OPA and then enriched by risk scoring in v2.
 
-## Baseline policy (Rego)
+## Baseline Rego Pattern
 
 ```rego
 package sentinel.policy
@@ -42,69 +31,56 @@ default allow := false
 
 tenant := input.tenant
 tool := input.tool
-quota := data.quotas[tenant][tool]
 
 allow {
-  tool_allowed
-  within_quota
-  purpose_ok
-}
-
-tool_allowed {
   data.allowlist[tenant][tool]
+  input.usage <= data.quotas[tenant][tool]
+  input.purpose == data.required_purpose[tenant][tool]
 }
 
-within_quota {
-  quota > input.usage
-}
-
-purpose_ok {
-  required := data.required_purpose[tenant][tool]
-  input.purpose == required
-}
-
-deny_reason[msg] {
-  not tool_allowed
-  msg := sprintf("tool %s denied for tenant %s", [tool, tenant])
-}
-
-deny_reason[msg] {
-  not within_quota
-  msg := sprintf("quota exceeded for tool %s tenant %s", [tool, tenant])
-}
-
-deny_reason[msg] {
-  not purpose_ok
-  msg := sprintf("purpose %s not allowed for tool %s tenant %s", [input.purpose, tool, tenant])
+deny_reason := "POLICY_DENY" {
+  not allow
 }
 ```
 
-## Common patterns
+## High-Value Policy Patterns
 
-**1) Cost guardrail**
-- Set aggressive quotas for high-cost tools.
-- Add automated alerts when usage approaches 80%.
+## 1. Purpose Binding
 
-**2) Purpose gating**
-- Require approved purposes for sensitive tools.
-- Treat new purposes as a change request.
+Bind sensitive tools to explicit business purpose domains. Avoid wildcard purpose matching for high-impact tools.
 
-**3) Break-glass access**
-- Add a time-bound override flag for incident response.
-- Log every break-glass use with a ticket ID.
+## 2. Quota Controls
 
-**4) Environment-aware rules**
-- Require stricter policies in production (no experimental tools).
-- Allow broader access in sandbox tenants.
+Set explicit tenant/tool budgets and include warning thresholds externally in observability.
 
-## Policy testing
+## 3. Environment Segmentation
 
-- Validate allow/deny cases with unit tests (Rego + conftest).
-- Keep a small set of golden inputs per tenant.
-- Treat policy changes like code: review, test, and deploy.
+Stricter allowlists in production; broader experimentation in sandbox tenants.
 
-## Governance cadence
+## 4. Break-Glass Procedure
 
-- Weekly policy review (Platform + Security).
-- Monthly usage report (violations, kills, provenance coverage).
-- Quarterly tabletop exercise for kill-switch drills and audit trails.
+Use explicit, time-bound emergency exceptions with mandatory ticket IDs and post-incident review.
+
+## Decision Code Hygiene
+
+Keep deny semantics stable. Example reason code families:
+- `POLICY_DENY`
+- `POLICY_UNAVAILABLE`
+- `APPROVAL_REQUIRED`
+- `RISK_GATE_BLOCKED`
+- `KILL_SWITCH_ACTIVE`
+- `ATTESTATION_FAILED`
+
+## Policy QA Checklist
+
+- [ ] Golden allow/deny fixture cases are updated
+- [ ] Rego tests cover each new branch condition
+- [ ] Reason-code outputs are deterministic
+- [ ] Policy bundle metadata updated and tracked
+- [ ] Rollback plan documented
+
+## Governance Cadence
+
+- Weekly policy review with platform/security
+- Monthly review of deny and approval trends
+- Quarterly kill-switch and incident replay drill

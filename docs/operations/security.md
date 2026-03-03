@@ -1,41 +1,69 @@
-# Security & Compliance Guidance
+# Security & Compliance
 
-## Threat model highlights
+Sentinel MCP security posture centers on governed execution, tenant isolation, fail-closed controls, and verifiable provenance.
 
-- **Unauthorized tool invocation:** mitigated by policy enforcement at the control plane with deny-by-default rules and purpose checks.
-- **Compromised adapter credentials:** kill-switch immediately disables tools and provenance manifests provide forensic trail.
-- **Policy bypass via prompt injection:** guardrails sit between agent and tool, enforcing policies irrespective of prompt content.
-- **Provenance tampering:** manifests are signed; move to Sigstore or KMS-backed signing for production.
+## Trust Boundaries
 
-## Controls in place
+1. Agent/runtime boundary (untrusted execution intent)
+2. Control-plane authorization boundary (trusted policy decision point)
+3. Tool execution boundary (external systems and data)
+4. Evidence/provenance verification boundary (integrity and audit)
 
-- Per-tool activation state (`is_active`) with rapid kill/restore flow.
-- Rate/usage data captured in policy client (future: move to Redis counters for rate limiting).
-- Structured logging with tenant/tool context for auditing.
-- Signed manifests for every approved action (+ verification endpoint & UI).
+## Core Controls
 
-## Recommended hardening
+- Scoped JWT authz on all v2 endpoints
+- Tenant boundary checks on write and read paths
+- Kill-switch precedence regardless of policy allow
+- Replay-token protections
+- Event-sourced decision/evidence ledger
+- DSSE attestations with optional Sigstore/Rekor linkage
 
-1. **Secrets management:** move `SIGNING_KEY`, database credentials, and API tokens to Vault; rotate on a schedule.
-2. **TLS everywhere:** enforce TLS for OPA, Postgres, Redis; pin certificates in adapters.
-3. **Sigstore integration:** replace hash-only signer with `sigstore` library, store Rekor entries.
-4. **OPA policy reviews:** maintain policy-as-code repo with PR reviews and automated unit tests (rego, conftest).
-5. **Dependency updates:** rely on Dependabot/renovate; treat critical advisories as break-glass.
-6. **Static analysis:** add Bandit (`bandit -r apps/control-plane/src`) and ESLint security rules.
-7. **Authentication/authorization:** add API keys or OIDC tokens for control plane endpoints before production.
+## Threats and Mitigations
 
-## Compliance pointers
+| Threat | Primary Mitigation |
+|---|---|
+| Prompt-injection tool abuse | Policy + risk gate + scoped authz |
+| Cross-tenant data access | Enforced tenant checks on all sensitive paths |
+| Replay/reuse of privileged request | Replay-token reservation + TTL |
+| Provenance tampering | Signature verification + bundle checks |
+| Policy service outage | Fail-closed decision behavior |
 
-- **Audit logging:** send `kill_switch.*` and policy decision logs to SIEM for retention & analytics.
-- **Data retention:** configure Postgres retention policy for policy logs (e.g., 180 days) respecting privacy requirements.
-- **PII handling:** tool metadata should avoid sensitive data; if necessary, pseudonymize owner fields.
-- **Access control:** restrict who can trigger `/kill` and `/kill/restore` via RBAC (future feature).
+## Hardening Checklist (Production)
 
-## Incident response checklist
+- Use external identity issuer for service tokens (OIDC/JWT)
+- Enable strict attestation mode for high-risk classes
+- Use Postgres with TLS and backup/restore drills
+- Restrict admin console access behind SSO and least privilege
+- Ship structured logs and traces to centralized observability stack
+- Enforce dependency update cadence with security advisories
 
-1. Trigger kill-switch for impacted tool/tenant.
-2. Export provenance manifests for incident window.
-3. Audit policy logs for suspicious denies/allow events.
-4. Rotate secrets and redeploy adapters.
-5. Produce post-incident report using docs in Governance section.
+## Compliance and Audit Readiness
 
+Evidence expectations:
+- every decision tied to `trace_id`
+- attestation linkage for authorized tool calls
+- replayable incident trail via event ledger
+
+Recommended retention controls:
+- policy and evidence event retention policy
+- immutable storage for provenance artifacts where required
+- documented data handling boundaries for tenant metadata
+
+## Verification Controls
+
+Run pre-release gate for reproducible quality evidence:
+
+```bash
+make v2-release-gate
+```
+
+Independent attestation verification:
+
+```bash
+cd apps/control-plane-v2
+cargo run --bin attestation_verify -- --mode local --secret "$SENTINEL_V2_DSSE_SIGNING_SECRET" --envelope /path/to/envelope.json
+```
+
+## Security Positioning
+
+Sentinel MCP is a personal R&D project and should be treated as a high-quality reference implementation, not an out-of-the-box compliance product.

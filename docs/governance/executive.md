@@ -1,67 +1,58 @@
-# Executive Brief: Governance for AI Agents
+# Executive Brief
 
-**Project context:** Personal R&D prototype for exploring AI agent governance patterns. Not a commercial product.
+## What Sentinel MCP Solves
 
-## Executive summary
+Modern AI agents can call tools, APIs, and internal systems autonomously. Traditional security and governance controls were designed for human-paced behavior, not machine-speed execution.
 
-- **Problem:** AI agents can invoke tools autonomously, but traditional security models were built for humans.
-- **Risk:** Without runtime governance, organizations face cost overruns, unauthorized access, and audit failures.
-- **Solution:** Sentinel MCP is a control plane that authorizes every tool invocation, enforces quotas, and signs provenance.
-- **Outcome:** Safer agent deployments with clear accountability and rapid incident response.
+Sentinel MCP introduces a runtime governance layer between agents and tools so every invocation is:
+- evaluated against policy
+- explainable (reason codes and decision context)
+- auditable (event ledger + trace IDs)
+- verifiable (signed attestations, optional transparency linkage)
 
-## The governance gap
+## Why This Matters
 
-When agents act at machine speed, small mistakes scale quickly:
+Without a control plane for agent tool use, organizations typically face four failure patterns:
+- Cost volatility from runaway tool invocation
+- Unauthorized actions across sensitive systems
+- Weak incident forensics due to fragmented logs
+- Compliance gaps from non-verifiable authorization trails
 
-- **Runaway spend:** thousands of API calls in minutes.
-- **Unauthorized access:** sensitive systems accessed without proper purpose or approval.
-- **Audit failure:** no cryptographic proof of authorization.
-- **Tool sprawl:** teams deploy tools without centralized inventory or oversight.
+Sentinel MCP addresses these with deterministic policy enforcement, kill-switch controls, approval workflows, and cryptographic provenance.
 
-## Sentinel MCP value
+## Business Outcomes
 
-**1) Security through policy enforcement**
-- Deny-by-default authorization at the control plane.
-- Context-aware checks (tenant, tool, purpose, usage).
+- Reduced operational and security risk for agent deployments
+- Faster containment during incidents (kill-switch precedence)
+- Stronger audit readiness with replayable evidence
+- Better cross-team governance through a centralized runtime contract
 
-**2) Cost control through quotas**
-- Tool- and tenant-level usage limits.
-- Deny requests when budgets are exceeded.
+## Capability Snapshot
 
-**3) Instant response through kill switch**
-- Disable tools system-wide in seconds.
-- Audit trail for every kill/restore event.
+| Capability | Business Value |
+|---|---|
+| Deterministic policy decisions | Consistent governance under load |
+| Kill switch with strict precedence | Rapid mitigation of active incidents |
+| Approval workflow interrupts | Human oversight for high-risk actions |
+| Event-sourced evidence | Faster post-incident analysis |
+| DSSE + Sigstore provenance path | Independent integrity verification |
 
-**4) Compliance through provenance**
-- Cryptographically signed manifests for every approved action.
-- Verifiable audit trails for regulators and incident response.
+## Operating Model
 
-**5) Visibility through inventory**
-- Central catalog of tools, owners, scopes, and status.
-- Operational visibility into agent behaviors.
+Recommended rollout stages:
+1. Establish baseline policies and tool inventory for one pilot tenant.
+2. Introduce approval thresholds for high-risk actions.
+3. Add provenance verification and evidence drills to release gates.
+4. Expand to additional teams with standardized runbooks and SLOs.
 
-## Adoption roadmap
+## Success Criteria
 
-**Phase 1: Discovery (1-2 weeks)**
-- Inventory tools and agent workflows.
-- Identify highest-risk tools and use cases.
+Track outcomes with metrics tied to governance behavior:
+- Percentage of tool calls governed by control-plane authorization
+- Kill-switch propagation and enforcement latency
+- Time to reconstruct a full evidence trail for an incident
+- Share of allow decisions with valid signed attestations
 
-**Phase 2: Pilot (3-6 weeks)**
-- Deploy Sentinel MCP to a single team.
-- Implement initial policies and quotas.
-- Run kill-switch drills.
+## Positioning
 
-**Phase 3: Expansion (6-12 weeks)**
-- Integrate additional frameworks and teams.
-- Expand policy library and reporting.
-
-**Phase 4: Optimization (ongoing)**
-- Refine policies based on observed data.
-- Add advanced observability and automation.
-
-## Success metrics
-
-- **Kill switch MTTR:** < 5 seconds end-to-end.
-- **Policy enforcement coverage:** > 80% of tool invocations governed.
-- **Quota violations:** trending down over time.
-- **Audit readiness:** verifiable manifests for all approved actions.
+Sentinel MCP is a personal R&D project focused on frontier governance engineering patterns, not a product announcement or employer roadmap.

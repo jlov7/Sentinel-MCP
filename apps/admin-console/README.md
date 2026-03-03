@@ -1,16 +1,26 @@
-# Sentinel MCP Admin Console (Prototype)
+# Sentinel MCP Admin Console (Mission Control v2)
 
-Personal R&D front-end for managing tool inventory, policies, and kill-switch actions.
+Operator UI for Sentinel MCP v2 governance workflows.
 
-## Scripts
+## Run
 
-- `npm install`
-- `NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8000 npm run dev`
+```bash
+npm install
+NEXT_PUBLIC_CONTROL_PLANE_URL=http://localhost:8082 npm run dev
+```
 
-### What works today
+Optional default bearer token for local development:
 
-- Tenant selector populated from `/register/tenants`.
-- Tool inventory table with kill-switch button invoking `/kill` and enable button using `/kill/restore`.
-- Policy probe form calling `/policy/check` for the selected tenant.
+```bash
+NEXT_PUBLIC_CONTROL_PLANE_BEARER_TOKEN=<jwt>
+```
 
-The console will evolve into a policy IDE with provenance dashboards.
+## What the v2 console supports
+
+- Authenticated `/v2/decisions/authorize` and `/v2/replay/decision`
+- Kill-switch activation/restore via `/v2/control/kill-switch*`
+- Approval request/resolve workflows
+- Provenance attestation and verification
+- Trace-based evidence lookup plus protocol/policy metadata views
+
+The token can be pasted into the UI and is persisted in local storage for local R&D use.

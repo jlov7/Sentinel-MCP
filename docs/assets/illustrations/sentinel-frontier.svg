@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Sentinel MCP Frontier Governance</title>
+  <desc id="desc">Illustration of a governance control plane connecting agents and tools with policy, approvals, and provenance.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07131f"/>
+      <stop offset="50%" stop-color="#0d2740"/>
+      <stop offset="100%" stop-color="#133859"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f2033"/>
+      <stop offset="100%" stop-color="#1b3f64"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2de1c2"/>
+      <stop offset="100%" stop-color="#6ab8ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g opacity="0.25">
+    <circle cx="210" cy="160" r="130" fill="#2de1c2"/>
+    <circle cx="1400" cy="730" r="180" fill="#6ab8ff"/>
+    <circle cx="1320" cy="150" r="110" fill="#7de0ff"/>
+  </g>
+
+  <g transform="translate(110,140)">
+    <rect x="0" y="0" width="1380" height="620" rx="28" fill="url(#panel)" stroke="#6ab8ff" stroke-opacity="0.35"/>
+
+    <text x="58" y="90" fill="#cbe8ff" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="52" font-weight="700">Sentinel MCP v2</text>
+    <text x="58" y="132" fill="#93bddf" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="26">Verifiable governance runtime for agent tool use</text>
+
+    <g transform="translate(60,180)">
+      <rect x="0" y="0" width="360" height="340" rx="18" fill="#0a1826" stroke="#2de1c2" stroke-opacity="0.45"/>
+      <text x="26" y="48" fill="#9de7d8" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="24" font-weight="600">Agent / Adapter Edge</text>
+      <text x="26" y="95" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">MCP</text>
+      <text x="26" y="128" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">A2A</text>
+      <text x="26" y="161" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">Replay Token</text>
+      <text x="26" y="194" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">Trace ID</text>
+      <circle cx="300" cy="260" r="22" fill="#2de1c2" filter="url(#glow)"/>
+    </g>
+
+    <g transform="translate(510,170)">
+      <rect x="0" y="0" width="360" height="360" rx="20" fill="#08192a" stroke="#6ab8ff" stroke-opacity="0.55"/>
+      <text x="28" y="54" fill="#b5dbff" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="25" font-weight="700">Control Plane Core</text>
+      <text x="28" y="102" fill="#d7e8f8" font-family="'JetBrains Mono',monospace" font-size="19">Authorize</text>
+      <text x="28" y="134" fill="#d7e8f8" font-family="'JetBrains Mono',monospace" font-size="19">Kill Switch</text>
+      <text x="28" y="166" fill="#d7e8f8" font-family="'JetBrains Mono',monospace" font-size="19">Approvals</text>
+      <text x="28" y="198" fill="#d7e8f8" font-family="'JetBrains Mono',monospace" font-size="19">Event Ledger</text>
+      <text x="28" y="230" fill="#d7e8f8" font-family="'JetBrains Mono',monospace" font-size="19">Evidence Replay</text>
+      <path d="M260,270 L330,270 L330,330 L260,330 Z" fill="url(#accent)"/>
+    </g>
+
+    <g transform="translate(960,180)">
+      <rect x="0" y="0" width="360" height="340" rx="18" fill="#0a1826" stroke="#7de0ff" stroke-opacity="0.5"/>
+      <text x="26" y="48" fill="#c7e9ff" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="24" font-weight="600">Trust + Targets</text>
+      <text x="26" y="96" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">OPA/Rego</text>
+      <text x="26" y="129" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">Sigstore / Rekor</text>
+      <text x="26" y="162" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">Tools + MCP Servers</text>
+      <text x="26" y="195" fill="#d2e7f8" font-family="'JetBrains Mono',monospace" font-size="20">Mission Control UI</text>
+      <circle cx="302" cy="258" r="20" fill="#6ab8ff" filter="url(#glow)"/>
+    </g>
+
+    <path d="M420 355 C470 355, 490 355, 510 355" stroke="url(#accent)" stroke-width="6" fill="none"/>
+    <path d="M870 355 C910 355, 930 355, 960 355" stroke="url(#accent)" stroke-width="6" fill="none"/>
+  </g>
+</svg>
