@@ -6,7 +6,6 @@ import uuid
 import httpx
 import pytest
 
-
 BASE_URL = os.getenv("SENTINEL_CONTROL_PLANE_URL", "http://localhost:8000").rstrip("/")
 
 

@@ -4,7 +4,6 @@ from typing import Any, Dict
 
 import httpx
 import pytest
-
 from sentinel_policy.client import PolicyClient, PolicyDecisionError
 
 

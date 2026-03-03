@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import structlog
-from opentelemetry import trace
 from fastapi import APIRouter, Depends, HTTPException, status
+from opentelemetry import trace
+from sentinel_policy.client import PolicyClient, PolicyDecisionError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from sentinel_policy.client import PolicyClient, PolicyDecisionError
 
 from ..dependencies import db_session, policy_client
 from ..models import Tenant, Tool

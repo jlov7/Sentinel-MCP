@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import logging
-
 import structlog
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware

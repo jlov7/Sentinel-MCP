@@ -6,12 +6,11 @@ from collections.abc import Generator
 from pathlib import Path
 
 from fastapi import Depends
-from sqlalchemy.orm import Session
-
 from sentinel_policy.client import PolicyClient
 from sentinel_provenance.signer import ProvenanceSigner
 from sentinel_provenance.storage import ManifestStorage
 from sentinel_provenance.verifier import ProvenanceVerifier
+from sqlalchemy.orm import Session
 
 from .config import Settings, get_settings
 from .database import get_session

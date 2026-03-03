@@ -19,13 +19,14 @@ class ProvenanceSigner:
     def sign_action(self, action: Dict[str, Any]) -> Dict[str, Any]:
         """Attach a pseudo-signature to an action manifest."""
         timestamp = int(time.time() * 1000)
+        signature = self._hash_payload(action, timestamp)
         manifest = {
             "action": action,
             "timestamp": timestamp,
-            "signature": self._hash_payload(action, timestamp),
+            "signature": signature,
             "signing_key_hint": self._signing_key[:8],
         }
-        manifest_id = manifest["signature"]
+        manifest_id = signature
         self._storage.write(manifest_id, manifest)
         return manifest
 

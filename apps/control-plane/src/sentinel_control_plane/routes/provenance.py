@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import structlog
-from opentelemetry import trace
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
+from opentelemetry import trace
 from sentinel_provenance.signer import ProvenanceSigner
 from sentinel_provenance.verifier import ProvenanceVerifier
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from ..dependencies import db_session, provenance_signer, provenance_verifier
 from ..models import Tenant, Tool

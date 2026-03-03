@@ -10,7 +10,6 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from .config import get_settings
 
-
 engine = create_engine(get_settings().postgres_url, echo=False, future=True, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 

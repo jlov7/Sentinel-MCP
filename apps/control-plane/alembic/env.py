@@ -5,10 +5,9 @@ from __future__ import annotations
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-
 from sentinel_control_plane.config import get_settings
 from sentinel_control_plane.models import Base
+from sqlalchemy import engine_from_config, pool
 
 config = context.config
 

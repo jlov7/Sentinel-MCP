@@ -4,9 +4,8 @@ import uuid
 from types import SimpleNamespace
 
 from fastapi.testclient import TestClient
-
-from sentinel_control_plane.main import app
 from sentinel_control_plane.dependencies import db_session
+from sentinel_control_plane.main import app
 
 
 class _ScalarOneResult:

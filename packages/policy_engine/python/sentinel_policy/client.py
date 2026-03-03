@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from types import TracebackType
 from typing import Any, Dict, Optional
 
 import httpx
@@ -39,6 +40,11 @@ class PolicyClient:
     def __enter__(self) -> "PolicyClient":
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> Optional[bool]:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> Optional[bool]:
         self.close()
         return None

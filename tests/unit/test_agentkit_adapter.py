@@ -4,7 +4,6 @@ from typing import Any
 
 import httpx
 import pytest
-
 from mcp_adapters.agentkit_adapter import AgentKitAdapter
 
 

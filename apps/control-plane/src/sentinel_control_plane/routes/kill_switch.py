@@ -4,12 +4,11 @@ from __future__ import annotations
 
 from typing import List
 
+import structlog
 from fastapi import APIRouter, Depends, HTTPException, status
+from opentelemetry import trace
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session
-
-import structlog
-from opentelemetry import trace
 
 from ..dependencies import db_session
 from ..models import Tenant, Tool

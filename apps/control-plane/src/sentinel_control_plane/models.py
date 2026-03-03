@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import uuid as uuid_pkg
 from datetime import datetime
-
 from typing import Any, Dict
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Text
+from sqlalchemy import Boolean, DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
