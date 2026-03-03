@@ -93,15 +93,17 @@ jobs:
       - name: Install dependencies
         working-directory: apps/admin-console
         run: npm ci
-      - name: Lint
+      - name: Install Playwright Chromium
         working-directory: apps/admin-console
-        run: npm run lint
-      - name: Test
+        run: npx playwright install --with-deps chromium
+      - name: Frontend release gate
         working-directory: apps/admin-console
-        run: npm run test
-      - name: Build
-        working-directory: apps/admin-console
-        run: npm run build
+        run: npm run release:gate
+      - name: Upload frontend release-gate report
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-release-gate-report
+          path: apps/admin-console/reports/frontend-release-gate.json
 
   docs:
     name: Docs Build

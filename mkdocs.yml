@@ -20,6 +20,7 @@ nav:
   - Technical Guides:
       - Architecture: technical/architecture.md
       - Architecture v2 (Rust): technical/architecture-v2.md
+      - Front-End Mission Control: technical/frontend-mission-control.md
       - Setup & Deployment: technical/setup.md
       - Testing Strategy: technical/testing.md
   - Reference:
@@ -28,6 +29,7 @@ nav:
   - Operations:
       - Runbooks: operations/runbooks.md
       - Security & Compliance: operations/security.md
+      - UX Operations Playbook: operations/ux-ops.md
   - Governance:
       - Executive Brief: governance/executive.md
       - Policy Playbook: governance/policy-playbook.md
@@ -36,6 +38,9 @@ nav:
       - 2026-03-03 Frontier Gap Closure: plans/2026-03-03-sentinel-v2-frontier-gap-closure.md
       - 2026-03-03 Frontier Tranche 2: plans/2026-03-03-sentinel-v2-frontier-tranche-2.md
       - 2026-03-03 Documentation Overhaul: plans/2026-03-03-repo-documentation-world-class-overhaul.md
+      - 2026-03-03 Front-End 100/100 Plan: plans/2026-03-03-front-end-100-100-execution-plan.md
+      - 2026-03-03 Front-End Master Tracker: plans/2026-03-03-front-end-100-100-task-tracker.md
+      - 2026-03-03 Front-End Panel Dry Runs: plans/2026-03-03-front-end-panel-dry-runs.md
   - Appendix:
       - Glossary: appendix/glossary.md
       - FAQ: appendix/faq.md

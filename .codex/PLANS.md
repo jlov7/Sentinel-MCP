@@ -29,6 +29,11 @@ Build a world-class, frontier-grade v2 governance runtime (Rust core) while pres
 - [x] Auto-attest allowed decisions with fail-closed fallback on attestation failure
 - [x] Add standalone `attestation_verify` CLI and release-gate coverage
 - [x] Deliver world-class documentation overhaul (README, diagrams, screenshots, audience-specific docs, API/reference pages)
+- [x] Produce complete 12-criterion front-end 100/100 execution plan with full task backlog and gates
+- [x] Execute front-end mission-control UX redesign against full T001-T100 tracker (navigation, onboarding, toasts, filters, exports, feedback)
+- [x] Add front-end quality gates: accessibility audit test, Playwright canonical journey, performance budget script, CI enforcement
+- [x] Add deterministic front-end release gate runner with report artifacts and 15-scenario panel simulation
+- [x] Run three front-end dry-run certification passes and publish scorecard evidence
 
 ## Surprises & Discoveries
 - Existing repo had no Rust workspace, so v2 was introduced as a parallel app crate to avoid destabilizing v1.
@@ -36,6 +41,8 @@ Build a world-class, frontier-grade v2 governance runtime (Rust core) while pres
 - Sigstore integration was feasible directly in-process with `sigstore-sign` + `sigstore-verify`, enabling keyless signing/verification without custom crypto logic.
 - Preserving compatibility while fixing Rekor semantics was cleaner by adding `rekor_log_id` instead of renaming legacy `rekor_uuid`.
 - Visual assets (diagram SVGs + real UI captures) significantly improved comprehension speed versus text-only docs.
+- Converting subjective UX goals into a fixed 12-criterion rubric with explicit gate criteria made “world-class” executable rather than aspirational.
+- Deterministic front-end scoring became practical only after codifying all checks into a single executable gate that emits machine-readable evidence.
 
 ## Decision Log
 - Event source backend implemented as trait + in-memory default for deterministic local runs; Postgres backend is mode-selectable.
@@ -44,8 +51,10 @@ Build a world-class, frontier-grade v2 governance runtime (Rust core) while pres
 - Allowed authorization decisions now require successful attestation persistence (fail-closed on attestation errors).
 - Release gate is codified as executable automation (`apps/control-plane-v2/scripts/release_gate.sh`) and pinned datasets under `tests/fixtures`.
 - Repository narrative is intentionally split for non-technical and technical audiences to improve onboarding and decision support.
+- Front-end excellence roadmap is now codified as a 100-task criterion-mapped execution plan in docs for deterministic tracking.
+- The front-end gate/report pattern mirrors the v2 backend release-gate pattern to keep quality governance uniform across the repo.
 
 ## Outcomes & Retrospective
-- Done: v2 persistence backend, keyless Sigstore verification path, tenant isolation hardening, MCP/A2A interop adapters, fixture-driven security/perf gate, CI release gate artifacts, mission-control UI, automatic allow-decision attestation, standalone verifier CLI, and full documentation/visual presentation overhaul.
+- Done: v2 persistence backend, keyless Sigstore verification path, tenant isolation hardening, MCP/A2A interop adapters, fixture-driven security/perf gate, CI release gate artifacts, mission-control UI, automatic allow-decision attestation, standalone verifier CLI, full documentation/visual presentation overhaul, complete front-end 100/100 execution planning artifact, full front-end redesign execution, and deterministic front-end certification reports.
 - Not done: none in this tranche relative to requested “pre-release gate” scope.
 - Lesson: hard quality gates become maintainable once encoded as repeatable scripts + fixtures instead of ad-hoc checks.

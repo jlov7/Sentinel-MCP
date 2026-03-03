@@ -8,7 +8,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:a11y": "vitest run src/components/__tests__/MissionControl.a11y.test.tsx",
+    "test:e2e": "playwright test",
+    "perf:budget": "node scripts/check-performance-budget.mjs",
+    "verify:frontend": "npm run lint && npm run test && npm run build && npm run perf:budget",
+    "verify:frontend:full": "npm run verify:frontend && npm run test:e2e",
+    "release:gate": "node scripts/frontend-release-gate.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "5.51.23",
@@ -18,14 +24,19 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.1",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.2.0",
     "@testing-library/user-event": "14.6.1",
+    "@types/jest-axe": "^3.5.9",
     "@types/node": "^24.9.2",
     "@types/react": "18.3.7",
+    "axe-core": "^4.10.2",
     "eslint": "8.57.1",
     "eslint-config-next": "14.2.10",
+    "jest-axe": "^9.0.0",
     "jsdom": "25.0.1",
+    "start-server-and-test": "^2.0.8",
     "typescript": "5.6.2",
     "vitest": "4.0.5"
   }

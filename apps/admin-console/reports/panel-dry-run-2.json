@@ -1,0 +1,258 @@
+{
+  "generated_at": "2026-03-03T14:35:33.305Z",
+  "started_at": "2026-03-03T14:35:18.455Z",
+  "finished_at": "2026-03-03T14:35:33.305Z",
+  "checks": [
+    {
+      "id": "lint",
+      "cmd": "npm run lint",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 1238,
+      "stdout_tail": "\n> sentinel-mcp-admin-console@0.1.0 lint\n> next lint\n\n✔ No ESLint warnings or errors\n",
+      "stderr_tail": ""
+    },
+    {
+      "id": "unit",
+      "cmd": "npm run test",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 975,
+      "stdout_tail": " RUN  v4.0.5 /Users/jasonlovell/AI/Work Prototypes/Sentinel MCP /apps/admin-console\n\n ✓ src/components/__tests__/ToolTable.test.tsx (1 test) 100ms\n ✓ src/components/__tests__/ManifestViewer.test.tsx (1 test) 130ms\n ✓ src/components/__tests__/MissionControl.a11y.test.tsx (1 test) 196ms\n\n Test Files  3 passed (3)\n      Tests  3 passed (3)\n   Start at  08:35:19\n   Duration  661ms (transform 212ms, setup 209ms, collect 392ms, tests 426ms, environment 496ms, prepare 11ms)\n\n",
+      "stderr_tail": "(node:31646) Warning: `--localstorage-file` was provided without a valid path\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:31645) Warning: `--localstorage-file` was provided without a valid path\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:31647) Warning: `--localstorage-file` was provided without a valid path\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "a11y",
+      "cmd": "npm run test:a11y",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 970,
+      "stdout_tail": "\n\n RUN  v4.0.5 /Users/jasonlovell/AI/Work Prototypes/Sentinel MCP /apps/admin-console\n\n ✓ src/components/__tests__/MissionControl.a11y.test.tsx (1 test) 192ms\n\n Test Files  1 passed (1)\n      Tests  1 passed (1)\n   Start at  08:35:20\n   Duration  654ms (transform 79ms, setup 70ms, collect 124ms, tests 192ms, environment 168ms, prepare 4ms)\n\n",
+      "stderr_tail": "(node:31681) Warning: `--localstorage-file` was provided without a valid path\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "id": "build",
+      "cmd": "npm run build",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 7212,
+      "stdout_tail": "Route (pages)                             Size     First Load JS\n┌ ○ /                                     13.4 kB        93.3 kB\n├   /_app                                 0 B            79.9 kB\n└ ○ /404                                  181 B          80.1 kB\n+ First Load JS shared by all             83.1 kB\n  ├ chunks/framework-64ad27b21261a9ce.js  44.9 kB\n  ├ chunks/main-a2464d6d00b134e7.js       33.9 kB\n  └ other shared chunks (total)           4.36 kB\n\n○  (Static)  prerendered as static content\n\n",
+      "stderr_tail": ""
+    },
+    {
+      "id": "perf",
+      "cmd": "npm run perf:budget",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 169,
+      "stdout_tail": "> node scripts/check-performance-budget.mjs\n\nPerformance budget report\n- Total JS chunk bytes: 370498\n- Largest JS chunk bytes: 139978\n- Largest chunks:\n  - framework-64ad27b21261a9ce.js: 139978\n  - main-a2464d6d00b134e7.js: 116335\n  - polyfills-42372ed130431b0a.js: 112594\n  - webpack-ee7e63bc15b31913.js: 1591\nPerformance budget passed.\n",
+      "stderr_tail": ""
+    },
+    {
+      "id": "e2e",
+      "cmd": "npm run test:e2e",
+      "ok": true,
+      "status": 0,
+      "duration_ms": 4286,
+      "stdout_tail": "\nRunning 1 test using 1 worker\n\n  ✓  1 e2e/mission-control.spec.ts:3:5 › canonical operator journey completes (1.9s)\n\n  1 passed (3.8s)\n\nTo open last HTML report run:\n\u001b[36m\u001b[39m\n\u001b[36m  npx playwright show-report\u001b[39m\n\u001b[36m\u001b[39m\n",
+      "stderr_tail": "\u001b[2m[WebServer] \u001b[22m(node:31819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n\u001b[2m[WebServer] \u001b[22m(Use `node --trace-warnings ...` to show where the warning was created)\n\u001b[2m[WebServer] \u001b[22m(node:31820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n\u001b[2m[WebServer] \u001b[22m(Use `node --trace-warnings ...` to show where the warning was created)\n(node:31829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:31829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "name": "Authorization correctness",
+      "checks": [
+        "e2e",
+        "unit"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S02",
+      "name": "Kill-switch precedence path",
+      "checks": [
+        "e2e"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S03",
+      "name": "Approval interrupt path",
+      "checks": [
+        "e2e"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S04",
+      "name": "Provenance verification path",
+      "checks": [
+        "e2e"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S05",
+      "name": "Trace evidence replay",
+      "checks": [
+        "e2e"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S06",
+      "name": "Accessibility baseline",
+      "checks": [
+        "a11y"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S07",
+      "name": "Responsive behavior smoke",
+      "checks": [
+        "e2e"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S08",
+      "name": "Error/recovery messaging",
+      "checks": [
+        "unit"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S09",
+      "name": "Design-system consistency gate",
+      "checks": [
+        "lint"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S10",
+      "name": "Build-time type integrity",
+      "checks": [
+        "build"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S11",
+      "name": "Performance budget",
+      "checks": [
+        "perf"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S12",
+      "name": "Telemetry instrumentation",
+      "checks": [
+        "unit"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S13",
+      "name": "Feedback capture availability",
+      "checks": [
+        "unit"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S14",
+      "name": "Navigation + onboarding availability",
+      "checks": [
+        "unit"
+      ],
+      "passed": true
+    },
+    {
+      "id": "S15",
+      "name": "Full release gate",
+      "checks": [
+        "lint",
+        "unit",
+        "a11y",
+        "build",
+        "perf",
+        "e2e"
+      ],
+      "passed": true
+    }
+  ],
+  "criteria_scores": [
+    {
+      "criterion": "C1 Brand + Visual Language",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C2 Information Architecture + Navigation",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C3 Core User Journeys + Task Completion",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C4 Interaction Quality + Motion + Feedback",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C5 Accessibility (WCAG 2.2 AA+)",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C6 Responsive + Adaptive Behavior",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C7 Front-End Performance",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C8 UX States + Error/Recovery Design",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C9 Data Density + Evidence Readability",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C10 Content UX + Onboarding + Trust",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C11 Front-End Architecture + Design System Ops",
+      "score": 100,
+      "target": 100
+    },
+    {
+      "criterion": "C12 Measurement + Experimentation + UX Operations",
+      "score": 100,
+      "target": 100
+    }
+  ],
+  "summary": {
+    "checks_passed": 6,
+    "checks_total": 6,
+    "scenarios_passed": 15,
+    "scenarios_total": 15,
+    "score": 100
+  }
+}

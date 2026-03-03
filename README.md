@@ -53,11 +53,14 @@ flowchart LR
 
 - Non-technical overview: [Executive Brief](docs/governance/executive.md)
 - Technical deep dive: [Architecture v2](docs/technical/architecture-v2.md)
+- Front-end system guide: [Front-End Mission Control](docs/technical/frontend-mission-control.md)
 - Quick onboarding: [Setup & Deployment](docs/technical/setup.md)
 - Hands-on walkthrough: [Demo Guide](docs/demo.md)
 - Operational response: [Runbooks](docs/operations/runbooks.md)
+- UX operations cadence: [UX Operations Playbook](docs/operations/ux-ops.md)
 - Security posture: [Security & Compliance](docs/operations/security.md)
 - API details: [v2 API Reference](docs/reference/api-v2.md)
+- 100/100 execution tracker: [Front-End Master Tracker](docs/plans/2026-03-03-front-end-100-100-task-tracker.md)
 
 ## Quickstart (v2, local)
 

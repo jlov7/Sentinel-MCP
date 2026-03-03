@@ -1,308 +1,228 @@
 import Head from "next/head";
-import React, { FormEvent, useEffect, useMemo, useState } from "react";
-import {
-  ApprovalRecord,
-  AttestationDetail,
-  AttestationResponse,
-  AttestationVerification,
-  AuthorizationDecision,
-  CONTROL_PLANE_URL,
-  DEFAULT_BEARER_TOKEN,
-  EvidenceResponse,
-  PolicyBundleMetadata,
-  ProtocolMetadata,
-  attest,
-  authorizeDecision,
-  enableKillSwitch,
-  fetchEvidence,
-  fetchHealth,
-  fetchPolicyBundle,
-  fetchProtocols,
-  getAttestation,
-  replayDecision,
-  requestApproval,
-  resolveApproval,
-  restoreKillSwitch,
-  verifyAttestation,
-} from "../lib/api";
+import React, { useEffect, useMemo, useState } from "react";
 
-type Status = "checking" | "online" | "offline";
+import Breadcrumbs from "../components/layout/Breadcrumbs";
+import JourneyChecklist from "../components/layout/JourneyChecklist";
+import MissionHeader from "../components/layout/MissionHeader";
+import OnboardingTour from "../components/layout/OnboardingTour";
+import SectionNav, { NavItem } from "../components/layout/SectionNav";
+import AccessBoundaryPanel from "../components/sections/AccessBoundaryPanel";
+import ApprovalPanel from "../components/sections/ApprovalPanel";
+import ControlPanel from "../components/sections/ControlPanel";
+import DecisionPanel from "../components/sections/DecisionPanel";
+import EvidencePanel from "../components/sections/EvidencePanel";
+import FeedbackPanel from "../components/sections/FeedbackPanel";
+import OperatorGuidePanel from "../components/sections/OperatorGuidePanel";
+import ProvenancePanel from "../components/sections/ProvenancePanel";
+import MetricStrip from "../components/ui/MetricStrip";
+import MessageCallout from "../components/ui/MessageCallout";
+import ToastStack from "../components/ui/ToastStack";
+import { CONTROL_PLANE_URL } from "../lib/api";
+import { trackUiEvent } from "../lib/telemetry";
+import { useMissionControl } from "../lib/useMissionControl";
+
+const NAV_ITEMS: NavItem[] = [
+  { id: "operator-guide", label: "Guide" },
+  { id: "access-boundary", label: "Access" },
+  { id: "decision-orchestrator", label: "Decisions" },
+  { id: "control-overrides", label: "Controls" },
+  { id: "approval-interrupts", label: "Approvals" },
+  { id: "provenance-attestation", label: "Provenance" },
+  { id: "evidence-replay", label: "Evidence" },
+  { id: "operator-feedback", label: "Feedback" },
+];
+
+const ONBOARDING_KEY = "sentinel-v2-onboarding-dismissed";
+const FEEDBACK_KEY = "sentinel-v2-feedback";
+
+const EVENT_NEXT_STEPS: Record<string, string> = {
+  authorize: "Review reason codes and continue to approval or provenance.",
+  replay: "Compare replay output with the initial decision trace.",
+  kill_switch_activate: "Re-run authorize to confirm precedence behavior.",
+  kill_switch_restore: "Validate normal decision flow is restored.",
+  approval_request: "Resolve the approval request using explicit note text.",
+  approval_resolve: "Proceed to provenance verification for audit continuity.",
+  attest: "Verify attestation integrity and transparency-link evidence.",
+  attestation_verify: "Load evidence replay for full incident reconstruction.",
+  evidence_lookup: "Filter events and export artifacts for incident package.",
+  health_check: "If offline persists, validate service endpoint and credentials.",
+};
+
+function canUseStorage(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  return typeof window.localStorage?.getItem === "function";
+}
 
 const Home = () => {
-  const [status, setStatus] = useState<Status>("checking");
-  const [lastCheck, setLastCheck] = useState<string>("--");
+  const {
+    state,
+    setToken,
+    setTenant,
+    setToolName,
+    setAction,
+    setPurpose,
+    setUsage,
+    setContextJson,
+    setReplayToken,
+    setControlReason,
+    setApprovalReason,
+    setApprovalTtl,
+    setApprovalId,
+    setApprovalNote,
+    setRequestHash,
+    setResponseHash,
+    setOutcome,
+    setAttestationIdInput,
+    setTraceLookup,
+    runDecision,
+    runKillSwitch,
+    runApprovalRequest,
+    runApprovalResolve,
+    runAttest,
+    runVerifyAttestation,
+    runEvidenceLookup,
+    dismissToast,
+    currentTrace,
+    currentDecisionId,
+  } = useMissionControl();
 
-  const [token, setToken] = useState<string>(DEFAULT_BEARER_TOKEN);
-  const [tenant, setTenant] = useState("platform-eng");
-  const [toolName, setToolName] = useState("langsmith-docs-search");
-  const [action, setAction] = useState("invoke");
-  const [purpose, setPurpose] = useState("support");
-  const [usage, setUsage] = useState(10);
-  const [contextJson, setContextJson] = useState('{"channel":"ops"}');
-  const [replayToken, setReplayToken] = useState("");
-
-  const [decision, setDecision] = useState<AuthorizationDecision | null>(null);
-  const [decisionError, setDecisionError] = useState<string | null>(null);
-  const [decisionBusy, setDecisionBusy] = useState(false);
-
-  const [controlReason, setControlReason] = useState("operator-triggered stop");
-  const [controlMessage, setControlMessage] = useState<string | null>(null);
-  const [controlError, setControlError] = useState<string | null>(null);
-
-  const [approvalReason, setApprovalReason] = useState("risk threshold exceeded; manual verification");
-  const [approvalTtl, setApprovalTtl] = useState(600);
-  const [approvalId, setApprovalId] = useState("");
-  const [approvalNote, setApprovalNote] = useState("validated by operator");
-  const [approvalRecord, setApprovalRecord] = useState<ApprovalRecord | null>(null);
-  const [approvalError, setApprovalError] = useState<string | null>(null);
-
-  const [requestHash, setRequestHash] = useState("sha256:req-demo");
-  const [responseHash, setResponseHash] = useState("sha256:resp-demo");
-  const [outcome, setOutcome] = useState("success");
-  const [attestationIdInput, setAttestationIdInput] = useState("");
-  const [attestation, setAttestation] = useState<AttestationResponse | null>(null);
-  const [attestationDetail, setAttestationDetail] = useState<AttestationDetail | null>(null);
-  const [attestationVerification, setAttestationVerification] = useState<AttestationVerification | null>(
-    null
-  );
-  const [provenanceError, setProvenanceError] = useState<string | null>(null);
-
-  const [traceLookup, setTraceLookup] = useState("");
-  const [evidence, setEvidence] = useState<EvidenceResponse | null>(null);
-  const [evidenceError, setEvidenceError] = useState<string | null>(null);
-  const [protocols, setProtocols] = useState<ProtocolMetadata | null>(null);
-  const [bundle, setBundle] = useState<PolicyBundleMetadata | null>(null);
+  const [activeSectionId, setActiveSectionId] = useState<string>(NAV_ITEMS[0].id);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [feedbackCount, setFeedbackCount] = useState(0);
 
   useEffect(() => {
-    let mounted = true;
+    if (!canUseStorage()) {
+      return;
+    }
+    const dismissed = window.localStorage.getItem(ONBOARDING_KEY);
+    setShowOnboarding(dismissed !== "true");
 
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage &&
-      typeof window.localStorage.getItem === "function"
-    ) {
-      const persisted = window.localStorage.getItem("sentinel-v2-token");
-      if (persisted && !DEFAULT_BEARER_TOKEN) {
-        setToken(persisted);
-      }
+    const rawFeedback = window.localStorage.getItem(FEEDBACK_KEY);
+    if (!rawFeedback) {
+      return;
+    }
+    try {
+      const parsed = JSON.parse(rawFeedback) as Array<{ created_at: string; score: number; note: string }>;
+      setFeedbackCount(Array.isArray(parsed) ? parsed.length : 0);
+    } catch {
+      setFeedbackCount(0);
     }
 
-    const checkHealth = async () => {
-      try {
-        const result = await fetchHealth();
-        if (!mounted) return;
-        setStatus(result.status === "ok" ? "online" : "offline");
-      } catch {
-        if (!mounted) return;
-        setStatus("offline");
-      } finally {
-        if (mounted) {
-          setLastCheck(new Date().toLocaleTimeString());
-        }
-      }
-    };
+    const params = new URLSearchParams(window.location.search);
+    const traceParam = params.get("trace");
+    if (traceParam) {
+      setTraceLookup(traceParam);
+    }
+  }, [setTraceLookup]);
 
-    checkHealth();
-    const interval = setInterval(checkHealth, 15000);
-    return () => {
-      mounted = false;
-      clearInterval(interval);
-    };
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+        if (visible?.target?.id) {
+          setActiveSectionId(visible.target.id);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0.2, 0.4, 0.6],
+      }
+    );
+
+    NAV_ITEMS.forEach((item) => {
+      const target = document.getElementById(item.id);
+      if (target) {
+        observer.observe(target);
+      }
+    });
+
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage &&
-      typeof window.localStorage.setItem === "function"
-    ) {
-      window.localStorage.setItem("sentinel-v2-token", token);
+  const dismissOnboarding = () => {
+    if (canUseStorage()) {
+      window.localStorage.setItem(ONBOARDING_KEY, "true");
     }
-  }, [token]);
-
-  const currentTrace = useMemo(() => {
-    if (decision?.trace_id) {
-      return decision.trace_id;
-    }
-    if (approvalRecord?.trace_id) {
-      return approvalRecord.trace_id;
-    }
-    if (attestation?.trace_id) {
-      return attestation.trace_id;
-    }
-    return "";
-  }, [approvalRecord?.trace_id, attestation?.trace_id, decision?.trace_id]);
-
-  const currentDecisionId = decision?.decision_id ?? "";
-
-  const parseContext = (): Record<string, unknown> => {
-    if (!contextJson.trim()) {
-      return {};
-    }
-    try {
-      return JSON.parse(contextJson) as Record<string, unknown>;
-    } catch {
-      throw new Error("Context must be valid JSON");
-    }
+    setShowOnboarding(false);
+    trackUiEvent({ name: "onboarding_dismiss", success: true });
   };
 
-  const runDecision = async (mode: "authorize" | "replay") => {
-    setDecisionBusy(true);
-    setDecisionError(null);
-    setDecision(null);
-    try {
-      const payload = {
-        tenant_slug: tenant,
-        tool_name: toolName,
-        action,
-        purpose: purpose || undefined,
-        usage,
-        context: parseContext(),
-        replay_token: replayToken || undefined,
-      };
-
-      const result =
-        mode === "authorize"
-          ? await authorizeDecision(token, payload)
-          : await replayDecision(token, payload);
-      setDecision(result);
-      setTraceLookup(result.trace_id);
-    } catch (error) {
-      setDecisionError((error as Error).message);
-    } finally {
-      setDecisionBusy(false);
-    }
-  };
-
-  const runKillSwitch = async (disable: boolean) => {
-    setControlError(null);
-    setControlMessage(null);
-    try {
-      const result = disable
-        ? await enableKillSwitch(token, {
-            tenant_slug: tenant,
-            tool_name: toolName || undefined,
-            reason: controlReason,
-          })
-        : await restoreKillSwitch(token, {
-            tenant_slug: tenant,
-            tool_name: toolName || undefined,
-          });
-      setControlMessage(`${result.status.toUpperCase()} -> ${result.affected_tools.join(", ")}`);
-    } catch (error) {
-      setControlError((error as Error).message);
-    }
-  };
-
-  const runApprovalRequest = async () => {
-    if (!decision) {
-      setApprovalError("Run a decision first.");
+  const submitFeedback = (score: number, note: string) => {
+    if (!canUseStorage()) {
       return;
     }
-    setApprovalError(null);
-    try {
-      const result = await requestApproval(token, {
-        tenant_slug: tenant,
-        trace_id: decision.trace_id,
-        decision_id: decision.decision_id,
-        reason: approvalReason,
-        ttl_seconds: approvalTtl,
-      });
-      setApprovalRecord(result);
-      setApprovalId(result.approval_id);
-    } catch (error) {
-      setApprovalError((error as Error).message);
+
+    const raw = window.localStorage.getItem(FEEDBACK_KEY);
+    let current: Array<{ created_at: string; score: number; note: string }> = [];
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw) as Array<{ created_at: string; score: number; note: string }>;
+        current = Array.isArray(parsed) ? parsed : [];
+      } catch {
+        current = [];
+      }
     }
+
+    const next = [
+      ...current,
+      {
+        created_at: new Date().toISOString(),
+        score,
+        note: note.trim(),
+      },
+    ].slice(-200);
+
+    window.localStorage.setItem(FEEDBACK_KEY, JSON.stringify(next));
+    setFeedbackCount(next.length);
+    trackUiEvent({ name: "feedback_submit", success: true, detail: `score:${score}` });
   };
 
-  const runApprovalResolve = async (approved: boolean) => {
-    if (!approvalId.trim()) {
-      setApprovalError("Approval ID is required.");
+  const jumpToSection = (sectionId: string) => {
+    const target = document.getElementById(sectionId);
+    if (!target) {
       return;
     }
-    setApprovalError(null);
-    try {
-      const result = await resolveApproval(token, approvalId.trim(), {
-        approved,
-        note: approvalNote || undefined,
-      });
-      setApprovalRecord(result);
-    } catch (error) {
-      setApprovalError((error as Error).message);
-    }
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.location.hash = sectionId;
   };
 
-  const runAttest = async () => {
-    if (!decision) {
-      setProvenanceError("Run a decision first.");
-      return;
-    }
-    setProvenanceError(null);
-    setAttestation(null);
-    try {
-      const result = await attest(token, {
-        tenant_slug: tenant,
-        tool_name: toolName,
-        action,
-        trace_id: decision.trace_id,
-        decision_id: decision.decision_id,
-        decision_allow: decision.allow,
-        request_hash: requestHash,
-        response_hash: responseHash || undefined,
-        outcome: outcome || undefined,
-      });
-      setAttestation(result);
-      setAttestationIdInput(result.attestation_id);
-    } catch (error) {
-      setProvenanceError((error as Error).message);
-    }
-  };
+  const metrics = useMemo(() => {
+    const total = state.uiEvents.length;
+    const successes = state.uiEvents.filter((entry) => entry.success).length;
+    const failures = total - successes;
+    const successRate = total ? `${Math.round((successes / total) * 100)}%` : "--";
 
-  const runVerifyAttestation = async () => {
-    if (!attestationIdInput.trim()) {
-      setProvenanceError("Attestation ID is required.");
-      return;
-    }
-    setProvenanceError(null);
-    try {
-      const [detail, verification] = await Promise.all([
-        getAttestation(token, attestationIdInput.trim()),
-        verifyAttestation(token, attestationIdInput.trim()),
-      ]);
-      setAttestationDetail(detail);
-      setAttestationVerification(verification);
-    } catch (error) {
-      setProvenanceError((error as Error).message);
-    }
-  };
+    return [
+      { label: "UI events", value: String(total) },
+      { label: "Success rate", value: successRate },
+      { label: "Failures", value: String(failures) },
+      {
+        label: "Time to evidence",
+        value: state.journeyDurations.evidenceMs
+          ? `${(state.journeyDurations.evidenceMs / 1000).toFixed(1)}s`
+          : "--",
+      },
+    ];
+  }, [state.journeyDurations.evidenceMs, state.uiEvents]);
 
-  const runEvidenceLookup = async (event?: FormEvent) => {
-    event?.preventDefault();
-    if (!traceLookup.trim()) {
-      setEvidenceError("Trace ID is required.");
-      return;
-    }
-    setEvidenceError(null);
-    try {
-      const [evidencePayload, protocolPayload, bundlePayload] = await Promise.all([
-        fetchEvidence(token, traceLookup.trim()),
-        fetchProtocols(token),
-        fetchPolicyBundle(token),
-      ]);
-      setEvidence(evidencePayload);
-      setProtocols(protocolPayload);
-      setBundle(bundlePayload);
-    } catch (error) {
-      setEvidenceError((error as Error).message);
-    }
-  };
+  const latestEvent = state.uiEvents.length ? state.uiEvents[state.uiEvents.length - 1] : null;
 
-  const statusClass =
-    status === "online"
-      ? "status-dot status-dot--online"
-      : status === "offline"
-      ? "status-dot status-dot--offline"
-      : "status-dot status-dot--checking";
+  const latestOutcome = latestEvent
+    ? `Latest event: ${latestEvent.name} (${latestEvent.success ? "success" : "failure"}).`
+    : "No UI events yet. Start with Authorize.";
+
+  const nextStep = latestEvent ? EVENT_NEXT_STEPS[latestEvent.name] ?? "Continue to the next workflow stage." : "";
+
+  const activeLabel = NAV_ITEMS.find((item) => item.id === activeSectionId)?.label ?? "Guide";
 
   return (
     <>
@@ -310,306 +230,142 @@ const Home = () => {
         <title>Sentinel MCP Mission Control</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main className="mission">
-        <header className="masthead">
-          <div>
-            <h1>Sentinel Mission Control v2</h1>
-            <p>
-              Governance runtime for frontier tool-use. Every decision, interrupt, and attestation
-              links into a replayable evidence graph.
-            </p>
-          </div>
-          <div className="status-card">
-            <div className="status-card__row">
-              <span className={statusClass} />
-              <strong>{status.toUpperCase()}</strong>
-            </div>
-            <div className="status-card__meta">Endpoint: {CONTROL_PLANE_URL}</div>
-            <div className="status-card__meta">Last check: {lastCheck}</div>
-          </div>
-        </header>
 
-        <section className="panel panel--wide">
-          <h2>Access Boundary</h2>
-          <p>All `/v2/*` control APIs require authenticated identity and scoped claims.</p>
-          <label className="field__label" htmlFor="bearer-token">
-            Bearer token
-          </label>
-          <textarea
-            id="bearer-token"
-            value={token}
-            onChange={(event) => setToken(event.target.value)}
-            className="field__input field__input--mono"
-            rows={3}
-            placeholder="Paste JWT with v2 scopes"
-          />
-        </section>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
 
-        <section className="grid">
-          <article className="panel">
-            <h2>Decision Orchestrator</h2>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                runDecision("authorize");
-              }}
-              className="form"
-            >
-              <label className="field__label" htmlFor="tenant">
-                Tenant
-              </label>
-              <input
-                id="tenant"
-                className="field__input"
-                value={tenant}
-                onChange={(event) => setTenant(event.target.value)}
-              />
+      <main className="mission" id="main-content">
+        <MissionHeader status={state.status} endpoint={CONTROL_PLANE_URL} lastCheck={state.lastCheck} />
+        <Breadcrumbs activeLabel={activeLabel} />
+        <OnboardingTour visible={showOnboarding} onDismiss={dismissOnboarding} onJumpTo={jumpToSection} />
 
-              <label className="field__label" htmlFor="tool-name">
-                Tool name
-              </label>
-              <input
-                id="tool-name"
-                className="field__input"
-                value={toolName}
-                onChange={(event) => setToolName(event.target.value)}
-              />
+        <MetricStrip metrics={metrics} />
 
-              <label className="field__label" htmlFor="action">
-                Action
-              </label>
-              <input
-                id="action"
-                className="field__input"
-                value={action}
-                onChange={(event) => setAction(event.target.value)}
-              />
+        <div className="layout-grid">
+          <aside className="layout-sidebar">
+            <SectionNav
+              items={NAV_ITEMS}
+              compact={state.navVariant === "compact"}
+              activeId={activeSectionId}
+            />
+            <JourneyChecklist
+              decisionReady={Boolean(state.decision)}
+              approvalReady={Boolean(state.approvalRecord)}
+              attestationReady={Boolean(state.attestationVerification)}
+              evidenceReady={Boolean(state.evidence)}
+            />
+          </aside>
 
-              <label className="field__label" htmlFor="purpose">
-                Purpose
-              </label>
-              <input
-                id="purpose"
-                className="field__input"
-                value={purpose}
-                onChange={(event) => setPurpose(event.target.value)}
-              />
-
-              <label className="field__label" htmlFor="usage">
-                Usage
-              </label>
-              <input
-                id="usage"
-                type="number"
-                min={0}
-                className="field__input"
-                value={usage}
-                onChange={(event) => setUsage(Number(event.target.value))}
-              />
-
-              <label className="field__label" htmlFor="context-json">
-                Context JSON
-              </label>
-              <textarea
-                id="context-json"
-                className="field__input field__input--mono"
-                rows={3}
-                value={contextJson}
-                onChange={(event) => setContextJson(event.target.value)}
-              />
-
-              <label className="field__label" htmlFor="replay-token">
-                Replay token (optional)
-              </label>
-              <input
-                id="replay-token"
-                className="field__input"
-                value={replayToken}
-                onChange={(event) => setReplayToken(event.target.value)}
-              />
-
-              <div className="actions">
-                <button type="submit" disabled={decisionBusy}>
-                  {decisionBusy ? "Authorizing..." : "Authorize"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => runDecision("replay")}
-                  disabled={decisionBusy}
-                  className="button--ghost"
-                >
-                  Replay
-                </button>
-              </div>
-            </form>
-            {decisionError ? <p className="error">{decisionError}</p> : null}
-            {decision ? (
-              <pre className="output">{JSON.stringify(decision, null, 2)}</pre>
+          <div className="layout-main">
+            <MessageCallout tone={latestEvent?.success === false ? "error" : "info"}>{latestOutcome}</MessageCallout>
+            {nextStep ? <MessageCallout tone="ok">Next step: {nextStep}</MessageCallout> : null}
+            {state.status === "offline" ? (
+              <MessageCallout tone="error">
+                Control plane is offline. Actions may fail-closed until connectivity is restored.
+              </MessageCallout>
             ) : null}
-          </article>
 
-          <article className="panel">
-            <h2>Control Overrides</h2>
-            <p>Kill-switch takes precedence over policy allow outcomes.</p>
-            <label className="field__label" htmlFor="control-reason">
-              Disable reason
-            </label>
-            <input
-              id="control-reason"
-              className="field__input"
-              value={controlReason}
-              onChange={(event) => setControlReason(event.target.value)}
+            <OperatorGuidePanel
+              tenant={state.tenant}
+              currentTrace={currentTrace}
+              journeyStartedAt={state.journeyStartedAt}
+              journeyDurations={state.journeyDurations}
+              journeyComplete={state.journeyComplete}
+              onLoadDemoTrace={() => setTraceLookup(currentTrace)}
             />
-            <div className="actions">
-              <button type="button" onClick={() => runKillSwitch(true)}>
-                Activate kill-switch
-              </button>
-              <button type="button" onClick={() => runKillSwitch(false)} className="button--ghost">
-                Restore tool
-              </button>
-            </div>
-            {controlError ? <p className="error">{controlError}</p> : null}
-            {controlMessage ? <p className="ok">{controlMessage}</p> : null}
-          </article>
 
-          <article className="panel">
-            <h2>Approval Interrupts</h2>
-            <p>Use this when a decision returns `requires_approval = true`.</p>
-            <label className="field__label" htmlFor="approval-reason">
-              Request reason
-            </label>
-            <input
-              id="approval-reason"
-              className="field__input"
-              value={approvalReason}
-              onChange={(event) => setApprovalReason(event.target.value)}
-            />
-            <label className="field__label" htmlFor="approval-ttl">
-              TTL (seconds)
-            </label>
-            <input
-              id="approval-ttl"
-              type="number"
-              min={30}
-              className="field__input"
-              value={approvalTtl}
-              onChange={(event) => setApprovalTtl(Number(event.target.value))}
-            />
-            <button type="button" onClick={runApprovalRequest}>
-              Request approval
-            </button>
+            <AccessBoundaryPanel token={state.token} onTokenChange={setToken} />
 
-            <hr />
+            <section className="grid">
+              <DecisionPanel
+                tenant={state.tenant}
+                toolName={state.toolName}
+                action={state.action}
+                purpose={state.purpose}
+                usage={state.usage}
+                contextJson={state.contextJson}
+                contextValidationError={state.contextValidationError}
+                replayToken={state.replayToken}
+                decisionBusy={state.decisionBusy}
+                decisionError={state.decisionError}
+                decision={state.decision}
+                onTenantChange={setTenant}
+                onToolNameChange={setToolName}
+                onActionChange={setAction}
+                onPurposeChange={setPurpose}
+                onUsageChange={setUsage}
+                onContextJsonChange={setContextJson}
+                onReplayTokenChange={setReplayToken}
+                onAuthorize={() => runDecision("authorize")}
+                onReplay={() => runDecision("replay")}
+              />
 
-            <label className="field__label" htmlFor="approval-id">
-              Approval ID
-            </label>
-            <input
-              id="approval-id"
-              className="field__input"
-              value={approvalId}
-              onChange={(event) => setApprovalId(event.target.value)}
-            />
-            <label className="field__label" htmlFor="approval-note">
-              Resolution note
-            </label>
-            <input
-              id="approval-note"
-              className="field__input"
-              value={approvalNote}
-              onChange={(event) => setApprovalNote(event.target.value)}
-            />
-            <div className="actions">
-              <button type="button" onClick={() => runApprovalResolve(true)}>
-                Approve
-              </button>
-              <button type="button" onClick={() => runApprovalResolve(false)} className="button--danger">
-                Deny
-              </button>
-            </div>
-            {approvalError ? <p className="error">{approvalError}</p> : null}
-            {approvalRecord ? <pre className="output">{JSON.stringify(approvalRecord, null, 2)}</pre> : null}
-          </article>
+              <ControlPanel
+                controlReason={state.controlReason}
+                controlMessage={state.controlMessage}
+                controlError={state.controlError}
+                killSwitchBusy={state.killSwitchBusy}
+                onReasonChange={setControlReason}
+                onActivate={() => runKillSwitch(true)}
+                onRestore={() => runKillSwitch(false)}
+              />
 
-          <article className="panel">
-            <h2>Provenance Attestation</h2>
-            <p>Generate and verify DSSE envelopes with transparency-log linkage metadata.</p>
-            <label className="field__label" htmlFor="request-hash">
-              Request hash
-            </label>
-            <input
-              id="request-hash"
-              className="field__input"
-              value={requestHash}
-              onChange={(event) => setRequestHash(event.target.value)}
-            />
-            <label className="field__label" htmlFor="response-hash">
-              Response hash
-            </label>
-            <input
-              id="response-hash"
-              className="field__input"
-              value={responseHash}
-              onChange={(event) => setResponseHash(event.target.value)}
-            />
-            <label className="field__label" htmlFor="outcome">
-              Outcome
-            </label>
-            <input
-              id="outcome"
-              className="field__input"
-              value={outcome}
-              onChange={(event) => setOutcome(event.target.value)}
-            />
-            <div className="actions">
-              <button type="button" onClick={runAttest}>
-                Attest
-              </button>
-            </div>
+              <ApprovalPanel
+                approvalReason={state.approvalReason}
+                approvalTtl={state.approvalTtl}
+                approvalId={state.approvalId}
+                approvalNote={state.approvalNote}
+                approvalError={state.approvalError}
+                approvalRecord={state.approvalRecord}
+                approvalBusy={state.approvalBusy}
+                onReasonChange={setApprovalReason}
+                onTtlChange={setApprovalTtl}
+                onApprovalIdChange={setApprovalId}
+                onNoteChange={setApprovalNote}
+                onRequest={runApprovalRequest}
+                onApprove={() => runApprovalResolve(true)}
+                onDeny={() => runApprovalResolve(false)}
+              />
 
-            <label className="field__label" htmlFor="attestation-id">
-              Attestation ID
-            </label>
-            <input
-              id="attestation-id"
-              className="field__input"
-              value={attestationIdInput}
-              onChange={(event) => setAttestationIdInput(event.target.value)}
-            />
-            <button type="button" onClick={runVerifyAttestation}>
-              Verify + Load
-            </button>
+              <ProvenancePanel
+                requestHash={state.requestHash}
+                responseHash={state.responseHash}
+                outcome={state.outcome}
+                attestationIdInput={state.attestationIdInput}
+                provenanceError={state.provenanceError}
+                provenanceBusy={state.provenanceBusy}
+                attestation={state.attestation}
+                attestationDetail={state.attestationDetail}
+                attestationVerification={state.attestationVerification}
+                onRequestHashChange={setRequestHash}
+                onResponseHashChange={setResponseHash}
+                onOutcomeChange={setOutcome}
+                onAttestationIdInputChange={setAttestationIdInput}
+                onAttest={runAttest}
+                onVerify={runVerifyAttestation}
+              />
+            </section>
 
-            {provenanceError ? <p className="error">{provenanceError}</p> : null}
-            {attestation ? <pre className="output">{JSON.stringify(attestation, null, 2)}</pre> : null}
-            {attestationVerification ? (
-              <pre className="output">{JSON.stringify(attestationVerification, null, 2)}</pre>
-            ) : null}
-            {attestationDetail ? <pre className="output">{JSON.stringify(attestationDetail, null, 2)}</pre> : null}
-          </article>
-        </section>
-
-        <section className="panel panel--wide">
-          <h2>Evidence Graph Replay</h2>
-          <p>Jump from trace ID to full decision/provenance/control event sequence.</p>
-          <form onSubmit={runEvidenceLookup} className="form-inline">
-            <input
-              className="field__input"
-              placeholder="Trace ID"
-              value={traceLookup}
-              onChange={(event) => setTraceLookup(event.target.value)}
+            <EvidencePanel
+              traceLookup={state.traceLookup}
+              currentTrace={currentTrace}
+              currentDecisionId={currentDecisionId}
+              evidence={state.evidence}
+              evidenceError={state.evidenceError}
+              evidenceBusy={state.evidenceBusy}
+              evidenceDegraded={state.evidenceDegraded}
+              protocols={state.protocols}
+              bundle={state.bundle}
+              onTraceLookupChange={setTraceLookup}
+              onSubmitLookup={runEvidenceLookup}
             />
-            <button type="submit">Load evidence</button>
-          </form>
-          <div className="chips">
-            <span className="chip">Current Trace: {currentTrace || "--"}</span>
-            <span className="chip">Current Decision: {currentDecisionId || "--"}</span>
+
+            <FeedbackPanel feedbackCount={feedbackCount} onSubmitFeedback={submitFeedback} />
           </div>
-          {evidenceError ? <p className="error">{evidenceError}</p> : null}
-          {protocols ? <pre className="output">{JSON.stringify(protocols, null, 2)}</pre> : null}
-          {bundle ? <pre className="output">{JSON.stringify(bundle, null, 2)}</pre> : null}
-          {evidence ? <pre className="output">{JSON.stringify(evidence, null, 2)}</pre> : null}
-        </section>
+        </div>
+
+        <ToastStack toasts={state.toasts} onDismiss={dismissToast} />
       </main>
     </>
   );

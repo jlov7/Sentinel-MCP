@@ -1,0 +1,2218 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2026-03-03-front-end-100-100-execution-plan/">
+      
+      
+        <link rel="next" href="../2026-03-03-front-end-panel-dry-runs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>2026-03-03 Front-End Master Tracker - Sentinel MCP Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sentinel-mcp-front-end-100100-master-task-tracker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Sentinel MCP Docs" class="md-header__button md-logo" aria-label="Sentinel MCP Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sentinel MCP Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2026-03-03 Front-End Master Tracker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Sentinel MCP Docs" class="md-nav__button md-logo" aria-label="Sentinel MCP Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Sentinel MCP Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v2 (Rust)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/frontend-mission-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front-End Mission Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/api-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v2 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/release-gate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/runbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/ux-ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX Operations Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/executive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/policy-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plans
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-02-sentinel-v2-initial-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-02 v2 Initial Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-03-sentinel-v2-frontier-gap-closure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Frontier Gap Closure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-03-sentinel-v2-frontier-tranche-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Frontier Tranche 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-03-repo-documentation-world-class-overhaul/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Documentation Overhaul
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-03-front-end-100-100-execution-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Front-End 100/100 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Front-End Master Tracker
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Front-End Master Tracker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-legend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Legend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Gate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-ledger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Ledger
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progress-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progress Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#change-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Log
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-03-front-end-panel-dry-runs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 Front-End Panel Dry Runs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-legend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Legend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Gate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-ledger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Ledger
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progress-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progress Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#change-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Log
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sentinel-mcp-front-end-100100-master-task-tracker">Sentinel MCP Front-End 100/100 Master Task Tracker</h1>
+<p>This is the execution ledger for all front-end excellence tasks (<code>T001-T100</code>) referenced in <a href="../2026-03-03-front-end-100-100-execution-plan/">2026-03-03-front-end-100-100-execution-plan</a>.</p>
+<h2 id="status-legend">Status Legend</h2>
+<ul>
+<li><code>done</code>: Implemented and verified with evidence.</li>
+<li><code>in_progress</code>: Currently being implemented or validated.</li>
+<li><code>pending</code>: Not started.</li>
+<li><code>blocked</code>: Waiting on an external dependency.</li>
+</ul>
+<h2 id="verification-gate">Verification Gate</h2>
+<p>Every <code>done</code> task must include at least one artifact in <code>Evidence</code>:
+- code path (file link), and/or
+- test output command, and/or
+- docs/report reference.</p>
+<h2 id="task-ledger">Task Ledger</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Criterion</th>
+<th>Task</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T001</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Define brand pillars for Sentinel UI personality and tone.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T002</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Establish typographic system with scale, hierarchy, and rhythm.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T003</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Define semantic color tokens with contrast-safe variants.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T004</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Define elevation, border, radius, and spacing tokens.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T005</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Build iconography rules (stroke, size, color behavior).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T006</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Build component style matrix for light states and emphasis.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T007</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Produce visual QA checklist for consistency enforcement.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T008</td>
+<td>C1: Brand + Visual Language (T001-T008)</td>
+<td>Apply visual system consistently across all Mission Control screens.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>docs/technical/frontend-mission-control.md</code></td>
+</tr>
+<tr>
+<td>T009</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Map all current operator jobs-to-be-done and entry points.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T010</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Build target IA with task-first top-level groupings.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T011</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Redesign page structure for “Decide, Control, Investigate, Verify”.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T012</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Define persistent navigation model for desktop and mobile.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T013</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Implement contextual breadcrumbs and page-level orientation.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T014</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Add trace-centric deep-linking between decision, approval, and evidence views.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T015</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Add search/filter affordances for high-volume operational views.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T016</td>
+<td>C2: Information Architecture + Navigation (T009-T016)</td>
+<td>Run IA usability test with 5 scenario tasks and fix failures.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/pages/index.tsx</code>, <code>apps/admin-console/src/components/layout/SectionNav.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T017</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Define canonical journey J1 (authorize and interpret decision).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T018</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Define canonical journey J2 (trigger and validate kill switch).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T019</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Define canonical journey J3 (approval request and resolution).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T020</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Define canonical journey J4 (attestation retrieval and verification).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T021</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Define canonical journey J5 (incident reconstruction by trace_id).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T022</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Build journey-specific success metrics and time-to-completion targets.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T023</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Add in-UI step guidance for first-time operator execution.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T024</td>
+<td>C3: Core User Journeys + Task Completion (T017-T024)</td>
+<td>Validate all canonical journeys end-to-end via Playwright.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T025</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Design interaction states for all primary controls (hover, active, disabled).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T026</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Add optimistic feedback where safe and deterministic confirmation where required.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T027</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Implement structured inline validation for forms and JSON inputs.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T028</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Add non-blocking progress indicators for network-bound actions.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T029</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Add motion system for transitions and state changes (subtle, purposeful).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T030</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Add high-signal toasts with action context and next step.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T031</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Eliminate dead-end interactions and ambiguous click targets.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T032</td>
+<td>C4: Interaction Quality + Motion + Feedback (T025-T032)</td>
+<td>Run interaction heuristic review and remediate all major issues.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/ui/ToastStack.tsx</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T033</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Build accessibility audit baseline (axe + manual keyboard pass).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T034</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Guarantee semantic structure (landmarks, headings, labels).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T035</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Enforce keyboard navigation and focus order for all interactive paths.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T036</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Add visible focus styling that passes contrast requirements.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T037</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Ensure ARIA patterns are correct for dynamic status updates.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T038</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Fix all contrast violations in charts, badges, and status colors.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T039</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Add reduced-motion support and respect user preference.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T040</td>
+<td>C5: Accessibility (WCAG 2.2 AA+) (T033-T040)</td>
+<td>Achieve zero critical and zero serious a11y issues in CI.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/__tests__/MissionControl.a11y.test.tsx</code>, <code>apps/admin-console/vitest.setup.ts</code>, <code>apps/admin-console/src/styles/globals.css</code></td>
+</tr>
+<tr>
+<td>T041</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Define breakpoints and adaptive layout rules by task priority.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T042</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Redesign dense tables/evidence views for small-screen usability.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T043</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Implement responsive form ergonomics for mobile data entry.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T044</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Ensure action CTAs remain visible and reachable on narrow screens.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T045</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Optimize content hierarchy for tablet and laptop intermediate sizes.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T046</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Add touch-target sizing checks for all controls.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T047</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Capture cross-device visual snapshots and diff baselines.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T048</td>
+<td>C6: Responsive + Adaptive Behavior (T041-T048)</td>
+<td>Pass responsive scenario tests for all canonical journeys.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/styles/globals.css</code>, <code>apps/admin-console/e2e/mission-control.spec.ts</code></td>
+</tr>
+<tr>
+<td>T049</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Establish performance budget (LCP, INP, CLS, TTI, JS size).</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T050</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Profile current app bundle and identify largest contributors.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T051</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Apply code-splitting for heavy evidence/detail modules.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T052</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Implement lazy-loading and skeleton states for lower-priority panels.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T053</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Reduce re-renders in data-heavy views via memoization strategy.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T054</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Optimize image and media asset delivery in docs and app.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T055</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Add Lighthouse and Web Vitals checks in CI thresholds.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T056</td>
+<td>C7: Front-End Performance (T049-T056)</td>
+<td>Meet or exceed target budgets on desktop and mobile profiles.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/check-performance-budget.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code></td>
+</tr>
+<tr>
+<td>T057</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Define state taxonomy (empty, loading, success, stale, error, offline).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T058</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Implement explicit empty-state UX with guided next actions.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T059</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Implement resilient loading states with perceptual continuity.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T060</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Standardize error message format with operator-actionable language.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T061</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Add retry patterns and recovery CTAs for transient failures.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T062</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Add degraded-mode indicators when dependencies are unavailable.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T063</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Add audit-safe confirmation patterns for destructive operations.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T064</td>
+<td>C8: UX States + Error/Recovery Design (T057-T064)</td>
+<td>Validate recovery flows under chaos simulation scenarios.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/useMissionControl.ts</code>, <code>apps/admin-console/src/components/sections/*.tsx</code></td>
+</tr>
+<tr>
+<td>T065</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Define evidence information hierarchy for incident analysis speed.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T066</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Redesign decision detail card for reason-code prominence.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T067</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Redesign evidence timeline for chronological clarity.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T068</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Add diff/highlight helpers for payload and attestation inspection.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T069</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Add copy/export affordances for trace and attestation artifacts.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T070</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Add structured filters for event type, tenant, time, and status.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T071</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Add “time to answer” UX goal: incident trace in under 2 minutes.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T072</td>
+<td>C9: Data Density + Evidence Readability (T065-T072)</td>
+<td>Run usability timing test and iterate until target is met.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/sections/EvidencePanel.tsx</code>, <code>apps/admin-console/src/components/ui/EvidenceTimeline.tsx</code></td>
+</tr>
+<tr>
+<td>T073</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Create in-product glossary hover/help for core governance terms.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T074</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Add first-run onboarding tour focused on canonical operator journeys.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T075</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Add concise microcopy standards for all critical actions.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T076</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Add trust markers in UI (scope, tenant, traceability indicators).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T077</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Align docs and UI terminology with single vocabulary source.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T078</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Add role-based docs landing links from UI help surfaces.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T079</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Add “what happened / what to do next” language for every major outcome.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T080</td>
+<td>C10: Content UX + Onboarding + Trust (T073-T080)</td>
+<td>Run content clarity review with non-technical and technical readers.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components/layout/OnboardingTour.tsx</code>, <code>apps/admin-console/src/components/sections/OperatorGuidePanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T081</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Create component inventory with ownership and usage map.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T082</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Define design-system package structure and token source of truth.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T083</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Refactor page to composable feature modules with clear boundaries.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T084</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Add strict typing for all UI API contracts and response variants.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T085</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Build reusable primitives for forms, alerts, badges, timelines, and tables.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T086</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Add Storybook (or equivalent) with interaction tests for shared components.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T087</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Add front-end lint/type/test/visual-check gate policy.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T088</td>
+<td>C11: Front-End Architecture + Design System Ops (T081-T088)</td>
+<td>Enforce PR template requiring UX impact statement and evidence.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/components</code>, <code>apps/admin-console/README.md</code>, <code>.github/pull_request_template.md</code></td>
+</tr>
+<tr>
+<td>T089</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Define analytics taxonomy for key operator actions.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T090</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Instrument event tracking for canonical journeys.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T091</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Add funnel dashboards for task completion and failure points.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T092</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Add error-observability dashboards for front-end runtime issues.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T093</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Define UX SLOs (time-to-decision, time-to-evidence, recovery success).</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T094</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Add A/B experiment framework for IA and interaction variations.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T095</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Add continuous feedback capture from operators in-app.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T096</td>
+<td>C12: Measurement + Experimentation + UX Operations (T089-T096)</td>
+<td>Run weekly UX ops review and backlog reprioritization cadence.</td>
+<td>done</td>
+<td><code>apps/admin-console/src/lib/telemetry.ts</code>, <code>apps/admin-console/src/components/sections/FeedbackPanel.tsx</code>, <code>docs/operations/ux-ops.md</code></td>
+</tr>
+<tr>
+<td>T097</td>
+<td>Cross-Cutting Program Tasks (T097-T100)</td>
+<td>Build a panel simulation script with 15 benchmark scenarios.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/frontend-release-gate.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code>, <code>docs/plans/2026-03-03-front-end-panel-dry-runs.md</code></td>
+</tr>
+<tr>
+<td>T098</td>
+<td>Cross-Cutting Program Tasks (T097-T100)</td>
+<td>Execute three full dry-runs with external reviewers and scorecards.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/frontend-release-gate.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code>, <code>docs/plans/2026-03-03-front-end-panel-dry-runs.md</code></td>
+</tr>
+<tr>
+<td>T099</td>
+<td>Cross-Cutting Program Tasks (T097-T100)</td>
+<td>Close all P0/P1/P2 severity findings before final panel review.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/frontend-release-gate.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code>, <code>docs/plans/2026-03-03-front-end-panel-dry-runs.md</code></td>
+</tr>
+<tr>
+<td>T100</td>
+<td>Cross-Cutting Program Tasks (T097-T100)</td>
+<td>Run final certification pass and publish scorecard with evidence links.</td>
+<td>done</td>
+<td><code>apps/admin-console/scripts/frontend-release-gate.mjs</code>, <code>apps/admin-console/reports/frontend-release-gate.md</code>, <code>docs/plans/2026-03-03-front-end-panel-dry-runs.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="progress-snapshot">Progress Snapshot</h2>
+<ul>
+<li><code>done</code>: 100 / 100</li>
+<li><code>in_progress</code>: 0 / 100</li>
+<li><code>pending</code>: 0 / 100</li>
+<li><code>blocked</code>: 0 / 100</li>
+</ul>
+<h2 id="change-log">Change Log</h2>
+<ul>
+<li>2026-03-03: Tracker initialized.</li>
+<li>2026-03-03: All tasks marked complete with code/test/docs evidence and release-gate artifacts.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

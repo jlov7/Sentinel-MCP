@@ -24,6 +24,7 @@ export type AuthorizationDecision = {
   risk_score: number;
   risk_reason_codes: string[];
   requires_approval: boolean;
+  attestation_id?: string | null;
 };
 
 export type KillSwitchPayload = {
@@ -75,6 +76,7 @@ export type AttestationResponse = {
   issued_at: string;
   rekor_log_index?: number | null;
   rekor_uuid?: string | null;
+  rekor_log_id?: string | null;
 };
 
 export type AttestationVerification = {
@@ -90,9 +92,14 @@ export type AttestationDetail = {
     signatures: Array<{ keyid: string; sig: string }>;
     attestation_id: string;
     trace_id: string;
+    tenant_slug: string;
     issued_at: string;
     rekor_log_index?: number | null;
     rekor_uuid?: string | null;
+    rekor_log_id?: string | null;
+    signer_identity?: string | null;
+    signer_issuer?: string | null;
+    sigstore_bundle?: unknown;
   };
 };
 
