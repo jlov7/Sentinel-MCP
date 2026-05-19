@@ -129,9 +129,11 @@ export type MissionControlState = {
 export function useMissionControl() {
   const [status, setStatus] = useState<Status>("checking");
   const [lastCheck, setLastCheck] = useState<string>("--");
-  const [navVariant, setNavVariant] = useState<NavVariant>("expanded");
+  const [navVariant] = useState<NavVariant>(() => detectNavVariant("expanded"));
 
-  const [token, setToken] = useState<string>(DEFAULT_BEARER_TOKEN);
+  const [token, setToken] = useState<string>(
+    () => DEFAULT_BEARER_TOKEN || readFromStorage(TOKEN_KEY) || ""
+  );
   const [tenant, setTenant] = useState("platform-eng");
   const [toolName, setToolName] = useState("langsmith-docs-search");
   const [action, setAction] = useState("invoke");
@@ -180,7 +182,7 @@ export function useMissionControl() {
   const [protocols, setProtocols] = useState<ProtocolMetadata | null>(null);
   const [bundle, setBundle] = useState<PolicyBundleMetadata | null>(null);
 
-  const [uiEvents, setUiEvents] = useState<UiEvent[]>([]);
+  const [uiEvents, setUiEvents] = useState<UiEvent[]>(() => readUiEvents());
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const [journeyEpochMs, setJourneyEpochMs] = useState<number | null>(null);
   const [journeyDurations, setJourneyDurations] = useState<JourneyDurations>({
@@ -214,13 +216,6 @@ export function useMissionControl() {
     if (typeof window === "undefined") {
       return;
     }
-
-    const persisted = readFromStorage(TOKEN_KEY);
-    if (persisted && !DEFAULT_BEARER_TOKEN) {
-      setToken(persisted);
-    }
-    setNavVariant(detectNavVariant("expanded"));
-    setUiEvents(readUiEvents());
 
     const listener = () => {
       setUiEvents(readUiEvents());

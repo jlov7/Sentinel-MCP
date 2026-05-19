@@ -61,6 +61,7 @@ const EvidencePanel = ({
   const [tenantFilter, setTenantFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
+  const evidenceEvents = useMemo(() => evidence?.events ?? [], [evidence?.events]);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,26 +69,26 @@ const EvidencePanel = ({
   };
 
   const tenants = useMemo(() => {
-    if (!evidence?.events?.length) {
+    if (!evidenceEvents.length) {
       return [];
     }
-    return Array.from(new Set(evidence.events.map((entry) => entry.tenant_slug))).sort();
-  }, [evidence?.events]);
+    return Array.from(new Set(evidenceEvents.map((entry) => entry.tenant_slug))).sort();
+  }, [evidenceEvents]);
 
   const eventTypes = useMemo(() => {
-    if (!evidence?.events?.length) {
+    if (!evidenceEvents.length) {
       return [];
     }
-    return Array.from(new Set(evidence.events.map((entry) => entry.event_type))).sort();
-  }, [evidence?.events]);
+    return Array.from(new Set(evidenceEvents.map((entry) => entry.event_type))).sort();
+  }, [evidenceEvents]);
 
   const filteredEvents = useMemo(() => {
-    if (!evidence?.events?.length) {
+    if (!evidenceEvents.length) {
       return [];
     }
     const search = searchFilter.trim().toLowerCase();
 
-    return evidence.events.filter((event) => {
+    return evidenceEvents.filter((event) => {
       if (eventTypeFilter !== "all" && event.event_type !== eventTypeFilter) {
         return false;
       }
@@ -109,7 +110,7 @@ const EvidencePanel = ({
         payloadText.includes(search)
       );
     });
-  }, [evidence?.events, eventTypeFilter, searchFilter, statusFilter, tenantFilter]);
+  }, [evidenceEvents, eventTypeFilter, searchFilter, statusFilter, tenantFilter]);
 
   const copyTrace = async () => {
     if (!traceLookup.trim() || typeof navigator === "undefined") {

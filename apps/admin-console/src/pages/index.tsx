@@ -55,6 +55,22 @@ function canUseStorage(): boolean {
   return typeof window.localStorage?.getItem === "function";
 }
 
+function readFeedbackCount(): number {
+  if (!canUseStorage()) {
+    return 0;
+  }
+  const rawFeedback = window.localStorage.getItem(FEEDBACK_KEY);
+  if (!rawFeedback) {
+    return 0;
+  }
+  try {
+    const parsed = JSON.parse(rawFeedback) as Array<{ created_at: string; score: number; note: string }>;
+    return Array.isArray(parsed) ? parsed.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 const Home = () => {
   const {
     state,
@@ -96,25 +112,18 @@ const Home = () => {
     if (!canUseStorage()) {
       return;
     }
-    const dismissed = window.localStorage.getItem(ONBOARDING_KEY);
-    setShowOnboarding(dismissed !== "true");
-
-    const rawFeedback = window.localStorage.getItem(FEEDBACK_KEY);
-    if (!rawFeedback) {
-      return;
-    }
-    try {
-      const parsed = JSON.parse(rawFeedback) as Array<{ created_at: string; score: number; note: string }>;
-      setFeedbackCount(Array.isArray(parsed) ? parsed.length : 0);
-    } catch {
-      setFeedbackCount(0);
-    }
+    const frame = window.requestAnimationFrame(() => {
+      setShowOnboarding(window.localStorage.getItem(ONBOARDING_KEY) !== "true");
+      setFeedbackCount(readFeedbackCount());
+    });
 
     const params = new URLSearchParams(window.location.search);
     const traceParam = params.get("trace");
     if (traceParam) {
       setTraceLookup(traceParam);
     }
+
+    return () => window.cancelAnimationFrame(frame);
   }, [setTraceLookup]);
 
   useEffect(() => {
