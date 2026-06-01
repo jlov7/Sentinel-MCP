@@ -43,7 +43,7 @@
     "jsdom": "^27.4.0",
     "start-server-and-test": "^2.0.8",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
+    "vitest": "^4.1.0"
   },
   "overrides": {
     "axios": "^1.16.1",
